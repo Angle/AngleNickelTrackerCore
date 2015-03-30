@@ -3,6 +3,9 @@
 <technologies>
 Symfony 2.6
 
+## Documentation
+see `/doc/`
+
 ## Created by
 - [Juan Paulo Lara](https://github.com/jplarar)
 - [Joel Rodríguez](https://github.com/joelrdz)
