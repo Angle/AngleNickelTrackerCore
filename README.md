@@ -1,6 +1,7 @@
 # NickelTrackerCore
 <description>
 <technologies>
+Symfony 2.6
 
 ## Created by
 - [Juan Paulo Lara](https://github.com/jplarar)
