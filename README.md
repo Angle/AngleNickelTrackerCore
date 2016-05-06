@@ -1,5 +1,7 @@
 # NickelTrackerCore
 <description>
+Envelope budget
+
 <technologies>
 Symfony 2.6
 
