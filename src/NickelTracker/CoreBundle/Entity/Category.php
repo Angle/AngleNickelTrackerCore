@@ -44,7 +44,8 @@ class Category
      */
     protected $transactions;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->transactions = new ArrayCollection();
     }
 
