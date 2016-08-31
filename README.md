@@ -23,19 +23,19 @@ cd /var/www
 git clone https://github.com/Angle/AngleNickelTrackerCore .
 ```
 
-3. Run the `setup.sh` file to generate your configuration files
+3. Run the `setup.sh` script to generate your configuration files
 ```
 sudo chmod +x setup.sh
 ./setup.sh
 ```
 
-4. Run the `install.sh` file to initialize the server configuration and install the required packages
+4. Run the `install.sh` script to initialize the server configuration and install the required packages
 ```
 sudo chmod +x install.sh
 ./install.sh
 ```
 
-5. Run the `update.sh` file to install the Symfony Apps and to generate the database structure
+5. Run the `update.sh` script to install the Symfony Apps and to generate the database structure
 ```
 sudo chmod +x update.sh
 ./update.sh
