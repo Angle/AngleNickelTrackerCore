@@ -1,0 +1,8 @@
+parameters:
+     angle.nickeltracker.class: Angle\NickelTracker\CoreBundle\Service\NickelTrackerService
+
+services:
+     angle.nickeltracker:
+         class: %angle.nickeltracker.class%
+         arguments: [@doctrine]
+
