@@ -1,0 +1,3 @@
+angle_nt_api_bundle:
+    resource: "@AngleNickelTrackerApiBundle/Resources/config/routing.yml"
+    prefix:   /
