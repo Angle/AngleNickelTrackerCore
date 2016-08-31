@@ -2,7 +2,6 @@
 
 namespace Angle\NickelTracker\CoreBundle\Entity;
 
-use Angle\Practiva\CoreBundle\Preset\PaymentType;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -109,7 +108,6 @@ class Transaction
 
     public function __construct()
     {
-        //$this->payments = new ArrayCollection();
         $this->code = RandomUtility::generateString(16, true);
     }
 
