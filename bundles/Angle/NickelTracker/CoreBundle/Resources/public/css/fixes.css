@@ -1,0 +1,22 @@
+/*
+ * Hide text overflow in unstyled lists
+ */
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 90%;
+}
+
+.alert {
+    border-radius: 0;
+}
+
+.monospace {
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+}
+
+.hidden {
+    display: none;
+}

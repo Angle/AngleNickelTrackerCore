@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex, nofollow">
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+        <title>PRACTIVA{% if page_title is defined %} | {{ page_title }}{% endif %}</title>
+
+        {% block styles %}
+            <!-- Bootstrap 3.3.5 -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+            <!-- FontAwesome 4.6.3 -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+            <!-- Theme style -->
+            <link href="{{ asset('bundles/anglepractivacore/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
+            <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+            <link href="{{ asset('bundles/anglepractivacore/css/skins/skin-red.min.css') }}" rel="stylesheet" type="text/css" />
+            <!-- Fixes & Patches -->
+            <link href="{{ asset('bundles/anglepractivacore/css/fixes.css') }}" rel="stylesheet" type="text/css" />
+        {% endblock %}
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-red sidebar-mini">{# we can change the theme from here! awesome! #}
+
+        <div class="wrapper">
+
+            {{ include('AnglePractivaAdminBundle:Common:header.html.twig') }}
+
+            {{ include('AnglePractivaAdminBundle:Common:sidebar.html.twig') }}
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {{ include('AnglePractivaAdminBundle:Common:alert.html.twig') }}
+
+
+                {% block content %}
+
+                {% endblock %}
+            </div><!-- /.content-wrapper -->
+
+            {{ include('AnglePractivaAdminBundle:Common:footer.html.twig') }}
+
+        </div><!-- ./wrapper -->
+
+        {% block scripts %}
+            <!-- jQuery 2.1.3 -->
+            <script src="https://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+            <!-- jQuery UI 1.11.4 -->
+            <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+            <script>$.widget.bridge('uibutton', $.ui.button);</script>
+            <!-- Bootstrap 3.3.5 JS -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+            <!-- Slimscroll -->
+            <script src="{{ asset('bundles/anglepractivacore/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+            <!-- FastClick -->
+            <script src="{{ asset('bundles/anglepractivacore/plugins/fastclick/fastclick.min.js') }}"></script>
+            <!-- AdminLTE App -->
+            <script src="{{ asset('bundles/anglepractivacore/js/app.min.js') }}" type="text/javascript"></script>
+        {% endblock %}
+
+    </body>
+
+</html>

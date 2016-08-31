@@ -1,0 +1,38 @@
+.form-box {
+    padding: 0 5px;
+    border: 1px solid black;
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+
+.cover-subtitle {
+    display: block;
+    width: 100%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+.monospace {
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+
+.border-box {
+    border: 1px solid black;
+}
+
+.box-underline {
+    /*border-bottom: 1px solid black;*/
+}
+
+.box-underline div {
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
