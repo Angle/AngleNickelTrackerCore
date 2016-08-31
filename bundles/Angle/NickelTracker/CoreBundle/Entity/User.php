@@ -87,7 +87,11 @@ class User implements AdvancedUserInterface, \Serializable
     ## OBJECT RELATIONSHIP ##
     #########################
 
-    // none.
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="userId")
+     * @ORM\OrderBy({"date" = "asc"})
+     */
+    protected $transactions;
 
 
     #########################
@@ -98,6 +102,8 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
+
+        $this->transactions = new ArrayCollection();
     }
 
 
@@ -383,7 +389,37 @@ class User implements AdvancedUserInterface, \Serializable
     ##  OBJECT REL: G & S  ##
     #########################
 
-    // none.
+    /**
+     * Add Transaction
+     *
+     * @param Transaction $transaction
+     * @return User
+     */
+    public function addPayment(Transaction $transaction)
+    {
+        $this->transactions[] = $transaction;
+        return $this;
+    }
+
+    /**
+     * Remove Transaction
+     *
+     * @param Transaction $transaction
+     */
+    public function removePayment(Transaction $transaction)
+    {
+        $this->transactions->removeElement($transaction);
+    }
+
+    /**
+     * Get Transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
 
 
 }

@@ -61,3 +61,9 @@ sudo chmod +x update.sh
 ## Created by
 - [Alejandro Hernández G](https://github.com/alexhg11)
 - [Edmundo Fuentes](https://github.com/edmundofuentes)
+
+
+
+
+## TODOs
+- On create User, create his default accounts and categories..
