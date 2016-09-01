@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="{{ path('practiva_admin_dashboard') }}" class="logo">
+    <a href="{{ path('angle_nt_app_dashboard') }}" class="logo">
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>PRACTIVA</b>Admin</span>
     </a>
@@ -22,7 +22,8 @@
                     </a>
                 </li>#}
                 <li class="user user-menu">
-                    <a href="{{ path('practiva_admin_logout') }}">
+                    <a href="{{ path('angle_nt_app_logout') }}">
+                        {{ app.user.fullName }}
                         <i class="fa fa-fw fa-power-off"></i>
                     </a>
                 </li>
