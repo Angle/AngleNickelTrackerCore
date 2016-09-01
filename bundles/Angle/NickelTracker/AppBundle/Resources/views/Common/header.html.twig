@@ -2,7 +2,7 @@
     <!-- Logo -->
     <a href="{{ path('angle_nt_app_dashboard') }}" class="logo">
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>PRACTIVA</b>Admin</span>
+        <span class="logo-lg"><b>NickelTracker</b>{#App#}</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -15,15 +15,14 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- User Account: style can be found in dropdown.less -->
-                {#<li class="user user-menu">
-                    <a href="{{ path('practiva_admin_user_view', { id: app.user.userId }) }}">
+                <li class="user user-menu">
+                    <a href="{{ path('angle_nt_app_dashboard') }}">
                         <i class="fa fa-user"></i>
                         <span class="hidden-xs">{{ app.user.fullName }}</span>
                     </a>
-                </li>#}
+                </li>
                 <li class="user user-menu">
                     <a href="{{ path('angle_nt_app_logout') }}">
-                        {{ app.user.fullName }}
                         <i class="fa fa-fw fa-power-off"></i>
                     </a>
                 </li>
