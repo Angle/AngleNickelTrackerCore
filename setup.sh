@@ -146,9 +146,8 @@ destDir="symfony/#APP#/app/config/parameters.yml"
 ## Generate parameters.yml for all
 for (( i=1; i < ${appsLength}+1; i++ ));
 do
-    # TODO: Only HEX characters (not alphanumeric)
-    # bash generate random 32 character alphanumeric string (lowercase only)
-    secret=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    # bash generate random 32 character hex string (lowercase only)
+    secret=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
 
     # Replace YAML
     yaml=${YAML_BOILERPLATE//${needleDBHost}/${dbHost}}
