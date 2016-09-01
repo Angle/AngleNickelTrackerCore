@@ -4,7 +4,7 @@ angle_nt_app_login:
     defaults:   { _controller: AngleNickelTrackerAppBundle:Security:login }
 
 angle_nt_app_login_check:
-    pattern:    /login_check
+    pattern:    /login/check
 
 angle_nt_app_logout:
     pattern:    /logout
