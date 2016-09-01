@@ -5,8 +5,8 @@
 ########################
 
 # Virtual host needed variables
-APPS=( "webservice" "api" "marketing" "content" "config" "executive" "customer" )
-SUBDOMAINS=( "ws" "api" "mkt" "cms" "config" "exec" "customer" )
+APPS=( "admin" "api" )
+SUBDOMAINS=( "admin" "api" )
 appsLength=${#APPS[@]}
 needleApp="#APP#"
 needleUrl="#URL#"
@@ -18,8 +18,6 @@ destDir="config/vhost/#APP#.conf"
 read -r -d '' VHOST_BOILERPLATE << EOM
 <VirtualHost *:80>
     ServerName      #URL#
-    ServerAdmin     admin@#DOMAIN#
-    ServerSignature email
     DocumentRoot    /var/www/symfony/#APP#/web
     RewriteEngine   On
     <Directory /var/www/symfony/#APP#/web>
@@ -28,13 +26,10 @@ read -r -d '' VHOST_BOILERPLATE << EOM
 </VirtualHost>
 EOM
 
-read -r -d '' VHOST_PORTAL << EOM
+read -r -d '' VHOST_APP << EOM
 <VirtualHost *:80>
     ServerName      www.#DOMAIN#
-    ServerAlias     #DOMAIN#
     ServerAlias     *.#DOMAIN#
-    ServerAdmin     admin@#DOMAIN#
-    ServerSignature email
     DocumentRoot    /var/www/symfony/#APP#/web
     RewriteEngine   On
     <Directory /var/www/symfony/#APP#/web>
@@ -43,7 +38,14 @@ read -r -d '' VHOST_PORTAL << EOM
 </VirtualHost>
 EOM
 
-## TODO: Create a 'zzz-catch-all' config file
+read -r -d '' VHOST_CATCH_ALL << EOM
+<VirtualHost *:80>
+    ServerName      #DOMAIN#
+    ServerAlias     *.#DOMAIN#
+    ServerAlias     *
+    Redirect permanent / http://www.#DOMAIN#/
+</VirtualHost>
+EOM
 
 ## Ask for base domain
 echo "Please input the domain that will be used for this installation (e.g. 'domain.com'): "
@@ -66,11 +68,17 @@ do
     echo "${vhost}" > "${dest}"
 done
 
-## Generate VHOST for Portal
+## Generate VHOST for the App
 # Replace variables
-vhost=${VHOST_PORTAL//${needleDomain}/${baseDomain}}
-vhost=${vhost//${needleApp}/"portal"}
-dest=${destDir//${needleApp}/"portal"}
+vhost=${VHOST_APP//${needleDomain}/${baseDomain}}
+vhost=${vhost//${needleApp}/"app"}
+dest=${destDir//${needleApp}/"app"}
+
+## Generate VHOST for catch all
+# Replace variables
+vhost=${VHOST_CATCH_ALL//${needleDomain}/${baseDomain}}
+vhost=${vhost//${needleApp}/"zzz-catch-all"}
+dest=${destDir//${needleApp}/"zzz-catch-all"}
 
 # Write file
 echo "${vhost}" > "${dest}"
@@ -79,8 +87,6 @@ echo "${vhost}" > "${dest}"
 ########################
 #### PARAMETERS YAML ###
 ########################
-
-## TODO: Remove Amazon S3 Support
 
 # YAML Boilerplate
 read -r -d '' YAML_BOILERPLATE << EOM
@@ -101,13 +107,8 @@ parameters:
     # Symfony
     secret: #SECRET#
     locale: en
-    # Amazon S3
-    amazon_s3_key: #S3KEY#
-    amazon_s3_secret: #S3SECRET#
-    amazon_s3_bucket: #S3BUCKET#
-    cdn_prefix_url: #S3CDN#
-    # Rhino SSM
-    rhino_base_url: #RHINOURL#
+    # Nickel Tracker
+    nickel_tracker_base_url: #NICKELURL#
 EOM
 
 needleDBHost="#DBHOST#"
@@ -115,13 +116,9 @@ needleDBName="#DBNAME#"
 needleDBUser="#DBUSER#"
 needleDBPass="#DBPASSWORD#"
 needleSecret="#SECRET#"
-needleS3Key="#S3KEY#"
-needleS3Secret="#S3SECRET#"
-needleS3Bucket="#S3BUCKET#"
-needleS3CDN="#S3CDN#"
-needleRhinoUrl="#RHINOURL#"
+needleNickelUrl="#NICKELURL#"
 
-APPS=( "webservice" "api" "marketing" "content" "config" "executive" "customer" "portal" )
+APPS=( "admin" "api" "app" )
 appsLength=${#APPS[@]}
 
 ## Ask for MySQL host
@@ -140,25 +137,9 @@ read dbUser
 echo "Please input the password for the database: "
 read dbPassword
 
-## Ask for Amazon Key
-echo "Please input the Access Key ID for the Amazon S3 bucket: "
-read s3Key
-
-## Ask for Amazon Secret
-echo "Please input the Secret Key for the Amazon S3 bucket: "
-read s3Secret
-
-## Ask for Amazon Bucket
-echo "Please input the Bucket Name for the Amazon S3 bucket: "
-read s3Bucket
-
-## Ask for Amazon CDN
-echo "Please input the complete CDN URL for the Amazon S3 bucket: "
-read s3CDN
-
-## Ask for Rhino SSM URL
+## Ask for Nickel Tracker URL
 echo "Please input the complete base URL for the service: "
-read rhinoUrl
+read nickelUrl
 
 destDir="symfony/#APP#/app/config/parameters.yml"
 
@@ -176,11 +157,7 @@ do
     yaml=${yaml//${needleDBPass}/${dbPassword}}
     yaml=${yaml//${needleDBPass}/${dbPassword}}
     yaml=${yaml//${needleSecret}/${secret}}
-    yaml=${yaml//${needleS3Key}/${s3Key}}
-    yaml=${yaml//${needleS3Secret}/${s3Secret}}
-    yaml=${yaml//${needleS3Bucket}/${s3Bucket}}
-    yaml=${yaml//${needleS3CDN}/${s3CDN}}
-    yaml=${yaml//${needleRhinoUrl}/${rhinoUrl}}
+    yaml=${yaml//${needleNickelUrl}/${nickelUrl}}
     # Strings to replace with
     replaceApp=${APPS[$i-1]}
     # Replace strings
