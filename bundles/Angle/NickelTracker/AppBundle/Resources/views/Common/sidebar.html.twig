@@ -28,7 +28,7 @@
 
             <li class="{% if active == 'report' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_report_list') }}">
-                    <i class="fa fa-line-chart"></i> <span>Reportes</span>
+                    <i class="fa fa-line-chart"></i> <span>Reports</span>
                 </a>
             </li>
             
@@ -58,7 +58,7 @@
                 </a>
             </li>
 
-            <li id="week" class="header text-center">Semana Actual: {{ 'now'|date('o-W') }}</li>
+            <li id="week" class="header text-center">{{ 'now'|date('Y-m-d') }} (Wk {{ 'now'|date('W') }})</li>
         </ul>
     </section>
     <!-- /.sidebar -->
