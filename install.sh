@@ -45,6 +45,14 @@ sudo chmod 777 -R /etc/apache2/logs
 echo - Disable Default Virtual Hosts -
 sudo a2dissite 000-default
 
+echo - Install Custom Virtual Hosts -
+for i in "admin" "api" "app" "zzz-catch-all"
+do
+    sudo cp _config/vhost/${i}.conf /etc/apache2/sites-available/${i}.conf
+    sudo a2ensite ${i}
+done
+
+
 echo - Install Composer -
 cd symfony
 for i in "admin" "api" "app"
