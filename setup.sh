@@ -5,8 +5,8 @@
 ########################
 
 # Virtual host needed variables
-APPS=( "admin" "api" )
-SUBDOMAINS=( "admin" "api" )
+APPS=( "admin" "api" "app" )
+SUBDOMAINS=( "admin" "api" "app" )
 appsLength=${#APPS[@]}
 needleApp="#APP#"
 needleUrl="#URL#"
@@ -18,18 +18,6 @@ destDir="config/vhost/#APP#.conf"
 read -r -d '' VHOST_BOILERPLATE << EOM
 <VirtualHost *:80>
     ServerName      #URL#
-    DocumentRoot    /var/www/symfony/#APP#/web
-    RewriteEngine   On
-    <Directory /var/www/symfony/#APP#/web>
-        AllowOverride   All
-    </Directory>
-</VirtualHost>
-EOM
-
-read -r -d '' VHOST_APP << EOM
-<VirtualHost *:80>
-    ServerName      app.#DOMAIN#
-    #ServerAlias     *.#DOMAIN#
     DocumentRoot    /var/www/symfony/#APP#/web
     RewriteEngine   On
     <Directory /var/www/symfony/#APP#/web>
@@ -67,14 +55,6 @@ do
     echo "Creating vhost: " ${dest} "..."
     echo "${vhost}" > "${dest}"
 done
-
-## Generate VHOST for the App
-# Replace variables
-vhost=${VHOST_APP//${needleDomain}/${baseDomain}}
-vhost=${vhost//${needleApp}/"app"}
-dest=${destDir//${needleApp}/"app"}
-# Write App file
-echo "${vhost}" > "${dest}"
 
 ## Generate VHOST for catch all
 # Replace variables
