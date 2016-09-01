@@ -3,7 +3,7 @@
 {% for flashMessage in app.session.flashbag.get('success') %}
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Exitoso!</h4>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
         {{ flashMessage|raw }}
     </div>
 {% endfor %}
@@ -11,7 +11,7 @@
 {% for flashMessage in app.session.flashbag.get('info') %}
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-info"></i> Información de Sistema</h4>
+        <h4><i class="icon fa fa-info"></i> Info</h4>
         {{ flashMessage|raw }}
     </div>
 {% endfor %}
@@ -19,7 +19,7 @@
 {% for flashMessage in app.session.flashbag.get('warning') %}
     <div class="alert alert-warning alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-exclamation-triangle"></i> Precaución</h4>
+        <h4><i class="icon fa fa-exclamation-triangle"></i> Warning</h4>
         {{ flashMessage|raw }}
     </div>
 {% endfor %}

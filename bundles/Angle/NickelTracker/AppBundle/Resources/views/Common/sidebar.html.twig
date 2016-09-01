@@ -6,35 +6,35 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN MENU</li>
             <li class="{% if active == 'dashboard' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_dashboard') }}">
+                <a href="{{ path('angle_nt_app_dashboard') }}">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="{% if active == 'company' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_company_list') }}">
+                <a href="{{ path('angle_nt_app_company_list') }}">
                     <i class="fa fa-building-o"></i> <span>Accounts</span>
                 </a>
             </li>
             <li class="{% if active == 'employee' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_employee_list') }}">
+                <a href="{{ path('angle_nt_app_employee_list') }}">
                     <i class="fa fa-users"></i> <span>Categories</span>
                 </a>
             </li>
             <li class="{% if active == 'loan' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_loan_list') }}">
+                <a href="{{ path('angle_nt_app_loan_list') }}">
                     <i class="fa fa-book"></i> <span>Transactions</span>
                 </a>
             </li>
 
             <li class="{% if active == 'report' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_report_list') }}">
+                <a href="{{ path('angle_nt_app_report_list') }}">
                     <i class="fa fa-line-chart"></i> <span>Reportes</span>
                 </a>
             </li>
             
             {#
             <li class="{% if active == 'tool' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_tool_list') }}">
+                <a href="{{ path('angle_nt_app_tool_list') }}">
                     <i class="fa fa-wrench"></i> <span>Herramientas</span>
                 </a>
             </li>
@@ -43,17 +43,17 @@
 
             <li class="header">TRANSACTIONS</li>
             <li class="{% if active == 'tool' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_tool_list') }}">
+                <a href="{{ path('angle_nt_app_tool_list') }}">
                     <i class="fa fa-plus fa-fw"></i> <span>New Income</span>
                 </a>
             </li>
             <li class="{% if active == 'tool' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_tool_list') }}">
+                <a href="{{ path('angle_nt_app_tool_list') }}">
                     <i class="fa fa-minus fa-fw"></i> <span>New Expense</span>
                 </a>
             </li>
             <li class="{% if active == 'tool' %}active{% endif %}">
-                <a href="{{ path('practiva_admin_tool_list') }}">
+                <a href="{{ path('angle_nt_app_tool_list') }}">
                     <i class="fa fa-arrow-right fa-fw"></i> <span>New Transfer</span>
                 </a>
             </li>

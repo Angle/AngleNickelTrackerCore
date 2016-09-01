@@ -40,7 +40,7 @@ class Category
     /**
      * @ORM\Column(type="decimal", precision=19, scale=4, nullable=false)
      */
-    protected $budget;
+    protected $budget = 0;
 
 
     #########################

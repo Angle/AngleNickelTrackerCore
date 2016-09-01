@@ -18,10 +18,14 @@ class Transaction
     ##        PRESETS      ##
     #########################
 
+    const TYPE_INCOME   = 'I';
+    const TYPE_EXPENSE  = 'E';
+    const TYPE_TRANSFER = 'T';
+
     protected static $types = array(
-        'I' => 'Income',
-        'E' => 'Expense',
-        'T' => 'Transfer'
+        self::TYPE_INCOME   => 'Income',
+        self::TYPE_EXPENSE  => 'Expense',
+        self::TYPE_TRANSFER => 'Transfer'
     );
 
     #########################

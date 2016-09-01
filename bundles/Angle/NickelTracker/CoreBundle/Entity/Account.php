@@ -18,12 +18,18 @@ class Account
     ##        PRESETS      ##
     #########################
 
+    const TYPE_CASH      = 'M';
+    const TYPE_DEBIT     = 'D';
+    const TYPE_CREDIT    = 'C';
+    const TYPE_SAVINGS   = 'S';
+    const TYPE_LOANED    = 'L';
+
     protected static $types = array(
-        'M' => 'Cash',
-        'D' => 'Debit',
-        'C' => 'Credit',
-        'S' => 'Savings',
-        'L' => 'Loaned',
+        self::TYPE_CASH      => 'Cash',
+        self::TYPE_DEBIT     => 'Debit',
+        self::TYPE_CREDIT    => 'Credit',
+        self::TYPE_SAVINGS   => 'Savings',
+        self::TYPE_LOANED    => 'Loaned',
     );
 
     #########################
@@ -50,7 +56,7 @@ class Account
     /**
      * @ORM\Column(type="decimal", precision=19, scale=4, nullable=false)
      */
-    protected $balance;
+    protected $balance = 0;
 
     /**
      * @ORM\Column(type="decimal", precision=19, scale=4, nullable=true)
