@@ -14,142 +14,86 @@ angle_nt_app_dashboard:
     pattern:    /
     defaults:   { _controller: AngleNickelTrackerAppBundle:Dashboard:home }
 
-## Sidebar
-angle_nt_app_new_income_process:
-    pattern:    /new/income
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newIncomeProcess }
-    methods:    [POST]
-
-angle_nt_app_new_expense_process:
-    pattern:    /new/expense
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newExpenseProcess }
-    methods:    [POST]
-
-angle_nt_app_new_transfer_process:
-    pattern:    /new/transfer
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newTransferProcess }
-    methods:    [POST]
-
-## Header Toggle
-angle_nt_app_new_income:
-    pattern:    /new/income/{status}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newIncome, status: null }
-    methods:    [GET]
-
-angle_nt_app_new_expense:
-    pattern:    /new/expense/{status}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newExpense, status: null }
-    methods:    [GET]
-
-angle_nt_app_new_transfer:
-    pattern:    /new/transfer/{status}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newTransfer, status: null }
-    methods:    [GET]
 
 ## Account
 angle_nt_app_account_list:
-    pattern:    /accounts
+    pattern:    /account
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:list }
 
-angle_nt_app_account_new:
-    pattern:    /accounts/new
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:new }
-    methods:    [GET]
-
-angle_nt_app_account_new_process:
-    pattern:    /accounts/new
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:newProcess }
-    methods:    [POST]
+angle_nt_app_account_process:
+    pattern:    /account/process/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:process, id: null }
+    requirements:
+        id:     \d+
 
 angle_nt_app_account_view:
-    pattern:    /accounts/view/{id}
+    pattern:    /account/view/{id}
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:view }
-
-angle_nt_app_account_edit:
-    pattern:    /accounts/edit/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:edit }
-    methods:    [GET]
-
-angle_nt_app_account_edit_process:
-    pattern:    /accounts/edit
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:editProcess }
-    methods:    [POST]
+    requirements:
+        id:     \d+
 
 angle_nt_app_account_delete:
-    pattern:    /accounts/delete
+    pattern:    /account/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:delete }
     methods:    [POST]
 
-angle_nt_app_account_recalculate_balances:
-    pattern:    /accounts/recalculate
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:recalculateBalances }
-    methods:    [POST]
 
 ## Category
-angle_nt_app_category_new:
-    pattern:    /categories/new
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:new }
-    methods:    [GET]
+angle_nt_app_category_list:
+    pattern:    /category
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:list}
 
-angle_nt_app_category_new_process:
-    pattern:    /categories/new
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:newProcess }
-    methods:    [POST]
-
+angle_nt_app_category_process:
+    pattern:    /category/process/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:process }
+    requirements:
+        id:     \d+
 angle_nt_app_category_view:
-    pattern:    /categories/view/{id}
+    pattern:    /category/view/{id}
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:view }
-
-angle_nt_app_category_edit:
-    pattern:    /categories/edit/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:edit }
-    methods:    [GET]
-
-angle_nt_app_category_edit_process:
-    pattern:    /categories/edit
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:editProcess }
-    methods:    [POST]
+    requirements:
+        id:     \d+
 
 angle_nt_app_category_delete:
-    pattern:    /categories/delete
+    pattern:    /category/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:delete }
     methods:    [POST]
 
-angle_nt_app_category_list:
-    pattern:    /categories/{status}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:list, status: null }
 
 ## Transaction
-angle_nt_app_transaction_view:
-    pattern:    /transactions/view/{gid}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:view, mode: 'view' }
+# This one also includes filters
+angle_nt_app_transaction_list:
+    pattern:    /transaction
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:list }
 
-angle_nt_app_transaction_edit:
-    pattern:    /transactions/edit/{gid}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:view, mode: 'edit' }
+angle_nt_app_transaction_view:
+    pattern:    /transaction/view/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:view }
+    requirements:
+        id:     \d+
 
 angle_nt_app_transaction_delete:
-    pattern:    /transactions/delete
+    pattern:    /transaction/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:delete }
     methods:    [POST]
 
-angle_nt_app_transaction_filter:
-    pattern:    /transactions/filter
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:filter }
+angle_nt_app_transaction_new_income:
+    pattern:    /transaction/new/income
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newIncomeProcess }
 
-angle_nt_app_transaction_search:
-    pattern:    /transactions/search
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:search }
+angle_nt_app_transaction_new_expense:
+    pattern:    /transaction/new/expense
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newExpenseProcess }
 
-angle_nt_app_transaction_list:
-    pattern:    /transactions/{status}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:list, status: null }
+angle_nt_app_transaction_new_transfer:
+    pattern:    /transaction/new/transfer
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newTransferProcess }
 
 ## Report
 angle_nt_app_report_list:
-    pattern:    /reports
+    pattern:    /report
     defaults:   { _controller: AngleNickelTrackerAppBundle:Report:list }
 
 angle_nt_app_report_monthly_balance:
-    pattern:    /reports/monthly-balance
+    pattern:    /report/monthly-balance
     defaults:   { _controller: AngleNickelTrackerAppBundle:Report:monthlyBalance }
