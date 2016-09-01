@@ -54,7 +54,7 @@ class Category
     protected $userId;
 
     /**
-     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="categoryId")
      * @ORM\OrderBy({"date" = "asc"})
      */
     protected $transactions;

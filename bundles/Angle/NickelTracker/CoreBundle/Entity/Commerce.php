@@ -49,7 +49,7 @@ class Commerce
     protected $userId;
 
     /**
-     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="commerceId")
      * @ORM\OrderBy({"date" = "asc"})
      */
     protected $transactions;
