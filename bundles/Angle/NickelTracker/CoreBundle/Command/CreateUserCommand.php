@@ -18,7 +18,7 @@ class CreateUserCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('nt:create:admin')
+            ->setName('nt:create:user')
             ->setDescription("Create a new Super Admin user")
             ->addArgument(
                 'email',
