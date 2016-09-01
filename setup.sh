@@ -43,7 +43,7 @@ read -r -d '' VHOST_CATCH_ALL << EOM
     ServerName      #DOMAIN#
     ServerAlias     *.#DOMAIN#
     ServerAlias     *
-    Redirect permanent / http://www.#DOMAIN#/
+    Redirect permanent / http://app.#DOMAIN#/
 </VirtualHost>
 EOM
 
@@ -73,6 +73,8 @@ done
 vhost=${VHOST_APP//${needleDomain}/${baseDomain}}
 vhost=${vhost//${needleApp}/"app"}
 dest=${destDir//${needleApp}/"app"}
+# Write App file
+echo "${vhost}" > "${dest}"
 
 ## Generate VHOST for catch all
 # Replace variables
@@ -80,7 +82,7 @@ vhost=${VHOST_CATCH_ALL//${needleDomain}/${baseDomain}}
 vhost=${vhost//${needleApp}/"zzz-catch-all"}
 dest=${destDir//${needleApp}/"zzz-catch-all"}
 
-# Write file
+# Write Catch All file
 echo "${vhost}" > "${dest}"
 
 

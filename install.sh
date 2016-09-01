@@ -48,7 +48,7 @@ sudo a2dissite 000-default
 echo - Install Custom Virtual Hosts -
 for i in "admin" "api" "app" "zzz-catch-all"
 do
-    sudo cp _config/vhost/${i}.conf /etc/apache2/sites-available/${i}.conf
+    sudo cp config/vhost/${i}.conf /etc/apache2/sites-available/${i}.conf
     sudo a2ensite ${i}
 done
 
