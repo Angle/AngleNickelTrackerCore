@@ -28,8 +28,8 @@ EOM
 
 read -r -d '' VHOST_APP << EOM
 <VirtualHost *:80>
-    ServerName      www.#DOMAIN#
-    ServerAlias     *.#DOMAIN#
+    ServerName      app.#DOMAIN#
+    #ServerAlias     *.#DOMAIN#
     DocumentRoot    /var/www/symfony/#APP#/web
     RewriteEngine   On
     <Directory /var/www/symfony/#APP#/web>
@@ -51,7 +51,7 @@ EOM
 echo "Please input the domain that will be used for this installation (e.g. 'domain.com'): "
 read baseDomain
 
-## Generate VHOST for all except Portal
+## Generate VHOST for all except App
 for (( i=1; i < ${appsLength}+1; i++ ));
 do
     # Strings to replace with
