@@ -4,5 +4,5 @@ parameters:
 services:
      angle.nickeltracker:
          class: %angle.nickeltracker.class%
-         arguments: [@doctrine, "@security.token_storage"]
+         arguments: [@doctrine, "@security.token_storage", "@security.encoder_factory"]
 

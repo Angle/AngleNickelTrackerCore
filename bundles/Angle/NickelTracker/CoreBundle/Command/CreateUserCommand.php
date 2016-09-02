@@ -57,52 +57,17 @@ class CreateUserCommand extends ContainerAwareCommand
             return false;
         }
 
-        // Load security encoder
-        $factory = $this->getContainer()->get('security.encoder_factory');
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->getContainer()->get('angle.nickeltracker');
+        $nt->enableAdminMode(true);
 
-        // Create user
-        $user = new User();
-        $user->setEmail($email);
-        $user->setFullName($name);
-        $user->setRole('ROLE_NT_USER');
-        $em->persist($user);
+        $r = $nt->createUser($email, $name, $password);
 
-        /* @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
-        $encoder = $factory->getEncoder($user);
-        $encodedPassword = $encoder->encodePassword($password, $user->getSalt());
-        $user->setPassword($encodedPassword);
-
-        // Create base accounts
-        $account = new Account();
-        $account->setType(Account::TYPE_CASH);
-        $account->setName('Cash');
-        $account->setUserId($user);
-        $em->persist($account);
-
-        $account = new Account();
-        $account->setType(Account::TYPE_DEBIT);
-        $account->setName('Debit (Bank)');
-        $account->setUserId($user);
-        $em->persist($account);
-
-        $account = new Account();
-        $account->setType(Account::TYPE_CREDIT);
-        $account->setName('Credit Card');
-        $account->setUserId($user);
-        $em->persist($account);
-
-        // Create base categories
-        $categories = array('Groceries', 'Restaurants', 'Gas', 'Entertainment', 'Party', 'Services');
-        foreach ($categories as $c) {
-            $category = new Category();
-            $category->setName($c);
-            $category->setUserId($user);
-            $em->persist($category);
+        if (!$r) {
+            $output->writeln("<error>Error creating new user " . $email . "</error>");
+            $output->writeln('Details: ' . $nt->getError()['message']);
+        } else {
+            $output->writeln("Created SUPER_NT_USER user <info>" . $email . "</info> successfully!");
         }
-
-        // Flush to database
-        $em->flush();
-
-        $output->writeln("Created SUPER_NT_USER user <info>" . $email . "</info> successfully!");
     }
 }

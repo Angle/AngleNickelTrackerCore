@@ -37,7 +37,7 @@ class User implements AdvancedUserInterface, \Serializable
     protected $userId;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", unique=true, nullable=false)
      */
     private $email;
 
