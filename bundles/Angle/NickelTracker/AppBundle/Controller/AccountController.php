@@ -21,13 +21,9 @@ class AccountController extends Controller
         ));
     }
 
-    public function updateNameAction(Request $request)
+    public function updateAction(Request $request)
     {
         ## VALIDATE JSON REQUEST
-        // We simply use json_decode to parse the content of the request and
-        //    then replace the request data on the $request object.
-        //    This is useful if we ever decide to deprecate JSON in favor of
-        //    other request method, for example HTTP POST.
         $data = json_decode($request->getContent(), true);
 
         if (!is_array($data)) {
@@ -39,7 +35,7 @@ class AccountController extends Controller
             return new JsonResponse($json, 400);
         }
 
-        if (!array_key_exists('accountId', $data) || !array_key_exists('name', $data)) {
+        if (!array_key_exists('id', $data) || !array_key_exists('property', $data) || !array_key_exists('value', $data)) {
             // Error: Missing parameters
             $json = array(
                 'error' => 1,
@@ -48,22 +44,48 @@ class AccountController extends Controller
             return new JsonResponse($json, 400);
         }
 
+        ## Process properties
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
 
-        $r = $nt->changeAccountName($data['accountId'], $data['name']);
+        if ($data['property'] == 'name') {
+            $r = $nt->changeAccountName($data['accountId'], $data['value']);
 
-        if ($r) {
-            $json = array(
-                'error' => 0,
-                'description' => 'Success'
-            );
+            if ($r) {
+                $json = array(
+                    'error' => 0,
+                    'description' => 'Success'
+                );
+            } else {
+                $json = array(
+                    'error' => 1,
+                    'description' => 'Could not change the name of the Account'
+                );
+            }
+        } elseif ($data['property'] == 'creditLimit') {
+            $r = $nt->changeAccountCreditLimit($data['accountId'], $data['value']);
+
+            if ($r) {
+                $json = array(
+                    'error' => 0,
+                    'description' => 'Success'
+                );
+            } else {
+                $json = array(
+                    'error' => 1,
+                    'description' => 'Could not change the name of the Account'
+                );
+            }
         } else {
             $json = array(
                 'error' => 1,
-                'description' => 'Could not change the '
+                'description' => 'Invalid property selected'
             );
         }
+
+
+
+
 
         return new JsonResponse($json);
     }
