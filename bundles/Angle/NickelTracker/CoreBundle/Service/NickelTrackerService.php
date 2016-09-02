@@ -463,6 +463,13 @@ class NickelTrackerService
             return false;
         }
 
+        if ($account->getType() != Account::TYPE_CREDIT) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot set a Credit Limit for non-credit accounts';
+            return false;
+        }
+
         $account->setCreditLimit($newLimit);
 
         return $this->flush();
