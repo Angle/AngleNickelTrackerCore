@@ -45,6 +45,10 @@ class NickelTrackerService
         $this->encoderFactory = $encoderFactory;
     }
 
+    /**
+     * Operate on NickelTracker as an Admin with no user record attached.
+     * @param bool $enable
+     */
     public function enableAdminMode($enable)
     {
         if ($enable) {
@@ -73,6 +77,29 @@ class NickelTrackerService
         }
     }
 
+    /**
+     * // Attempt to flush to the database
+     * @return bool
+     */
+    public function flush()
+    {
+        try {
+            $this->em->flush();
+        } catch (DBALException $e) {
+            $this->errorType = 'Doctrine';
+            $this->errorCode = $e->getCode();
+            $this->errorMessage = $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
+
+    #####################################################################################################
+    ###
+    ###   USER METHODS
+    ###
 
     /**
      * Create a new User
@@ -136,16 +163,80 @@ class NickelTrackerService
             $this->em->persist($category);
         }
 
-        // Attempt to flush to the database
-        try {
-            $this->em->flush();
-        } catch (DBALException $e) {
-            $this->errorType = 'Doctrine';
-            $this->errorCode = $e->getCode();
-            $this->errorMessage = $e->getMessage();
+        return $this->flush();
+    }
+
+
+    public function changeUserPassword(User $user, $oldPassword, $newPassword)
+    {
+        if (!$this->adminMode) {
+            throw new \RuntimeException('Attempting to execute an Admin command without privileges');
+        }
+
+        // Check if the user already exists in the database
+        if (!$user->getUserId()) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot operate on non-persisted objects';
             return false;
         }
 
-        return true;
+        /* @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
+        $encoder = $this->encoderFactory->getEncoder($user);
+
+        // First check if the old password matches the records
+        if (!$encoder->isPasswordValid($user->getPassword(), $oldPassword, $user->getSalt())) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'User password mismatch';
+            return false;
+        }
+
+        // Now update the password
+        $user->refreshSalt();
+        $encodedNewPassword = $encoder->encodePassword($newPassword, $user->getSalt());
+        $user->setPassword($encodedNewPassword);
+
+        $this->em->persist($user);
+
+        return $this->flush();
+    }
+
+    public function disableUser(User $user)
+    {
+        if (!$this->adminMode) {
+            throw new \RuntimeException('Attempting to execute an Admin command without privileges');
+        }
+
+        // Check if the user already exists in the database
+        if (!$user->getUserId()) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot operate on non-persisted objects';
+            return false;
+        }
+
+        $user->setIsActive(false);
+        $this->em->persist($user);
+        return $this->flush();
+    }
+
+    public function enableUser(User $user)
+    {
+        if (!$this->adminMode) {
+            throw new \RuntimeException('Attempting to execute an Admin command without privileges');
+        }
+
+        // Check if the user already exists in the database
+        if (!$user->getUserId()) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot operate on non-persisted objects';
+            return false;
+        }
+
+        $user->setIsActive(true);
+        $this->em->persist($user);
+        return $this->flush();
     }
 }

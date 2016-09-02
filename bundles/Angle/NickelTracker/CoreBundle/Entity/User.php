@@ -101,7 +101,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->salt = md5(uniqid(null, true));
+        $this->refreshSalt();
 
         $this->transactions = new ArrayCollection();
     }
@@ -197,6 +197,14 @@ class User implements AdvancedUserInterface, \Serializable
     #########################
     ##   SPECIAL METHODS   ##
     #########################
+
+    /**
+     * Generate or refresh the User's security salt
+     */
+    public function refreshSalt()
+    {
+        $this->salt = md5(uniqid(null, true));
+    }
 
     /**
      * @see \Serializable::serialize()
