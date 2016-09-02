@@ -69,7 +69,7 @@ class UserController extends Controller
             if (!isset($message)) { // No error, therefore it was successful!
                 $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
                 $message->addToFlashBag($this->get('session')->getFlashBag());
-                return $this->redirectToRoute('angle_nt_admin_user_view', array('id' => $user->getUserId()));
+                return $this->redirectToRoute('angle_nt_admin_user_view', array('id' => $r));
             }
 
         }
