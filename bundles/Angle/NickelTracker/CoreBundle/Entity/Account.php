@@ -63,6 +63,11 @@ class Account
      */
     protected $creditLimit;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $deleted = false;
+
 
     #########################
     ## OBJECT RELATIONSHIP ##
@@ -201,6 +206,24 @@ class Account
     public function setCreditLimit($creditLimit)
     {
         $this->creditLimit = $creditLimit;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool $deleted
+     * @return Account
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
         return $this;
     }
 
