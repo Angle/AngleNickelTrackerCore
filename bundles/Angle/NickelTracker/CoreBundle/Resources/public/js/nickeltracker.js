@@ -3,6 +3,7 @@ $( document ).ready(function() {
         $(this).append('<i class="fa fa-pencil"></i>');
     });
 
+    /*
     $('.editable-td').on('click', function() {
         var $this = $(this);
         var $input = $('<input>', {
@@ -16,4 +17,5 @@ $( document ).ready(function() {
             }
         }).appendTo( $this.empty() ).focus();
     });
+    */
 });

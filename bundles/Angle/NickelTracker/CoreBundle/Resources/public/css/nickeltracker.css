@@ -35,3 +35,12 @@
 .editable-td:hover i {
     visibility: visible;
 }
+
+.editable-td input {
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+
+.editable-td input:focus {
+    border: 1px solid #DDDDDD;
+}
