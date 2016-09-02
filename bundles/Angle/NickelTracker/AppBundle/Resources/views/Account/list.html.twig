@@ -41,10 +41,9 @@
                                 <tr>
                                     <td class="editable-td">
                                         <input type="text" value="{{ account.name }}"
-                                               id="account-name-{{ account.accountId }}"
                                                class="editable-account-name"
                                                data-account-id="{{ account.accountId }}"
-                                                data-original-value="{{ account.name }}">
+                                               data-original-value="{{ account.name }}">
                                     </td>
                                     <td>{{ account.typeName }}</td>
                                     <td>${{ account.balance|number_format(2) }}</td>
@@ -84,7 +83,7 @@
                         $this.prop('disabled', true);
 
                         // Fire off the request to /form.php
-                        request = $.ajax({
+                        var request = $.ajax({
                             url: "{{ path('angle_nt_app_account_update_name') }}",
                             type: "json",
                             data: {
