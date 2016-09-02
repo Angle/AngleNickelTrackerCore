@@ -49,11 +49,11 @@ class ResponseMessage
     private static $custom = array(
         0 => array(
             'alert' => self::ALERT_SUCCESS,
-            'message' => '¡La operación ha sido exitosa!'
+            'message' => 'The operation was successful!'
         ),
         1 => array(
             'alert' => self::ALERT_ERROR,
-            'message' => 'No se han podido almacenar los cambios en la base de datos, por favor verifique la información proporcionada e intente de nuevo.'
+            'message' => 'The changes could not be saved, please verify the information and try again'
         ),
     );
 

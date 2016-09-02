@@ -26,10 +26,8 @@ angle_nt_admin_user_view:
         id:     \d+
 
 angle_nt_admin_user_process:
-    path:       /user/process/{id}
-    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:process, id: 0 }
-    requirements:
-        id:     \d+
+    path:       /user/process
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:process }
 
 angle_nt_admin_user_delete:
     path:       /user/delete/{id}

@@ -43,21 +43,11 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @param int $id User ID
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function processAction(Request $request, $id)
+    public function processAction(Request $request)
     {
-        // Entity Manager
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var User $user */
-        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-
-        if (!$user) {
-            $user = new User();
-        }
-
+        $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         // Check if form was submitted
@@ -66,25 +56,14 @@ class UserController extends Controller
         // Check form validation
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // No S3 File operations
+            /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+            $nt = $this->get('angle.nickeltracker');
+            $nt->enableAdminMode(true);
 
-            // Encode and save password
-            $factory = $this->get('security.encoder_factory');
-            /* @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
-            $encoder = $factory->getEncoder($user);
-            $encodedPassword = $encoder->encodePassword($user->getPassword(), $user->getSalt());
-            $user->setPassword($encodedPassword);
+            $r = $nt->createUser($user->getEmail(), $user->getFullName(), $user->getPassword());
 
-            // Persist to database using Entity Manager
-            $em->persist($user);
-
-            try {
-                $em->flush();
-            } catch (DBALException $e) {
-                $message = new ResponseMessage(ResponseMessage::DOCTRINE, $e->getCode());
-                if ($this->container->getParameter('kernel.environment') == 'dev') {
-                    $message->setExternalMessage($e->getMessage());
-                }
+            if (!$r) {
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
             }
 
             if (!isset($message)) { // No error, therefore it was successful!
