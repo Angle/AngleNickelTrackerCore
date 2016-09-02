@@ -23,6 +23,9 @@
 
 
 /* Pencil hover */
+.editable-td {
+    cursor: text;
+}
 .editable-td i {
     display: block;
     float: right;
