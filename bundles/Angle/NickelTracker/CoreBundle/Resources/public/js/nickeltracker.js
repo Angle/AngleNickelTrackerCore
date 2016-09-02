@@ -1,6 +1,7 @@
 $( document ).ready(function() {
     $('.editable-td').each(function(){
         $(this).append('<i class="fa fa-pencil"></i>');
+        $(this).append('<i class="fa fa-spinner fa-spin"></i>');
     });
 
     /*

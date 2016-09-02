@@ -75,8 +75,10 @@
                  })
                 .on('blur', function(){
                     var $this = $(this);
-                    if ($this.val != $this.data('origina-value')) {
+                    if ($this.val != $this.data('original-value')) {
                         console.log('UPDATING Account ID ' + $this.data('account-id') + ' with value: ' + $this.val());
+                        $this.parent().addClass("loading");
+                        $this.prop('disabled', true);
                     } else {
                         console.log('No changes in Account ID ' + $this.data('account-id') + ' with value ' + $this.val());
                     }

@@ -39,6 +39,16 @@
     visibility: hidden;
 }
 
+/* By default, the spinner is always hidden */
+.editable-td i.fa-spinner {
+    visibility: hidden;
+}
+
+/* Only show the spinner when the TD has a class of "loading" */
+.editable-td.loading i.fa-spinner {
+    visibility: visible;
+}
+
 .editable-td:hover i {
     visibility: visible;
 }
