@@ -39,7 +39,7 @@
                             <tbody>
                             {% for account in accounts %}
                                 <tr>
-                                    <td><i class="fa fa-pencil"></i> {{ account.name }}</td>
+                                    <td class="pencil-on-hover">{{ account.name }}</td>
                                     <td>{{ account.typeName }}</td>
                                     <td>${{ account.balance|number_format(2) }}</td>
                                     {% if account.type == 'C' %}
@@ -59,4 +59,7 @@
         </div>
 
     </section><!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}

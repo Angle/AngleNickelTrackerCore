@@ -20,3 +20,14 @@
 .hidden {
     display: none;
 }
+
+
+/* Pencil hover */
+.pencil-on-hover i {
+    display:none;
+    float:right;
+}
+
+.pencil-on-hover:hover i {
+    display:block;
+}
