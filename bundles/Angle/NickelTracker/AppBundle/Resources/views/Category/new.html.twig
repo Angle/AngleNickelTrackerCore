@@ -1,0 +1,49 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'New Category' %}
+{% set active = 'category' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-edit"></i> Register New Category
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Category Form -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                <div class="box box-primary">
+
+                    <form role="form" method="post" action="{{ path('angle_nt_app_category_new') }}">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="categoryName">Category Name</label>
+                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter a unique name" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryBudget">Category Monthly Budget</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" id="categoryBudget" name="categoryBudget" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
