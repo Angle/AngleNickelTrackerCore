@@ -24,10 +24,11 @@
 
 /* Pencil hover */
 .pencil-on-hover i {
-    display:none;
-    float:right;
+    display: block;
+    float: right;
+    visibility: hidden;
 }
 
 .pencil-on-hover:hover i {
-    display:block;
+    visibility: visible;
 }
