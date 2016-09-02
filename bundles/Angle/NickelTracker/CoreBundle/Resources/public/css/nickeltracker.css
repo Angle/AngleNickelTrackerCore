@@ -27,6 +27,17 @@
     position: relative;
     cursor: text;
 }
+
+.editable-td input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+
+.editable-td input:focus {
+    border: 1px solid #DDDDDD;
+}
+
 .editable-td i {
     position: absolute;
     display: block;
@@ -36,6 +47,13 @@
 }
 
 .editable-td i.fa-pencil {
+    visibility: hidden;
+}
+
+.editable-td:hover i.fa-pencil {
+    visibility: visible;
+}
+.editable-td.loading:hover i.fa-pencil {
     visibility: hidden;
 }
 
@@ -49,16 +67,3 @@
     visibility: visible;
 }
 
-.editable-td:hover i {
-    visibility: visible;
-}
-
-.editable-td input {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid transparent;
-}
-
-.editable-td input:focus {
-    border: 1px solid #DDDDDD;
-}
