@@ -35,10 +35,13 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="input-group">
+
+                            <div class="form-group">
                                 <label for="accountCreditLimit">Account Credit Limit</label>
-                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                <input type="text" class="form-control" id="accountCreditLimit" name="accountCreditLimit" disabled="disabled">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                    <input type="text" class="form-control" id="accountCreditLimit" name="accountCreditLimit" disabled="disabled">
+                                </div>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -60,7 +63,7 @@
 
     <script type="text/javascript">
         $('#accountType').change(function(){
-            console.log('New type selected: ' + $(this).val());
+            //console.log('New type selected: ' + $(this).val());
             // Check if the selected account type is Credit, if so, enable the Credit Limit input
             var $i = $('#accountCreditLimit');
             if ($(this).val() == 'C') {
