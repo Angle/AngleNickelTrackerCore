@@ -37,10 +37,6 @@ class UserType extends AbstractType
                             'label'     => 'Name',
                             'required'  => true
                         ))
-                        ->add('email', EmailType::class, array(
-                            'label'     => 'E-Mail',
-                            'required'  => true,
-                        ))
                     ;
                 }
             ])
@@ -49,8 +45,8 @@ class UserType extends AbstractType
                 'legend' => 'Login Information',
                 'fields' => function(FormBuilderInterface $builder) {
                     $builder
-                        ->add('username', TextType::class, array(
-                            'label'     => 'Username',
+                        ->add('email', EmailType::class, array(
+                            'label'     => 'E-Mail',
                             'required'  => true,
                         ))
                         ->add('password', PasswordType::class, array(
