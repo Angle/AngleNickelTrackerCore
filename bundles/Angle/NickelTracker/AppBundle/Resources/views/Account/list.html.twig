@@ -96,10 +96,10 @@
                             type: "POST",
                             dataType: "json",
                             contentType: 'application/json; charset=UTF-8',
-                            data: {
+                            data: JSON.stringify({
                                 "accountId": $this.data('account-id'),
                                 "name": $this.val()
-                            }
+                            })
                         });
 
                         // Callback handler that will be called on success
@@ -138,7 +138,5 @@
                         // No changes in the input.. do nothing.
                     }
                 });
-
-
     </script>
 {% endblock %}
