@@ -2,17 +2,17 @@ parameters:
 
 services:
     angle_nt_admin.form.type.fieldset:
-        class: Angle\NickelTracker\AdminBundleForm\Type\FieldsetType
+        class: Angle\NickelTracker\AdminBundle\Form\Type\FieldsetType
         arguments: []
         tags:
             - { name: form.type }
 
     angle_nt_admin.help_type_extension:
-        class: Angle\NickelTracker\AdminBundleForm\Extension\FieldTypeHelpExtension
+        class: Angle\NickelTracker\AdminBundle\Form\Extension\FieldTypeHelpExtension
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
     angle_nt_admin.datepicker_type_extension:
-        class: Angle\NickelTracker\AdminBundleForm\Extension\DatePickerExtension
+        class: Angle\NickelTracker\AdminBundle\Form\Extension\DatePickerExtension
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateType }
