@@ -7,28 +7,33 @@
             <li class="header">MAIN MENU</li>
             <li class="{% if active == 'dashboard' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_dashboard') }}">
-                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    <i class="fa fa-dashboard fa-fw"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="{% if active == 'account' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_account_list') }}">
-                    <i class="fa fa-building-o"></i> <span>Accounts</span>
+                    <i class="fa fa-bank fa-fw"></i> <span>Accounts</span>
                 </a>
             </li>
             <li class="{% if active == 'category' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_category_list') }}">
-                    <i class="fa fa-users"></i> <span>Categories</span>
+                    <i class="fa fa-cubes fa-fw"></i> <span>Categories</span>
+                </a>
+            </li>
+            <li class="{% if active == 'commerce' %}active{% endif %}">
+                <a href="{{ path('angle_nt_app_commerce_list') }}">
+                    <i class="fa fa-building-o fa-fw"></i> <span>Commerces</span>
                 </a>
             </li>
             <li class="{% if active == 'transaction' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_transaction_list') }}">
-                    <i class="fa fa-book"></i> <span>Transactions</span>
+                    <i class="fa fa-book fa-fw"></i> <span>Transactions</span>
                 </a>
             </li>
 
             <li class="{% if active == 'report' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_report_list') }}">
-                    <i class="fa fa-line-chart"></i> <span>Reports</span>
+                    <i class="fa fa-line-chart fa-fw"></i> <span>Reports</span>
                 </a>
             </li>
             
