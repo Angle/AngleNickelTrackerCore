@@ -56,9 +56,8 @@ class UserType extends AbstractType
                         ->add('password', PasswordType::class, array(
                             'label'     => 'Password',
                             'required'  => true,
-                            'suffix'    => 'lts'
                         ))
-                        ->add('roles', ChoiceType::class, array(
+                        ->add('role', ChoiceType::class, array(
                             'label'     => 'Role',
                             'required'  => true,
                             'choices'   => User::getAvailableRoles()
