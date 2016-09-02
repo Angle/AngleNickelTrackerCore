@@ -39,8 +39,9 @@
                             <tbody>
                             {% for account in accounts %}
                                 <tr>
-                                    <td class="editable-td" data-account-id="{{ account.accountId }}">
-                                        <input type="text" value="{{ account.name }}">
+                                    <td class="editable-td">
+                                        <input class="editable-account-name" type="text" value="{{ account.name }}"
+                                               data-account-id="{{ account.accountId }}">
                                     </td>
                                     <td>{{ account.typeName }}</td>
                                     <td>${{ account.balance|number_format(2) }}</td>
@@ -67,6 +68,14 @@
     {{ parent() }}
 
     <script type="application/javascript">
+        $('.editable-account-name')
+                .on('keyup', function(e) {
+                    if (e.which === 13) $(this).blur();
+                 })
+                .on('blur', function(){
+                    var $this = $(this);
+                    console.log('Updating Account ID ' + $this.data('account-id') + ' with value: ' + $this.val());
+                });
 
     </script>
 {% endblock %}
