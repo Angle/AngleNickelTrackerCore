@@ -2,6 +2,7 @@
 
 namespace Angle\NickelTracker\CoreBundle\Service;
 
+use Angle\NickelTracker\CoreBundle\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
@@ -351,42 +352,6 @@ class NickelTrackerService
     }
 
     /**
-     * Delete a user's account
-     *
-     * @param int $id Account ID
-     * @return bool
-     */
-    public function deleteAccount($id)
-    {
-        if (!$this->user) {
-            throw new \RuntimeException('Session user was not found');
-        }
-
-        // Attempt to load the Account
-        $repository = $this->doctrine->getRepository(Account::class);
-        /** @var Account $account */
-        $account = $repository->findOneBy(array(
-            'userId'    => $this->user->getUserId(),
-            'accountId' => $id,
-            'deleted'   => false,
-        ));
-
-        if (!$account) {
-            $this->errorType = 'NickelTracker';
-            $this->errorCode = 1;
-            $this->errorMessage = 'Account not found';
-            return false;
-        }
-
-        $account->setDeleted(true);
-
-        // Also change the account name so that a new one can be created with the same name
-        $account->setName($account->getName() . '_DELETED_' . RandomUtility::generateString(6));
-
-        return $this->flush();
-    }
-
-    /**
      * Change the name of a user's account
      *
      * @param int $id Account ID
@@ -471,6 +436,261 @@ class NickelTrackerService
         }
 
         $account->setCreditLimit($newLimit);
+
+        return $this->flush();
+    }
+
+    /**
+     * Delete a user's account
+     *
+     * @param int $id Account ID
+     * @return bool
+     */
+    public function deleteAccount($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $account */
+        $account = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $id,
+            'deleted'   => false,
+        ));
+
+        if (!$account) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Account not found';
+            return false;
+        }
+
+        $account->setDeleted(true);
+
+        // Also change the account name so that a new one can be created with the same name
+        $account->setName($account->getName() . '_DELETED_' . RandomUtility::generateString(6));
+
+        return $this->flush();
+    }
+
+    #####################################################################################################
+    ###
+    ###   CATEGORY METHODS
+    ###
+
+    /**
+     * Return an ArrayCollection of the User's categories
+     * @return ArrayCollection
+     */
+    public function loadCategories()
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Load all user categories
+        $repository = $this->doctrine->getRepository(Category::class);
+        $categories = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+        ));
+
+        return $categories;
+    }
+
+    /**
+     * Load a single category
+     *
+     * @param int $id Account ID
+     * @return Category|false
+     */
+    public function loadCategory($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Category
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Category $category */
+        $category = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'categoryId' => $id,
+        ));
+
+        if (!$category) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Category not found';
+            return false;
+        }
+
+        return $category;
+    }
+
+    /**
+     * Create a new category for the user
+     *
+     * @param string $name Category name
+     * @param float $budget Category monthly budget
+     * @return int|false Category ID created
+     */
+    public function createCategory($name, $budget)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Check if the user already has an account with that name
+        $repository = $this->doctrine->getRepository(Category::class);
+        $categories = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'name'      => $name,
+        ));
+
+        if (!empty($categories)) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot have two categories with the same name';
+            return false;
+        }
+
+        $category = new Category();
+        $category->setName($name);
+        $category->setBudget($budget);
+        $category->setUserId($this->user);
+        $this->em->persist($category);
+
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $category->getCategoryId();
+        }
+    }
+
+    /**
+     * Change the name of a user's category
+     *
+     * @param int $id Category ID
+     * @param string $newName Desired new name for the category
+     * @return bool
+     */
+    public function changeCategoryName($id, $newName)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Check if the user already has an category with that name
+        $repository = $this->doctrine->getRepository(Category::class);
+        $categories = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'name'      => $newName,
+        ));
+
+        if (!empty($categories)) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot have two categories with the same name';
+            return false;
+        }
+
+        // Attempt to load the Category
+        /** @var Category $category */
+        $category = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'categoryId' => $id,
+        ));
+
+        if (!$category) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Category not found';
+            return false;
+        }
+
+        $category->setName($newName);
+
+        return $this->flush();
+    }
+
+    /**
+     * Change the Budget for the category
+     *
+     * @param int $id Category ID
+     * @param float $newBudget Desired new budget for the category
+     * @return bool
+     */
+    public function changeCategoryBudget($id, $newBudget)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Category
+        $repository = $this->doctrine->getRepository(Category::class);
+        /** @var Category $category */
+        $category = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'categoryId' => $id,
+        ));
+
+        if (!$category) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Category not found';
+            return false;
+        }
+
+        $category->setBudget($newBudget);
+
+        return $this->flush();
+    }
+
+    /**
+     * Delete a user's category
+     *
+     * @param int $id Category ID
+     * @return bool
+     */
+    public function deleteCategory($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Category
+        $repository = $this->doctrine->getRepository(Category::class);
+        /** @var Category $category */
+        $category = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'categoryId' => $id,
+        ));
+
+        if (!$category) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Category not found';
+            return false;
+        }
+
+        // Load all the user's transactions where the category was used
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        $transactions = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'categoryId' => $id,
+        ));
+
+        // Remove the reference to the category from each transaction
+        foreach ($transactions as $transaction) {
+            /** @var Transaction $transaction */
+            $transaction->setCategoryId(null);
+        }
+
+        // Now delete the category
+        $this->em->remove($category);
 
         return $this->flush();
     }

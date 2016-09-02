@@ -42,11 +42,6 @@ class Category
      */
     protected $budget = 0;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    protected $deleted = false;
-
 
     #########################
     ## OBJECT RELATIONSHIP ##
@@ -133,24 +128,6 @@ class Category
     public function setBudget($budget)
     {
         $this->budget = $budget;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * @param bool $deleted
-     * @return Category
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
         return $this;
     }
 

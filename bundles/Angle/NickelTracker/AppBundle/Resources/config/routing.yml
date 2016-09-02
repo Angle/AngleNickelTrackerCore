@@ -46,6 +46,13 @@ angle_nt_app_category_new:
     pattern:    /category/new
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:new }
 
+angle_nt_app_category_update:
+    pattern:    /category/update
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:update }
+    methods:    [POST]
+    requirements:
+        _format: json
+
 angle_nt_app_category_delete:
     pattern:    /category/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:delete }

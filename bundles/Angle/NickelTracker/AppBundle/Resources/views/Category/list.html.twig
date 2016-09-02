@@ -8,10 +8,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Accounts
+            Categories
 
-            <a href="#" class="btn btn-primary btn-sm pull-right">
-                <i class="fa fa-plus"></i> New Account
+            <a href="{{ path('angle_nt_app_category_new') }}" class="btn btn-primary btn-sm pull-right">
+                <i class="fa fa-plus"></i> New Category
             </a>
         </h1>
     </section>
@@ -50,14 +50,14 @@
                                                class="editable-field money"
                                                data-object-id="{{ category.categoryId }}"
                                                data-update-path="{{ path('angle_nt_app_category_update') }}"
-                                               data-update-property="name"
+                                               data-update-property="budget"
                                                data-original-value="{{ category.budget|number_format(2, '.', '') }}">
                                     </td>
                                     <td class="text-center">
                                         <form action="{{ path('angle_nt_app_category_delete') }}" method="post">
-                                            <input type="hidden" name="accountId" value="{{ account.accountId }}">
+                                            <input type="hidden" name="id" value="{{ category.categoryId }}">
                                             <button type="submit" class="btn btn-xs btn-default"
-                                                    onclick="return confirm('Are you sure you want to delete the account \'{{ account.name }}\'? This action cannot be undone.');">
+                                                    onclick="return confirm('Are you sure you want to delete the category \'{{ category.name }}\'? This action cannot be undone.');">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
