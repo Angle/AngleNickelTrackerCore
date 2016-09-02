@@ -49,7 +49,7 @@ class AccountController extends Controller
         $nt = $this->get('angle.nickeltracker');
 
         if ($data['property'] == 'name') {
-            $r = $nt->changeAccountName($data['accountId'], $data['value']);
+            $r = $nt->changeAccountName($data['id'], $data['value']);
 
             if ($r) {
                 $json = array(
@@ -63,7 +63,7 @@ class AccountController extends Controller
                 );
             }
         } elseif ($data['property'] == 'creditLimit') {
-            $r = $nt->changeAccountCreditLimit($data['accountId'], $data['value']);
+            $r = $nt->changeAccountCreditLimit($data['id'], $data['value']);
 
             if ($r) {
                 $json = array(
