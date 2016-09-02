@@ -75,7 +75,7 @@
                  })
                 .on('blur', function(){
                     var $this = $(this);
-                    if ($this.val != $this.data('original-value')) {
+                    if ($this.val() != $this.data('original-value')) {
                         console.log('UPDATING Account ID ' + $this.data('account-id') + ' with value: ' + $this.val());
                         $this.parent().addClass("loading");
                         $this.prop('disabled', true);
