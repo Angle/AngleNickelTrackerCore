@@ -23,11 +23,11 @@
                     <form role="form">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Account Name</label>
+                                <label for="accountName">Account Name</label>
                                 <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Enter a unique name">
                             </div>
                             <div class="form-group">
-                                <label>Account Type</label>
+                                <label for="accountType">Account Type</label>
                                 <select class="form-control" id="accountType" name="accountType">
                                     <option value="" selected="selected" disabled="disabled">-- Select type --</option>
                                     {% for key, name in account.availableTypes %}
@@ -36,6 +36,7 @@
                                 </select>
                             </div>
                             <div class="input-group">
+                                <label for="accountCreditLimit">Account Credit Limit</label>
                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
                                 <input type="text" class="form-control" id="accountCreditLimit" name="accountCreditLimit" disabled="disabled">
                             </div>
@@ -59,6 +60,7 @@
 
     <script type="text/javascript">
         $('#accountType').change(function(){
+            console.log('New type selected: ' + $(this).val());
             // Check if the selected account type is Credit, if so, enable the Credit Limit input
             var $i = ('#accountCreditLimit');
             if ($(this).val() == 'C') {
