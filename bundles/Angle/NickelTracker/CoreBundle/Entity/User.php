@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="Users", indexes={@ORM\Index(name="email_idx", columns={"email"})})
- * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class User implements AdvancedUserInterface, \Serializable
 {
