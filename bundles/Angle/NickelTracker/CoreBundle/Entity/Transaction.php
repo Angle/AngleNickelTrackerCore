@@ -95,7 +95,7 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="transactions")
-     * @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId", nullable=false)
+     * @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId", nullable=true)
      */
     protected $categoryId;
 

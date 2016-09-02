@@ -20,18 +20,16 @@ angle_nt_app_account_list:
     pattern:    /account
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:list }
 
+angle_nt_app_account_new:
+    pattern:    /account/new
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:new }
+
 angle_nt_app_account_update:
     pattern:    /account/update
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:update }
     methods:    [POST]
     requirements:
         _format: json
-
-angle_nt_app_account_process:
-    pattern:    /account/process/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:process, id: null }
-    requirements:
-        id:     \d+
 
 angle_nt_app_account_delete:
     pattern:    /account/delete
@@ -44,20 +42,34 @@ angle_nt_app_category_list:
     pattern:    /category
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:list}
 
-angle_nt_app_category_process:
-    pattern:    /category/process/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:process }
-    requirements:
-        id:     \d+
-angle_nt_app_category_view:
-    pattern:    /category/view/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:view }
-    requirements:
-        id:     \d+
+angle_nt_app_category_new:
+    pattern:    /category/new
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Category:new }
 
 angle_nt_app_category_delete:
     pattern:    /category/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Category:delete }
+    methods:    [POST]
+
+## Commerce
+angle_nt_app_commerce_list:
+    pattern:    /commerce
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:list }
+
+angle_nt_app_commerce_new:
+    pattern:    /commerce/new
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:new }
+
+angle_nt_app_commerce_update:
+    pattern:    /commerce/update
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:update }
+    methods:    [POST]
+    requirements:
+        _format: json
+
+angle_nt_app_commerce_delete:
+    pattern:    /commerce/delete
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:delete }
     methods:    [POST]
 
 
