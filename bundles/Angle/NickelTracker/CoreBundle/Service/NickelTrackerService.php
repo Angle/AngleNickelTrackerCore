@@ -253,7 +253,7 @@ class NickelTrackerService
      * Return an ArrayCollection of the User's accounts
      * @return ArrayCollection
      */
-    public function viewAccounts()
+    public function loadAccounts()
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -267,6 +267,37 @@ class NickelTrackerService
         ));
 
         return $accounts;
+    }
+
+    /**
+     * Load a single account
+     *
+     * @param int $id Account ID
+     * @return Account|false
+     */
+    public function loadAccount($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $account */
+        $account = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $id,
+            'deleted'   => false,
+        ));
+
+        if (!$account) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Account not found';
+            return false;
+        }
+
+        return $account;
     }
 
     /**
