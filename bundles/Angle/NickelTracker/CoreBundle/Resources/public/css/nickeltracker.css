@@ -67,3 +67,6 @@
     visibility: visible;
 }
 
+.editable-field.money:before {
+    content: '$';
+}

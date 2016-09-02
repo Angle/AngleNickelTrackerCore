@@ -1,6 +1,6 @@
 {% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
-{% set page_title = 'Accounts' %}
-{% set active = 'account' %}
+{% set page_title = 'Categories' %}
+{% set active = 'category' %}
 
 
 {% block content %}
@@ -19,7 +19,7 @@
     <!-- Main content -->
     <section class="content">
 
-        <!-- Accounts Table -->
+        <!-- Category Table -->
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
@@ -30,39 +30,31 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Type</th>
-                                <th>Balance</th>
-                                <th>Credit Limit</th>
+                                <th>Monthly Budget</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for account in accounts %}
+                            {% for category in categories %}
                                 <tr>
                                     <td class="editable-td">
-                                        <input type="text" value="{{ account.name }}"
+                                        <input type="text" value="{{ category.name }}"
                                                class="editable-field"
-                                               data-object-id="{{ account.accountId }}"
-                                               data-update-path="{{ path('angle_nt_app_account_update') }}"
+                                               data-object-id="{{ category.categoryId }}"
+                                               data-update-path="{{ path('angle_nt_app_category_update') }}"
                                                data-update-property="name"
-                                               data-original-value="{{ account.name }}">
+                                               data-original-value="{{ category.name }}">
                                     </td>
-                                    <td>{{ account.typeName }}</td>
-                                    <td>${{ account.balance|number_format(2) }}</td>
-                                    {% if account.type == 'C' %}
-                                        <td class="editable-td">
-                                            <input type="text" value="{{ account.creditLimit|number_format(2) }}"
-                                                   class="editable-field money"
-                                                   data-object-id="{{ account.accountId }}"
-                                                   data-update-path="{{ path('angle_nt_app_account_update') }}"
-                                                   data-update-property="creditLimit"
-                                                   data-original-value="{{ account.creditLimit|number_format(2, '.', '') }}">
-                                        </td>
-                                    {% else %}
-                                        <td>--</td>
-                                    {% endif %}
+                                    <td class="editable-td">
+                                        <input type="text" value="{{ category.budget|number_format(2, '.', '') }}"
+                                               class="editable-field money"
+                                               data-object-id="{{ category.categoryId }}"
+                                               data-update-path="{{ path('angle_nt_app_category_update') }}"
+                                               data-update-property="name"
+                                               data-original-value="{{ category.budget|number_format(2, '.', '') }}">
+                                    </td>
                                     <td>
-                                        <form action="{{ path('angle_nt_app_account_delete') }}" method="post">
+                                        <form action="{{ path('angle_nt_app_category_delete') }}" method="post">
                                             <input type="hidden" name="accountId" value="{{ account.accountId }}">
                                             <button type="submit" class="btn btn-xs btn-default"
                                                     onclick="return confirm('Are you sure you want to delete the account \'{{ account.name }}\'? This action cannot be undone.');">
