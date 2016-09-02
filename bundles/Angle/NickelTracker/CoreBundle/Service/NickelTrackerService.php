@@ -265,7 +265,7 @@ class NickelTrackerService
         $accounts = $repository->findBy(array(
             'userId'    => $this->user->getUserId(),
             'deleted'   => false,
-        ));
+        ), array('name' => 'ASC')); // order by name
 
         return $accounts;
     }
@@ -495,7 +495,7 @@ class NickelTrackerService
         $repository = $this->doctrine->getRepository(Category::class);
         $categories = $repository->findBy(array(
             'userId'    => $this->user->getUserId(),
-        ));
+        ), array('name' => 'ASC')); // order by name
 
         return $categories;
     }

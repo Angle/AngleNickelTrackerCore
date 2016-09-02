@@ -37,8 +37,8 @@ class CategoryController extends Controller
             $name   = $request->request->get('categoryName');
             $budget = $request->request->get('categoryBudget');
 
-            // Check the request parameters
-            if ($name && $budget) {
+            // Check the request parameters (budget is not required)
+            if ($name) {
                 // Attempt to create a new category
                 /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
                 $nt = $this->get('angle.nickeltracker');
