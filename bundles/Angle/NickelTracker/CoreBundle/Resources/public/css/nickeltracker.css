@@ -67,6 +67,6 @@
     visibility: visible;
 }
 
-.editable-field.money:before {
+.editable-field.money::before {
     content: '$';
 }
