@@ -9,10 +9,6 @@
     <section class="content-header">
         <h1>
             <i class="fa fa-edit"></i> Register New Account
-
-            <a href="#" class="btn btn-primary btn-sm pull-right">
-                <i class="fa fa-plus"></i> New Account
-            </a>
         </h1>
     </section>
 
@@ -24,36 +20,33 @@
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                 <div class="box box-primary">
 
-                    <div class="box-body">
-
-                        <form role="form" class="form-horizontal">
-                            <div class="box-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Account Name</label>
-                                    <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Enter a unique name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Account Type</label>
-                                    <select class="form-control" id="accountType" name="accountType">
-                                        <option value="" selected="selected" disabled="disabled">-- Select type --</option>
-                                        {% for key, name in account.availableTypes %}
-                                            <option value="{{ key }}">{{ name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                    <input type="text" class="form-control" id="accountCreditLimit" name="accountCreditLimit" disabled="disabled">
-                                </div>
+                    <form role="form" class="form-horizontal">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Account Name</label>
+                                <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Enter a unique name">
                             </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="form-group">
+                                <label>Account Type</label>
+                                <select class="form-control" id="accountType" name="accountType">
+                                    <option value="" selected="selected" disabled="disabled">-- Select type --</option>
+                                    {% for key, name in account.availableTypes %}
+                                        <option value="{{ key }}">{{ name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-                        </form>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                <input type="text" class="form-control" id="accountCreditLimit" name="accountCreditLimit" disabled="disabled">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
 
-                    </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -71,7 +64,7 @@
             if ($(this).val() == 'C') {
                 $i.removeAttr('disabled');
             } else {
-                $("input").attr('disabled','disabled');
+                $i.attr('disabled','disabled');
             }
         });
     </script>
