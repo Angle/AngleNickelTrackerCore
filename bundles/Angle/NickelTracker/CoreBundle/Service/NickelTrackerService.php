@@ -303,7 +303,7 @@ class NickelTrackerService
     /**
      * Create a new account for the user
      *
-     * @param int $type Account type
+     * @param string $type Account type
      * @param string $name Account name
      * @param float $creditLimit Account's credit limit (only used for Credit accounts)
      * @return int|false AccountID created

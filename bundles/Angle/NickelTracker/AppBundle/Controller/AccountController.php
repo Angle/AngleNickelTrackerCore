@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Angle\NickelTracker\CoreBundle\Utility\ResponseMessage;
 use Angle\NickelTracker\CoreBundle\Entity\Account;
 
 class AccountController extends Controller
@@ -26,12 +27,33 @@ class AccountController extends Controller
     public function newAction(Request $request)
     {
         if ($request->getMethod() == 'POST') {
-            // We are creating a new one!
-            // Check the data
+            // Process new account
+            $type   = $request->request->get('accountType');
+            $name   = $request->request->get('accountName');
+            $limit  = $request->request->get('accountCreditLimit');
 
+            // Check the request parameters
+            if ($type && $name) {
+                // Attempt to create a new account
+                /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+                $r = $nt->createAccount($type, $name, $limit);
 
-            if ($ok) {
-                // Everything went ok, redirect to the account list with a FlashBag
+                if ($r) {
+                    // Everything went ok, redirect to the account list with a FlashBag
+                    $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+                    $message->addToFlashBag($this->get('session')->getFlashBag());
+                    return $this->redirectToRoute('angle_nt_app_account_list');
+                } else {
+                    $error = $nt->getError();
+                    // Something failed, build a new Response Message and return to the create new view
+                    $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                    $message->setExternalMessage($error['code'] . ': ' . $error['message']);
+                    $message->addToFlashBag($this->get('session')->getFlashBag());
+                }
+            } else {
+                // Invalid request parameters
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
             }
         }
 
