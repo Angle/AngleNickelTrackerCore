@@ -1,0 +1,62 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Dashboard' %}
+{% set active = 'dashboard' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Accounts
+
+            <a href="#" class="btn btn-primary btn-sm pull-right">
+                <i class="fa fa-plus"></i> New Account
+            </a>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Pending Approval Loans -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-body table-responsive">
+
+                        <table class="table" id="validate-loans">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Balance</th>
+                                <th>Credit Limit</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for account in accounts %}
+                                <tr>
+                                    <td><i class="fa fa-pencil"></i> {{ account.name }}</td>
+                                    <td>{{ account.typeName }}</td>
+                                    <td>${{ account.balance|number_format(2) }}</td>
+                                    {% if account.type = 'C' %}
+                                        <td>${{ account.creditLimit|number_format(2) }}</td>
+                                    {% else %}
+                                        <td>--</td>
+                                    {% endif %}
+                                    <td><i class="fa fa-trash"></i></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
