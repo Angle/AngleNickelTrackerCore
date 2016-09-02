@@ -1,1 +1,38 @@
-# empty
+## SECURITY
+angle_nt_admin_login:
+    pattern:    /login
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:Security:login }
+
+angle_nt_admin_login_check:
+    pattern:    /login/check
+
+angle_nt_admin_logout:
+    pattern:    /logout
+
+## Dashboard
+angle_nt_admin_dashboard:
+    pattern:    /
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:Dashboard:home }
+    
+## User
+angle_nt_admin_user_list:
+    path:       /user
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:list }
+
+angle_nt_admin_user_view:
+    path:       /user/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:view }
+    requirements:
+        id:     \d+
+
+angle_nt_admin_user_process:
+    path:       /user/process/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:process, id: 0 }
+    requirements:
+        id:     \d+
+
+angle_nt_admin_user_delete:
+    path:       /user/delete/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:delete }
+    requirements:
+        id:     \d+

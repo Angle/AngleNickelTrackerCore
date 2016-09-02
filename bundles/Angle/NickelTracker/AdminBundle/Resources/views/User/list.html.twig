@@ -1,0 +1,99 @@
+{% extends 'AngleNickelTrackerAdminBundle:Common:layout.html.twig' %}
+{% set page_title = 'User List' %}
+{% set active = 'user' %}
+
+
+{% block styles %}
+    {{ parent() }}
+    <!-- DATA TABLES -->
+    <link href="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Users
+            <!--<small>Summarized Information</small>-->
+            <a href="{{ path('angle_nt_admin_user_process') }}" class="btn btn-primary btn-sm pull-right">
+                <i class="fa fa-plus"></i> New User
+            </a>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-default">
+                    <div class="box-body table-responsive">
+
+                        <table class="table" id="datatable">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>E-Mail</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.userId }}</td>
+                                <td>{{ user.fullName }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{% if user.email %}<a href="mailto:{{ user.email }}">{{ user.email }}</a>{% else %}<em>N/A</em>{% endif %}</td>
+                                <td><a href="{{ path('angle_nt_admin_user_view', {'id': user.userId}) }}"
+                                       class="btn btn-xs btn-default">
+                                        <i class="fa fa-bars"></i> Details
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if debug is defined and debug.executionTime is defined %}
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <small>Execution time: {{ debug.executionTime|number_format(3) }} seconds</small>
+                </div>
+            </div>
+        {% endif %}
+
+    </section><!-- end: Main content -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <!-- DATA TABLES SCRIPT -->
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/dataTables.bootstrap.js') }}" type="text/javascript"></script>
+
+    <script>
+        // Initialize data tables
+        // For further documentation @see https://datatables.net/reference/option/
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                'order': [[1, "asc"]],
+                'columnDefs': [
+                    { 'targets': [-1], 'orderable': false }, // Actions column
+                    { 'targets': [0], 'visible': false } // Hidden columns
+                ]
+            });
+            // #dataTable.end
+        });
+        // document.ready.end
+    </script>
+{% endblock %}

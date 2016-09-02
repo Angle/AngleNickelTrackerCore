@@ -1,0 +1,101 @@
+{% extends 'AngleNickelTrackerAdminBundle:Common:layout.html.twig' %}
+{% set page_title = 'User: ' ~ user.name %}
+{% set active = 'user' %}
+
+
+{% block styles %}
+    {{ parent() }}
+    <!-- DATA TABLES -->
+    <link href="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <strong>User:</strong> {{ user.fullName }}
+            <!--<small>Summarized Information</small>-->
+            <small class="pull-right"><i class="fa fa-database"></i> {{ user.userId }}</small>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Main row -->
+        <div class="row">
+
+            <div class="col-xs-12">
+
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">General Information</h3>
+                            </div>
+                            <div class="box-body">
+                                <dl class="dl-horizontal">
+                                    <dt>Name</dt>
+                                    <dd>{{ user.fullName }}</dd>
+                                    <dt>E-Mail</dt>
+                                    <dd>{% if user.email %}<a href="mailto:{{ user.email }}">{{ user.email }}</a>{% else %}<em>N/A</em>{% endif %}</dd>
+                                    <dt>Alertable</dt>
+                                    <dd>{% if user.alertable %}Yes{% else %}No{% endif %}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Login Information</h3>
+                            </div>
+                            <div class="box-body">
+                                <dl class="dl-horizontal">
+                                    <dt>Username</dt>
+                                    <dd>{{ user.username }}</dd>
+                                    <dt>Role</dt>
+                                    <dd>{{ user.roleName }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{{ path('angle_nt_admin_user_process', {'id': user.userId}) }}"
+                                   class="btn btn-md btn-block btn-primary">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="{{ path('angle_nt_admin_user_delete', {'id': user.userId}) }}"
+                                   class="btn btn-md btn-block btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete \'{{ user.name }}\'? This action can not be undone.')">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.row (main row) -->
+
+        <br>
+
+
+        {% if debug is defined and debug.executionTime is defined %}
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <small>Execution time: {{ debug.executionTime|number_format(3) }} seconds</small>
+                </div>
+            </div>
+        {% endif %}
+
+    </section><!-- /.content -->
+{% endblock %}

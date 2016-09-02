@@ -1,0 +1,74 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{# form_row #}
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        <p class="help-block">
+            {{ form_errors(form) }}
+            {{ block('field_help') }}
+        </p>
+    </div>
+{%- endblock form_row %}
+
+
+{# form_widget_simple #}
+{% block form_widget_simple -%}
+    {# bootstrap layout #}
+    {% if type is not defined or type not in ['file', 'hidden'] %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+
+    {# original layout #}
+    {%- set type = type|default('text') -%}
+
+    {% if suffix|default or prefix|default %}
+        <div class="input-group">
+            {% if prefix|default %}<span class="input-group-addon">{{ prefix }}</span>{% endif %}
+            <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+            {% if suffix|default %}<span class="input-group-addon">{{ suffix }}</span>{% endif %}
+        </div>
+    {% else %}
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% endif %}
+{%- endblock form_widget_simple %}
+
+
+{# fieldset extension #}
+{%- block fieldset_widget -%}
+    <fieldset {{ block('widget_container_attributes') }}>
+        {% if legend is defined and legend is not empty %}
+            <legend>{{ legend }}</legend>
+        {% endif %}
+        {{ form_widget(form) }}
+    </fieldset>
+{%- endblock -%}
+
+{# date_widget extension #}
+{%- block date_widget -%}
+    {%- if widget == 'single_text' and datepicker -%}
+        {{ block('form_datepicker_widget') }}
+    {%- elseif widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}
+
+{# datepicker widget #}
+{%- block form_datepicker_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    <div class="input-group date">
+        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}"{% endif %} />
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+        </div>
+    </div>
+{%- endblock -%}
