@@ -90,6 +90,12 @@ class UserController extends Controller
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
+        if (!$user) {
+            throw $this->createNotFoundException(
+                "User ID '{$id}' not found."
+            );
+        }
+
         $em->remove($user);
 
         try {
@@ -100,6 +106,41 @@ class UserController extends Controller
                 $message->setExternalMessage($e->getMessage());
             }
         }
+
+        if (!isset($message)) { // No error, therefore it was successful!
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+        }
+        $message->addToFlashBag($this->get('session')->getFlashBag());
+
+
+        return $this->redirectToRoute('angle_nt_admin_user_list');
+    }
+
+    public function toggleAction($id)
+    {
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                "User ID '{$id}' not found."
+            );
+        }
+
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->get('angle.nickeltracker');
+        $nt->enableAdminMode(true);
+
+        if ($user->getIsActive()) {
+            $r = $nt->disableUser($user);
+        }else{
+            $r = $nt->enableUser($user);
+        }
+
+        if (!$r) {
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+        }
+
 
         if (!isset($message)) { // No error, therefore it was successful!
             $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);

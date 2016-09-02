@@ -34,3 +34,15 @@ angle_nt_admin_user_delete:
     defaults:   { _controller: AngleNickelTrackerAdminBundle:User:delete }
     requirements:
         id:     \d+
+
+angle_nt_admin_user_disable:
+    path:       /user/disable/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:toggle }
+    requirements:
+        id:     \d+
+
+angle_nt_admin_user_enable:
+    path:       /user/enable/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:toggle }
+    requirements:
+        id:     \d+

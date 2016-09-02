@@ -48,10 +48,25 @@
                                 <td>{{ user.fullName }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{% if user.email %}<a href="mailto:{{ user.email }}">{{ user.email }}</a>{% else %}<em>N/A</em>{% endif %}</td>
-                                <td><a href="{{ path('angle_nt_admin_user_view', {'id': user.userId}) }}"
-                                       class="btn btn-xs btn-default">
-                                        <i class="fa fa-bars"></i> Details
-                                    </a>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ path('angle_nt_admin_user_view', {'id': user.userId}) }}"
+                                           class="btn btn-xs btn-default">
+                                            <i class="fa fa-bars"></i> Details
+                                        </a>
+                                        {% if user.isActive %}
+                                            <a href="{{ path('angle_nt_admin_user_disable', {'id': user.userId}) }}"
+                                               class="btn btn-warning btn-xs" >
+                                                <i class="fa fa-fw fa-ban"></i> Disable
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('angle_nt_admin_user_enable', {'id': user.userId}) }}"
+                                               class="btn btn-primary btn-xs" >
+                                                <i class="fa fa-fw fa-check"></i> Enable
+                                            </a>
+                                        {% endif %}
+                                    </div>
+
                                 </td>
                             </tr>
                             {% endfor %}
