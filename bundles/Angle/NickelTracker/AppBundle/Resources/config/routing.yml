@@ -22,7 +22,7 @@ angle_nt_app_account_list:
 
 angle_nt_app_account_update:
     pattern:    /account/update
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:updateName }
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:update }
     methods:    [POST]
     requirements:
         _format: json

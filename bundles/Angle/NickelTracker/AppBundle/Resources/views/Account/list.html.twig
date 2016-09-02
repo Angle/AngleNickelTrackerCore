@@ -52,7 +52,7 @@
                                     {% if account.type == 'C' %}
                                         <td class="editable-td">
                                             <input type="text" value="${{ account.creditLimit|number_format(2) }}"
-                                                   class="editable-field"
+                                                   class="editable-field money"
                                                    data-object-id="{{ account.accountId }}"
                                                    data-update-path="{{ path('angle_nt_app_account_update') }}"
                                                    data-update-property="creditLimit"
@@ -149,7 +149,7 @@
                     }
                 });
 
-        $('.editable-field-money')
+        $('.editable-field.money')
                 .on('focus', function(){
                     var $this = $(this);
                     $this.val($this.data('original-value'));
