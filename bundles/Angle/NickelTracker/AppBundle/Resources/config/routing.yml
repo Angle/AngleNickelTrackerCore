@@ -33,12 +33,6 @@ angle_nt_app_account_process:
     requirements:
         id:     \d+
 
-angle_nt_app_account_view:
-    pattern:    /account/view/{id}
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:view }
-    requirements:
-        id:     \d+
-
 angle_nt_app_account_delete:
     pattern:    /account/delete
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:delete }

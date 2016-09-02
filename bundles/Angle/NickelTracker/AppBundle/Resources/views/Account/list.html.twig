@@ -52,7 +52,15 @@
                                     {% else %}
                                         <td>--</td>
                                     {% endif %}
-                                    <td><i class="fa fa-trash"></i></td>
+                                    <td>
+                                        <form action="{{ path('angle_nt_app_delete') }}" method="post">
+                                            <input type="hidden" name="accountId" value="{{ account.accountId }}">
+                                            <button type="submit" class="btn btn-xs btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete the account \'{{ account.name }}\'? This action cannot be undone.');">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
