@@ -52,7 +52,7 @@
                                             <input type="text" value="${{ account.creditLimit|number_format(2) }}"
                                                    class="editable-account-limit"
                                                    data-account-id="{{ account.accountId }}"
-                                                   data-original-value="{{ account.creditLimit }}">
+                                                   data-original-value="{{ account.creditLimit|default("0") }}">
                                         </td>
                                     {% else %}
                                         <td>--</td>
