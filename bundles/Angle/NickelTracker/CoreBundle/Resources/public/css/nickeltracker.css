@@ -23,12 +23,12 @@
 
 
 /* Pencil hover */
-.pencil-on-hover i {
+.editable-td i {
     display: block;
     float: right;
     visibility: hidden;
 }
 
-.pencil-on-hover:hover i {
+.editable-td:hover i {
     visibility: visible;
 }
