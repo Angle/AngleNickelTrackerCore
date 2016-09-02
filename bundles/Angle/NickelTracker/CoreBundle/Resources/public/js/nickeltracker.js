@@ -6,7 +6,7 @@ $( document ).ready(function() {
     $('.editable-td').on('click', function() {
         var $this = $(this);
         var $input = $('<input>', {
-            value: $this.text(),
+            value: $this.text().trim(),
             type: 'text',
             blur: function() {
                 $this.text(this.value);
