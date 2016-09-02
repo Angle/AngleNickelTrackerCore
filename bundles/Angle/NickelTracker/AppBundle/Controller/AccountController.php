@@ -36,6 +36,7 @@ class AccountController extends Controller
             if ($type && $name) {
                 // Attempt to create a new account
                 /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+                $nt = $this->get('angle.nickeltracker');
                 $r = $nt->createAccount($type, $name, $limit);
 
                 if ($r) {
