@@ -62,7 +62,7 @@
         $('#accountType').change(function(){
             console.log('New type selected: ' + $(this).val());
             // Check if the selected account type is Credit, if so, enable the Credit Limit input
-            var $i = ('#accountCreditLimit');
+            var $i = $('#accountCreditLimit');
             if ($(this).val() == 'C') {
                 $i.removeAttr('disabled');
             } else {
