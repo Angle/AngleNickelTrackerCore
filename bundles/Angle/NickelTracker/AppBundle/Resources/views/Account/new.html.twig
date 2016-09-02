@@ -24,11 +24,11 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="accountName">Account Name</label>
-                                <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Enter a unique name">
+                                <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Enter a unique name" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="accountType">Account Type</label>
-                                <select class="form-control" id="accountType" name="accountType">
+                                <select class="form-control" id="accountType" name="accountType" required="required">
                                     <option value="" selected="selected" disabled="disabled">-- Select type --</option>
                                     {% for key, name in account.availableTypes %}
                                         <option value="{{ key }}">{{ name }}</option>

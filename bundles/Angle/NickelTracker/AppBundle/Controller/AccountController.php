@@ -24,6 +24,12 @@ class AccountController extends Controller
         ));
     }
 
+    /**
+     * Create a new Account
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function newAction(Request $request)
     {
         if ($request->getMethod() == 'POST') {
@@ -66,6 +72,12 @@ class AccountController extends Controller
         ));
     }
 
+    /**
+     * Update an account's field (AJAX only)
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function updateAction(Request $request)
     {
         ## VALIDATE JSON REQUEST
@@ -108,5 +120,42 @@ class AccountController extends Controller
         }
 
         return new JsonResponse($json);
+    }
+
+    /**
+     * Safe-delete an account
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function deleteAction(Request $request)
+    {
+        $id = $request->request->get('id');
+
+        // Check the request parameters
+        if ($id) {
+            /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+            $nt = $this->get('angle.nickeltracker');
+            $r = $nt->deleteAccount($id);
+
+            if ($r) {
+                // Everything went ok
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
+            } else {
+                $error = $nt->getError();
+                // Something failed when deleting the account
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                $message->setExternalMessage($error['code'] . ': ' . $error['message']);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
+            }
+
+        } else {
+            // Invalid request parameters
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+            $message->addToFlashBag($this->get('session')->getFlashBag());
+        }
+        
+        return $this->render('AngleNickelTrackerAppBundle:Account:list.html.twig');
     }
 }
