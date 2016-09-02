@@ -53,7 +53,7 @@
                                         <td>--</td>
                                     {% endif %}
                                     <td>
-                                        <form action="{{ path('angle_nt_app_delete') }}" method="post">
+                                        <form action="{{ path('angle_nt_app_account_delete') }}" method="post">
                                             <input type="hidden" name="accountId" value="{{ account.accountId }}">
                                             <button type="submit" class="btn btn-xs btn-danger"
                                                     onclick="return confirm('Are you sure you want to delete the account \'{{ account.name }}\'? This action cannot be undone.');">
