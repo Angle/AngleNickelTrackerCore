@@ -93,8 +93,9 @@
                         // Fire off the request to /form.php
                         var request = $.ajax({
                             url: "{{ path('angle_nt_app_account_update_name') }}",
-                            type: "json",
-                            method: "POST",
+                            type: "POST",
+                            dataType: "json",
+                            contentType: 'application/json; charset=UTF-8',
                             data: {
                                 "accountId": $this.data('account-id'),
                                 "name": $this.val()
