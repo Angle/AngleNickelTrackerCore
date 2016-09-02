@@ -56,12 +56,12 @@
                                         </a>
                                         {% if user.isActive %}
                                             <a href="{{ path('angle_nt_admin_user_disable', {'id': user.userId}) }}"
-                                               class="btn btn-warning btn-xs" >
+                                               class="btn btn-default btn-xs" >
                                                 <i class="fa fa-fw fa-ban"></i> Disable
                                             </a>
                                         {% else %}
                                             <a href="{{ path('angle_nt_admin_user_enable', {'id': user.userId}) }}"
-                                               class="btn btn-primary btn-xs" >
+                                               class="btn btn-default btn-xs" >
                                                 <i class="fa fa-fw fa-check"></i> Enable
                                             </a>
                                         {% endif %}
