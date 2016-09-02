@@ -86,6 +86,7 @@
                         var request = $.ajax({
                             url: "{{ path('angle_nt_app_account_update_name') }}",
                             type: "json",
+                            method: "POST",
                             data: {
                                 "accountId": $this.data('account-id'),
                                 "name": $this.val()
