@@ -24,11 +24,15 @@
 
 /* Pencil hover */
 .editable-td {
+    position: relative;
     cursor: text;
 }
 .editable-td i {
+    position: absolute;
     display: block;
-    float: right;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
     visibility: hidden;
 }
 
@@ -37,6 +41,7 @@
 }
 
 .editable-td input {
+    width: 100%;
     box-sizing: border-box;
     border: 1px solid transparent;
 }
