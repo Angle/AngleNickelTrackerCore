@@ -155,7 +155,7 @@ class AccountController extends Controller
             $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
             $message->addToFlashBag($this->get('session')->getFlashBag());
         }
-        
-        return $this->render('AngleNickelTrackerAppBundle:Account:list.html.twig');
+
+        return $this->redirectToRoute('angle_nt_app_account_list');
     }
 }
