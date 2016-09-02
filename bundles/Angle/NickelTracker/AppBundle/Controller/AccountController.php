@@ -21,7 +21,7 @@ class AccountController extends Controller
         ));
     }
 
-    public function updateName(Request $request)
+    public function updateNameAction(Request $request)
     {
         ## VALIDATE JSON REQUEST
         // We simply use json_decode to parse the content of the request and
@@ -66,6 +66,5 @@ class AccountController extends Controller
         }
 
         return new JsonResponse($json);
-
     }
 }
