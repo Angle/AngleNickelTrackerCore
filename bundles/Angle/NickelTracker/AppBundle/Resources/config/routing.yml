@@ -20,6 +20,13 @@ angle_nt_app_account_list:
     pattern:    /account
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:list }
 
+angle_nt_app_account_update_name:
+    pattern:    /account/updateName
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Account:changeName }
+    methods:    [POST]
+    requirements:
+        _format: json
+
 angle_nt_app_account_process:
     pattern:    /account/process/{id}
     defaults:   { _controller: AngleNickelTrackerAppBundle:Account:process, id: null }
