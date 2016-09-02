@@ -41,7 +41,8 @@
                                 <tr>
                                     <td class="editable-td">
                                         <input class="editable-account-name" type="text" value="{{ account.name }}"
-                                               data-account-id="{{ account.accountId }}">
+                                                data-account-id="{{ account.accountId }}"
+                                                data-original-value="{{ account.name }}">
                                     </td>
                                     <td>{{ account.typeName }}</td>
                                     <td>${{ account.balance|number_format(2) }}</td>
@@ -74,8 +75,11 @@
                  })
                 .on('blur', function(){
                     var $this = $(this);
-                    console.log('Updating Account ID ' + $this.data('account-id') + ' with value: ' + $this.val());
+                    if ($this.val != $this.data('origina-value')) {
+                        console.log('UPDATING Account ID ' + $this.data('account-id') + ' with value: ' + $this.val());
+                    } else {
+                        console.log('No changes in Account ID ' + $this.data('account-id') + ' with value ' + $this.val());
+                    }
                 });
-
     </script>
 {% endblock %}
