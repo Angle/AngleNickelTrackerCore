@@ -46,7 +46,7 @@
                                                data-original-value="{{ category.name }}">
                                     </td>
                                     <td class="editable-td">
-                                        <input type="text" value="{{ category.budget|number_format(2, '.', '') }}"
+                                        <input type="text" value="${{ category.budget|number_format(2) }}"
                                                class="editable-field money"
                                                data-object-id="{{ category.categoryId }}"
                                                data-update-path="{{ path('angle_nt_app_category_update') }}"
