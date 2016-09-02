@@ -61,7 +61,7 @@
                                     {% else %}
                                         <td>--</td>
                                     {% endif %}
-                                    <td>
+                                    <td class="text-center">
                                         <form action="{{ path('angle_nt_app_account_delete') }}" method="post">
                                             <input type="hidden" name="accountId" value="{{ account.accountId }}">
                                             <button type="submit" class="btn btn-xs btn-default"

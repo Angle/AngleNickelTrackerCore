@@ -1,3 +1,25 @@
+Number.prototype.formatNumber = function(c, d, t){
+    var n = this,
+        c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
+
+Number.prototype.formatMoney = function(c, d, t){
+    var n = this,
+        c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + '$' + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
+
 $( document ).ready(function() {
     $('.editable-td').each(function(){
         $(this).append('<i class="fa fa-pencil"></i>');
@@ -60,9 +82,17 @@ $( document ).ready(function() {
                     // Re-enable the input
                     $this.parent().removeClass("loading");
                     $this.prop('disabled', false);
+                    // If the field was formatted as money, fix its formatting
+                    if ($this.hasClass('money')) {
+                        fixMoneyFormat($this)
+                    }
                 });
             } else {
-                // No changes in the input.. do nothing.
+                // No changes in the input.. do nothing ajaxy.
+                // If the field was formatted as money, fix its formatting
+                if ($this.hasClass('money')) {
+                    fixMoneyFormat($this)
+                }
             }
         });
 
@@ -72,3 +102,9 @@ $( document ).ready(function() {
             $this.val($this.data('original-value'));
         });
 });
+
+function fixMoneyFormat(editableElement) {
+    editableElement.val(parseFloat(editableElement.val()).formatMoney(2));
+}
+
+// TODO: Number format a number after "blur"
