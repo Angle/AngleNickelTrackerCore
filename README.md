@@ -66,4 +66,4 @@ sudo chmod +x update.sh
 
 
 ## TODOs
-- On create User, create his default accounts and categories..
+- Edit transactions

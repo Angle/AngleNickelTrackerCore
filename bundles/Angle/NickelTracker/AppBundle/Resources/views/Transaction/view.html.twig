@@ -1,0 +1,95 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Transaction' %}
+{% set active = 'transaction' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-book"></i> Transaction Details
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Transaction View -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-plus fa-fw"></i> Income Transaction</h3>
+                    </div>
+
+                    <div class="box-body no-padding">
+
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Source Account</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Destination Account</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Category</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Commerce</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ transaction.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Details</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td></td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                {#
+                <div style="padding: 10px 0px; text-align: center;">
+                    <div class="text-muted">
+                        <strong>Reminder:</strong> Nothing to remind..
+                    </div>
+                </div>
+                #}
+
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <!-- Enable DatePicker -->
+    <script>
+        $(function () {
+            //Date picker
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                clearBtn: true
+            });
+        });
+    </script>
+{% endblock %}

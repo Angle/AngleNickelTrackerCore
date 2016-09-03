@@ -25,7 +25,7 @@ class TransactionController extends Controller
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
 
-        $transaction = $nt->loadTransaction();
+        $transaction = $nt->loadTransaction($id);
 
         if (!$transaction) {
             throw $this->createNotFoundException('Transaction ID ' . $id . ' not found.');
