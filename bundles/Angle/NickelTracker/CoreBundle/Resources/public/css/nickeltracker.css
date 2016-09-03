@@ -48,11 +48,17 @@
     width: 100%;
     background-color: white;
     border: 1px solid #D2D6DF;
+    border-top: none;
 }
 
 #commerce-typeahead .twitter-typeahead .tt-dataset {
+     /**background-color: blue;**/
+     padding: 10px 5px;
+ }
+
+#commerce-typeahead .twitter-typeahead .tt-suggestion {
     /**background-color: blue;**/
-    padding: 5px;
+    padding: 0 5px;
 }
 
 /* Ajaxy Tables */
