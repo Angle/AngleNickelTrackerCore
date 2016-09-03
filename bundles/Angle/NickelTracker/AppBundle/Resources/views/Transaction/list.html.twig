@@ -96,7 +96,9 @@
                         <table class="table" id="datatable">
                             <thead>
                             <tr>
-                                <th>Transaction</th>
+                                <th>Type</th>
+                                <th>Account</th>
+                                <th>Category</th>
                                 <th>Description</th>
                                 <th>Amount</th>
                                 <th>Date</th>
@@ -104,22 +106,44 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for transaction in transactions %}
+                            {% for e in transactions %}
                                 <tr>
                                     <td>
-                                        {{ transaction.sourceAccountId.name }} >
-                                        {% if transaction.type == 'T' %}
-                                            {{ transaction.destinationAccountId.name }}
-                                        {% elseif transaction.type == 'E' %}
-                                            {% if transaction.commerceId %}{{ transaction.commerceId.name }}{% else %}Commerce not provided{% endif %}
-                                            {% if transaction.categoryId %}({{ transaction.categoryId.name }}{% endif %}
+                                        {% if e.transaction.type == 'I' %}
+                                            <i class="fa fa-plus"></i>
+                                        {% elseif e.transaction.type == 'E' %}
+                                            <i class="fa fa-minus"></i>
+                                        {% elseif e.transaction.type == 'T' %}
+                                            <i class="fa fa-arrow-right"></i>
                                         {% endif %}
                                     </td>
-                                    <td>{{ transaction.description }}</td>
-                                    <td>${{ transaction.amount|number_format(2) }}</td>
-                                    <td>{{ transaction.date|date('d/m/Y') }}</td>
+                                    <td>
+                                        {{ e.transaction.sourceAccount }}
+                                        {% if e.transaction.type == 'T' %}
+                                            -> {{ e.transaction.destinationAccount }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if e.transaction.type == 'E' %}
+                                            {% if e.transaction.category %}
+                                                {{ e.transaction.category }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if e.transaction.type == 'E' and e.transaction.commerce %}
+                                            {{ e.transaction.commerce }}:
+                                        {% endif %}
+                                        {{ e.transaction.description }}
+                                    </td>
+                                    <td>${{ e.transaction.amount|number_format(2) }}</td>
+                                    <td>{{ e.transaction.date|date('d/m/Y') }}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_transaction_view', {'id': transaction.transactionId}) }}">
+                                        <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_transaction_view', {'id': e.transaction.transactionId}) }}">
                                             <i class="fa fa-bars"></i> Details
                                         </a>
                                     </td>
@@ -204,17 +228,17 @@
         // For further documentation @see https://datatables.net/reference/option/
         $(document).ready(function () {
             $('#datatable').dataTable({
-                'order': [[3, "asc"]],
+                'order': [[5, "asc"]],
                 'bFilter': false,
                 'iDisplayLength': 50,
                 'bLengthChange': false,
                 'columnDefs': [
-                    { 'targets': [-1], 'orderable': false }, // Actions column
-                    { 'targets': [3], 'type': 'date-eu'}
+                    { 'targets': [0, -1], 'orderable': false }, // Actions column
+                    { 'targets': [5], 'type': 'date-eu'}
                 ],
                 "tableTools": {
                     "sSwfPath": "{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/anglenickeltrackercore/swf/copy_csv_xls_pdf.swf') }}"
-                },
+                }
             });
             // #dataTable.end
         });

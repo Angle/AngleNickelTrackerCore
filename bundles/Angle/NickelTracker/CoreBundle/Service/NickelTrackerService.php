@@ -911,11 +911,23 @@ ENDSQL;
             throw new \RuntimeException('Session user was not found');
         }
 
-        // Load all user accounts
+        // Load the user's transactions
+        /* @var \Doctrine\ORM\EntityRepository $repository */
         $repository = $this->doctrine->getRepository(Transaction::class);
-        $transactions = $repository->findBy(array(
-            'userId'    => $this->user->getUserId(),
-        ), array('date' => 'DESC')); // order by date
+        $query = $repository->createQueryBuilder('e')
+            ->select('e AS transaction')
+            ->addSelect('src.name AS sourceAccount')
+            ->addSelect('dst.name AS destinationAccount')
+            ->addSelect('cat.name AS category')
+            ->addSelect('com.name AS commerce')
+            ->leftJoin('e.sourceAccountId', 'src')
+            ->leftJoin('e.destinationAccountId', 'dst')
+            ->leftJoin('e.categoryId', 'cat')
+            ->leftJoin('e.commerceId', 'com')
+            ->where("e.userId = :userId")
+            ->orderBy('date','DESC')
+            ->setParameter('userId', $this->user->getUserId());
+        $transactions = $query->getQuery()->getResult();
 
         return $transactions;
     }
