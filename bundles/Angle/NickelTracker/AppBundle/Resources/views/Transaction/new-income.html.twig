@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label for="transactionSourceAccount">Account</label>
                                 <select class="form-control" id="transactionSourceAccount" name="transactionSourceAccount" required="required">
-                                    <option value="" {% if not transaction.transactionId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
+                                    <option value="" {% if not transaction.sourceAccountId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
                                     {% for account in accounts %}
                                         <option value="{{ account.accountId }}"
                                                 {% if transaction.transactionId and transaction.sourceAccountId.accountId == account.accountId %}selected="selected"{% endif %}
@@ -40,18 +40,20 @@
                             <div class="form-group">
                                 <label for="transactionDescription">Description</label>
                                 <input type="text" class="form-control" id="transactionDescription" name="transactionDescription"
-                                       placeholder="Enter a general description of the transaction" required="required">
+                                       placeholder="Enter a general description of the transaction" required="required"
+                                        value="{{ transaction.description }}">
                             </div>
                             <div class="form-group">
                                 <label for="transactionDetails">Details</label>
                                 <textarea class="form-control" rows="3" name="transactionDetails"
-                                          placeholder="Enter a detailed description.."></textarea>
+                                          placeholder="Enter a detailed description..">{{ transaction.details }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="transactionAmount">Amount</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="text" class="form-control" id="transactionAmount" name="transactionAmount" required="required">
+                                    <input type="text" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
+                                        value="{{ transaction.amount }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -59,7 +61,12 @@
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate"
-                                           value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}" required="required">
+                                           required="required"
+                                            {% if transaction.date %}
+                                                value="{{ transaction.date|date('Y-m-d') }}"
+                                            {% else %}
+                                                value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}"
+                                            {% endif %}>
                                 </div>
                             </div>
                         </div>
