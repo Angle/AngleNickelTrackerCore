@@ -1060,6 +1060,86 @@ class NickelTrackerService
     }
 
     /**
+     * Create a new transfer transaction
+     *
+     * @param int $transactionId Transaction ID (if it exists, null if new)
+     * @param int $sourceAccountId Source Account ID
+     * @param int $destinationAccountId Destination Account ID
+     * @param string $description Transaction description
+     * @param string|null $details Transaction details
+     * @param float $amount Transaction amount
+     * @param \DateTime $date Transaction date
+     * @return int|false TransactionID created
+     */
+    public function processTransferTransaction($transactionId, $sourceAccountId, $destinationAccountId, $description, $details, $amount, \DateTime $date)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $transaction = $this->doctrine->getRepository(Transaction::class)
+            ->findOneBy(array(
+                'userId'        => $this->user->getUserId(),
+                'transactionId' => $transactionId
+            ));
+
+        // If the transaction was not found (invalid ID) then initialize one
+        if (!$transaction) {
+            $transaction = new Transaction();
+        }
+
+        // Attempt to load the Source Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $sourceAccount */
+        $sourceAccount = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $sourceAccountId,
+            'deleted'   => false,
+        ));
+
+        if (!$sourceAccountId) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Source Account not found';
+            return false;
+        }
+
+        // Attempt to load the Destionation Account
+        /** @var Account $sourceAccount */
+        $destinationAccount = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $destinationAccountId,
+            'deleted'   => false,
+        ));
+
+        if (!$sourceAccountId) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Destination Account not found';
+            return false;
+        }
+
+        // Process the transaction
+        $transaction->setType(Transaction::TYPE_TRANSFER);
+        $transaction->setSourceAccountId($sourceAccount);
+        $transaction->setDestinationAccountId($destinationAccount);
+        $transaction->setDescription($description);
+        $transaction->setDetails($details);
+        $transaction->setAmount($amount);
+        $transaction->setDate($date);
+        $transaction->setUserId($this->user);
+
+        $this->em->persist($transaction);
+
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $transaction->getTransactionId();
+        }
+    }
+
+    /**
      * Delete a user's transactions
      *
      * @param int $id Transaction ID
