@@ -9,7 +9,7 @@
     <section class="content-header">
         <h1>
             {{ 'now'|date('F Y') }}
-            <small>Summarized Information</small>
+            <small>You are in day {{ 'now'|date('d', 'America/Monterrey') }} of {{ 'last day of this month'|date('d') }} days</small>
         </h1>
     </section>
 
@@ -40,7 +40,7 @@
             <!-- /.col -->
             <div class="col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-minus"></i></span>
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-minus"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Monthly Expense</span>
@@ -115,69 +115,97 @@
 
         <!-- Categories -->
         <div class="row">
-            <div class="box box-success">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Visitors Report</h3>
+            <div class="col-xs-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Visitors Report</h3>
 
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body no-padding">
-                    <div class="row">
-                        <div class="col-md-9 col-sm-8">
-                            <div class="pad">
-                                Pie Chart goes here
-                            </div>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-4">
-                            <div class="pad box-pane-right bg-green" style="min-height: 280px">
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                                <div class="description-block margin-bottom">
-                                    <h5 class="description-header">$ 5,000.00 / $ 15,000.00</h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                                <!-- /.description-block -->
-                            </div>
-                        </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-8">
+                                <div class="pad">
+                                    Pie Chart goes here
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-3 col-sm-4">
+                                <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Budget</th>
+                                                <th>Expense</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Groceries</td>
+                                                <td>$ 14,000.00</td>
+                                                <td>$ 14,000.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-body -->
                 </div>
-                <!-- /.box-body -->
             </div>
         </div>
 
