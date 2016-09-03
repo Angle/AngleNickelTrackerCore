@@ -26,13 +26,23 @@ class TransactionController extends Controller
             $searchString       = $request->request->get('searchString');
             $startDate          = $request->request->get('startDate');
             $endDate            = $request->request->get('endDate');
+
             $startDate = \DateTime::createFromFormat('Y-m-d', $startDate);
             $endDate = \DateTime::createFromFormat('Y-m-d', $endDate);
 
-            $transactions = $nt->loadTransactions(); // TODO send parameters
+            // Compile filters array
+            $filters = array(
+                'accountId' => $accountId,
+                'categoryId' => $categoryId,
+                'searchString' => $searchString,
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            );
 
+            $transactions = $nt->loadTransactions($filters);
         } else {
             $transactions = $nt->loadTransactions();
+            $filters = null;
         }
 
         $accounts = $nt->loadAccounts();
@@ -41,7 +51,8 @@ class TransactionController extends Controller
         return $this->render('AngleNickelTrackerAppBundle:Transaction:list.html.twig', array(
             'transactions'  => $transactions,
             'accounts'      => $accounts,
-            'categories'    => $categories
+            'categories'    => $categories,
+            'filters'       => $filters
         ));
     }
 

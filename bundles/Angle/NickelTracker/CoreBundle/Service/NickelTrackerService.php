@@ -903,9 +903,10 @@ ENDSQL;
     ## TODO: LIST TRANSACTIONS AND FILTERS!
     /**
      * Return an ArrayCollection of the User's transactions
+     * @param array $filters
      * @return ArrayCollection
      */
-    public function loadTransactions()
+    public function loadTransactions(array $filters = array())
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -927,6 +928,31 @@ ENDSQL;
             ->where("e.userId = :userId")
             ->orderBy('e.date','DESC')
             ->setParameter('userId', $this->user->getUserId());
+
+        // Apply filters
+        if (array_key_exists('accountId', $filters) && $filters['accountId']) {
+            $query->andWhere('e.sourceAccountId = :accountId OR e.destinationAccountId = :accountId')
+                ->setParameter('accountId', $filters['accountId']);
+        }
+        if (array_key_exists('categoryId', $filters) && $filters['categoryId']) {
+            $query->andWhere('e.categoryId = :categoryId')
+                ->setParameter('categoryId', $filters['categoryId']);
+        }
+        if (array_key_exists('startDate', $filters) && $filters['startDate']) {
+            $query->andWhere('e.date >= :startDate')
+                ->setParameter('startDate', $filters['startDate']);
+        }
+        if (array_key_exists('endDate', $filters) && $filters['endDate']) {
+            $query->andWhere('e.date <= :endDate')
+                ->setParameter('endDate', $filters['endDate']);
+        }
+
+        // Search string
+        if (array_key_exists('searchString', $filters) && $filters['searchString']) {
+            $query->andWhere('com.name LIKE :searchString OR e.description LIKE :searchString OR e.details LIKE :searchString')
+                ->setParameter('searchString', '%'.$filters['searchString'].'%');
+        }
+
         $transactions = $query->getQuery()->getResult();
 
         return $transactions;
