@@ -131,7 +131,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if e.transaction.type == 'E' and e.transaction.commerce %}
+                                        {% if e.transaction.type == 'E' and e.commerce %}
                                             {{ e.commerce }}:
                                         {% endif %}
                                         {{ e.transaction.description }}
