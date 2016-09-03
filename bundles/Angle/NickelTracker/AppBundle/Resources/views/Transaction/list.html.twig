@@ -58,9 +58,13 @@
                                     <div class="form-group">
                                         <label for="accountId">Account</label>
                                         <select class="form-control" name="accountId" id="accountId" title="Accounts">
-                                            <option value="0">-- Select an account --</option>
+                                            <option value=""
+                                                {% if not filters or not filters.accountId %}selected="selected"{% endif %}
+                                            >-- Select an account --</option>
                                             {% for account in accounts %}
-                                                <option value="{{ account.accountId }}">{{ account.name }}</option>
+                                                <option value="{{ account.accountId }}"
+                                                    {% if filters and filters.accountId == account.accountId %}selected="selected"{% endif %}
+                                                >{{ account.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -69,7 +73,7 @@
                                     <div class="form-group">
                                         <label for="categoryId">Category</label>
                                         <select class="form-control" name="categoryId" id="categoryId" title="Categories">
-                                            <option value="0">-- Select a category --</option>
+                                            <option value="">-- Select a category --</option>
                                             {% for category in categories %}
                                                 <option value="{{ category.categoryId }}">{{ category.name }}</option>
                                             {% endfor %}
