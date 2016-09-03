@@ -15,9 +15,34 @@ use Angle\NickelTracker\CoreBundle\Entity\Transaction;
 
 class TransactionController extends Controller
 {
-    public function dashboardAction()
+    public function listAction(Request $request)
     {
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->get('angle.nickeltracker');
 
+        if ($request->getMethod() == 'POST') {
+            $accountId          = $request->request->get('accountId');
+            $categoryId         = $request->request->get('categoryId');
+            $searchString       = $request->request->get('searchString');
+            $startDate          = $request->request->get('startDate');
+            $endDate            = $request->request->get('endDate');
+            $startDate = \DateTime::createFromFormat('Y-m-d', $startDate);
+            $endDate = \DateTime::createFromFormat('Y-m-d', $endDate);
+
+            $transactions = $nt->loadTransactions(); // TODO send parameters
+
+        } else {
+            $transactions = $nt->loadTransactions();
+        }
+
+        $accounts = $nt->loadAccounts();
+        $categories = $nt->loadCategories();
+
+        return $this->render('AngleNickelTrackerAppBundle:Transaction:list.html.twig', array(
+            'transactions'  => $transactions,
+            'accounts'      => $accounts,
+            'categories'    => $categories
+        ));
     }
 
     public function viewAction($id)

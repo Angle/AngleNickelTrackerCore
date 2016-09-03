@@ -1,0 +1,163 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Transactions' %}
+{% set active = 'transaction' %}
+
+
+{% block styles %}
+    {{ parent() }}
+    <!-- DATA TABLES -->
+    <link href="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Transactions
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Filters -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <form role="form">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control pull-right datepicker" id="startDate" name="startDate" title="From"
+                                            value="{{ 'yesterday'|date('Y-m-d', 'America/Monterrey') }}">
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control pull-right datepicker" id="endDate" name="endDate" title="To"
+                                               value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}">
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" name="searchString" placeholder="Search..." />
+                                </div>
+                                <div class="col-xs-4">
+                                    <select class="form-control" name="categoryId" title="Categories">
+                                        <option value="0">-- Select a category --</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.categoryId }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select class="form-control" name="accountId" title="Accounts">
+                                        <option value="0">-- Select an account --</option>
+                                        {% for account in accounts %}
+                                            <option value="{{ account.accountId }}">{{ account.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts Table -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-body table-responsive">
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Transaction</th>
+                                <th>Description</th>
+                                <th>Details</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transaction in transactions %}
+                                <tr>
+                                    <td>
+                                        {{ transaction.sourceAccountId.name }} >
+                                        {% if transaction.type == 'T' %}
+                                            {{ transaction.destinationAccountId.name }}
+                                        {% elseif transaction.type == 'E' %}
+                                            {% if transaction.commerceId %}{{ transaction.commerceId.name }}{% else %}Commerce not provided{% endif %}
+                                            {% if transaction.categoryId %}({{ transaction.categoryId.name }}{% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ transaciton.description }}</td>
+                                    <td>{{ transaction.details }}</td>
+                                    <td>${{ transaction.amount|number_format(2) }}</td>
+                                    <td>{{ transaction.date|date('D j M Y') }}<small>(Wk {{ transaction.date|date('o-W') }}</small></td>
+                                    <td class="text-center">
+                                        <form action="{{ path('angle_nt_app_transaction_delete') }}" method="post">
+                                            <input type="hidden" name="id" value="{{ transaction.transactionId }}">
+                                            <button type="submit" class="btn btn-xs btn-default"
+                                                    onclick="return confirm('Are you sure you want to delete the account \'{{ transaction.description }}\'? This action cannot be undone.');">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+    <!-- Enable DatePicker -->
+    <script>
+        $(function () {
+            //Date picker
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                clearBtn: true
+            });
+        });
+    </script>
+
+    <!-- DATA TABLES SCRIPT -->
+    <script src="{{ asset('bundles/anglepractivacore/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/anglepractivacore/plugins/datatables/dataTables.bootstrap.js') }}" type="text/javascript"></script>
+
+    <script>
+        // Initialize data tables
+        // For further documentation @see https://datatables.net/reference/option/
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                'order': [[2, "asc"]],
+                'bFilter': false,
+                'columnDefs': [
+                    { 'targets': [-1], 'orderable': false } // Actions column
+                ]
+            });
+            // #dataTable.end
+        });
+        // document.ready.end
+    </script>
+{% endblock %}
