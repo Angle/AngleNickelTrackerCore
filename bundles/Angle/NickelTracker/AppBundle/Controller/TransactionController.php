@@ -210,6 +210,75 @@ class TransactionController extends Controller
     }
 
     /**
+     * Process a Transfer Transaction
+     *
+     * @param Request $request
+     * @param int $id Transaction ID (if it exists)
+     * @return Response
+     */
+    public function transferAction(Request $request, $id)
+    {
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->get('angle.nickeltracker');
+
+        // Attempt to load the transaction ID
+        $transaction = $nt->loadTransaction($id);
+
+        if (!$transaction) {
+            // Transaction not found, initialize a new one
+            $transaction = new Transaction();
+        } elseif ($transaction->getType() != Transaction::TYPE_TRANSFER) {
+            // Cannot edit another type of transaction (cannot change type)
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+            $message->setExternalMessage('Invalid transaction type, cannot edit in this controller');
+            $message->addToFlashBag($this->get('session')->getFlashBag());
+            return $this->redirectToRoute('angle_nt_app_transaction_view', array('id' => $id));
+        }
+
+        if ($request->getMethod() == 'POST') {
+            // Process new transaction
+            $sourceAccountId    = $request->request->get('transactionSourceAccount');
+            $destinationAccountId = $request->request->get('transactionDestinationAccount');
+            $description        = $request->request->get('transactionDescription');
+            $details            = $request->request->get('transactionDetails');
+            $amount             = $request->request->get('transactionAmount');
+            $date               = $request->request->get('transactionDate');
+            $date = \DateTime::createFromFormat('Y-m-d', $date);
+
+            // Check the request parameters
+            if ($sourceAccountId && $destinationAccountId && $description && $amount && $date) {
+                // Attempt to create a new account
+                $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $amount, $date);
+
+                if ($r) {
+                    // Everything went ok, redirect to the account list with a FlashBag
+                    $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+                    $message->addToFlashBag($this->get('session')->getFlashBag());
+                    return $this->redirectToRoute('angle_nt_app_transaction_view', array('id' => $r));
+                } else {
+                    $error = $nt->getError();
+                    // Something failed, build a new Response Message and return to the create new view
+                    $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                    $message->setExternalMessage($error['code'] . ': ' . $error['message']);
+                    $message->addToFlashBag($this->get('session')->getFlashBag());
+                }
+            } else {
+                // Invalid request parameters
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
+            }
+        }
+
+        // Load the user's information to passdown
+        $accounts = $nt->loadAccounts();
+
+        return $this->render('AngleNickelTrackerAppBundle:Transaction:new-transfer.html.twig', array(
+            'transaction'   => $transaction,
+            'accounts' => $accounts,
+        ));
+    }
+
+    /**
      * Safe-delete a transaction
      *
      * @param Request $request
