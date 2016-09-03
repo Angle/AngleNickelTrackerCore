@@ -8,7 +8,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-plus"></i> New Income Transaction
+            {% if transaction.transactionId %}
+                <i class="fa fa-edit"></i> Edit Income Transaction
+            {% else %}
+                <i class="fa fa-plus"></i> New Income Transaction
+            {% endif %}
         </h1>
     </section>
 
