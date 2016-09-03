@@ -309,7 +309,7 @@ class Transaction
     /**
      * Set destinationAccountId
      *
-     * @param Account $accountId
+     * @param Account|null $accountId
      * @return Transaction
      */
     public function setDestinationAccountId(Account $accountId = null)
@@ -338,10 +338,10 @@ class Transaction
     }
 
     /**
-     * @param Category $categoryId
+     * @param Category|null $categoryId
      * @return Transaction
      */
-    public function setCategoryId(Category $categoryId)
+    public function setCategoryId(Category $categoryId = null)
     {
         $this->categoryId = $categoryId;
         return $this;
@@ -356,7 +356,7 @@ class Transaction
     }
 
     /**
-     * @param Commerce $commerceId
+     * @param Commerce|null $commerceId
      * @return Transaction
      */
     public function setCommerceId(Commerce $commerceId = null)
