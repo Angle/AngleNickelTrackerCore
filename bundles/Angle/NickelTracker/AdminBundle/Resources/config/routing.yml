@@ -46,3 +46,9 @@ angle_nt_admin_user_enable:
     defaults:   { _controller: AngleNickelTrackerAdminBundle:User:toggle }
     requirements:
         id:     \d+
+
+angle_nt_admin_user_reset:
+    path:       /user/reset/{id}
+    defaults:   { _controller: AngleNickelTrackerAdminBundle:User:resetPassword }
+    requirements:
+        id:     \d+

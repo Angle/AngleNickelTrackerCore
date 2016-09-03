@@ -150,4 +150,42 @@ class UserController extends Controller
 
         return $this->redirectToRoute('angle_nt_admin_user_list');
     }
+
+    public function resetPasswordAction(Request $request, $id)
+    {
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                "User ID '{$id}' not found."
+            );
+        }
+
+        // Process new password
+        $newPassword        = $request->request->get('newPassword');
+        $confirmPassword    = $request->request->get('confirmPassword');
+
+        if ($newPassword === $confirmPassword) {
+            /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+            $nt = $this->get('angle.nickeltracker');
+            $nt->enableAdminMode(true);
+
+            $r = $nt->overrideUserPassword($user, $newPassword);
+
+            if (!$r) $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+
+        } else {
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+        }
+
+
+        if (!isset($message)) { // No error, therefore it was successful!
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+        }
+        $message->addToFlashBag($this->get('session')->getFlashBag());
+
+
+        return $this->redirectToRoute('angle_nt_admin_user_list');
+    }
 }
