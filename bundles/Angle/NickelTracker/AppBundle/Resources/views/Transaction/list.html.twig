@@ -25,7 +25,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-info">
-                    <form role="form">
+
+                    <form role="form" method="post" action="{{ path('angle_nt_app_transaction_list') }}">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-4">
@@ -73,9 +74,13 @@
                                     <div class="form-group">
                                         <label for="categoryId">Category</label>
                                         <select class="form-control" name="categoryId" id="categoryId" title="Categories">
-                                            <option value="">-- Select a category --</option>
+                                            <option value=""
+                                                {% if not filters or not filters.categoryId %}selected="selected"{% endif %}
+                                            >-- Select a category --</option>
                                             {% for category in categories %}
-                                                <option value="{{ category.categoryId }}">{{ category.name }}</option>
+                                                <option value="{{ category.categoryId }}"
+                                                    {% if filters and filters.categoryId == category.categoryId %}selected="selected"{% endif %}
+                                                >{{ category.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -86,6 +91,7 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
