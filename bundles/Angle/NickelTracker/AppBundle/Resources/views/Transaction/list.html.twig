@@ -206,11 +206,13 @@
         // For further documentation @see https://datatables.net/reference/option/
         $(document).ready(function () {
             $('#datatable').dataTable({
-                'order': [[4, "asc"]],
+                'order': [[3, "asc"]],
                 'bFilter': false,
+                'iDisplayLength': 50,
+                'bLengthChange': false,
                 'columnDefs': [
                     { 'targets': [-1], 'orderable': false }, // Actions column
-                    { 'targets': [4], 'type': 'date-eu'}
+                    { 'targets': [3], 'type': 'date-eu'}
                 ],
                 "tableTools": {
                     "sSwfPath": "{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/anglenickeltrackercore/swf/copy_csv_xls_pdf.swf') }}"
