@@ -172,7 +172,7 @@ class NickelTrackerService
     }
 
 
-    public function changeUserPassword(User $user, $oldPassword, $newPassword)
+    public function overrideUserPassword(User $user, $newPassword)
     {
         if (!$this->adminMode) {
             throw new \RuntimeException('Attempting to execute an Admin command without privileges');
@@ -189,15 +189,7 @@ class NickelTrackerService
         /* @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
         $encoder = $this->encoderFactory->getEncoder($user);
 
-        // First check if the old password matches the records
-        if (!$encoder->isPasswordValid($user->getPassword(), $oldPassword, $user->getSalt())) {
-            $this->errorType = 'NickelTracker';
-            $this->errorCode = 1;
-            $this->errorMessage = 'User password mismatch';
-            return false;
-        }
-
-        // Now update the password
+        // Update the password
         $user->refreshSalt();
         $encodedNewPassword = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($encodedNewPassword);
@@ -946,6 +938,39 @@ class NickelTrackerService
         } else {
             return $transaction->getTransactionId();
         }
+    }
+
+
+    #####################################################################################################
+    ###
+    ###   USER METHODS
+    ###
+
+    public function changeUserPassword($oldPassword, $newPassword)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        /* @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
+        $encoder = $this->encoderFactory->getEncoder($this->user);
+
+        // First check if the old password matches the records
+        if (!$encoder->isPasswordValid($this->user->getPassword(), $oldPassword, $this->user->getSalt())) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'User password mismatch';
+            return false;
+        }
+
+        // Now update the password
+        $this->user->refreshSalt();
+        $encodedNewPassword = $encoder->encodePassword($newPassword, $this->user->getSalt());
+        $this->user->setPassword($encodedNewPassword);
+
+        $this->em->persist($this->user);
+
+        return $this->flush();
     }
 
 }

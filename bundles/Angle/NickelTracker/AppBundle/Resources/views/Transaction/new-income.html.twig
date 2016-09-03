@@ -29,9 +29,11 @@
                             <div class="form-group">
                                 <label for="transactionSourceAccount">Account</label>
                                 <select class="form-control" id="transactionSourceAccount" name="transactionSourceAccount" required="required">
-                                    <option value="" selected="selected" disabled="disabled">-- Select Account --</option>
+                                    <option value="" {% if not transaction.transactionId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
                                     {% for account in accounts %}
-                                        <option value="{{ account.accountId }}">{{ account.name }}</option>
+                                        <option value="{{ account.accountId }}"
+                                                {% if transaction.transactionId and transaction.sourceAccountId.accountId == account.accountId %}selected="selected"{% endif %}
+                                        >{{ account.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
