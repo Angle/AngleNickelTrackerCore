@@ -27,9 +27,10 @@
     color: #777; /* muted */
 }
 
+/* Fixing dropdown menu for mobiles */
 @media (max-width: 768px) {
     .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
-        background-color: #3c8dbc;
+        background-color: #3c8dbc !important;
     }
 }
 
