@@ -44,12 +44,15 @@
     width: 100%;
 }
 
-#commerce-typeahead .twitter-typeahead .tt-open {
-    background-color: red;
+#commerce-typeahead .twitter-typeahead .tt-menu {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #D2D6DF;
 }
 
 #commerce-typeahead .twitter-typeahead .tt-dataset {
-    background-color: blue;
+    /**background-color: blue;**/
+    padding: 5px;
 }
 
 /* Ajaxy Tables */
