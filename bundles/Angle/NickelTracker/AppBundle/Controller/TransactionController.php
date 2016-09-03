@@ -97,4 +97,40 @@ class TransactionController extends Controller
             'accounts' => $accounts,
         ));
     }
+
+    /**
+     * Safe-delete a transaction
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function deleteAction(Request $request)
+    {
+        $id = $request->request->get('id');
+
+        // Check the request parameters
+        if ($id) {
+            /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+            $nt = $this->get('angle.nickeltracker');
+            $r = $nt->deleteTransaction($id);
+
+            if ($r) {
+                // Everything went ok
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 0);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
+            } else {
+                $error = $nt->getError();
+                // Something failed when deleting the transaction
+                $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                $message->setExternalMessage($error['code'] . ': ' . $error['message']);
+                $message->addToFlashBag($this->get('session')->getFlashBag());
+            }
+        } else {
+            // Invalid request parameters
+            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+            $message->addToFlashBag($this->get('session')->getFlashBag());
+        }
+
+        return $this->redirectToRoute('angle_nt_app_transaction_list');
+    }
 }

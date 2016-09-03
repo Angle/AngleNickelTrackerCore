@@ -97,7 +97,13 @@
                         </a>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                        <form action="{{ path('angle_nt_app_transaction_delete') }}" method="post">
+                            <input type="hidden" name="id" value="{{ transaction.transactionId }}">
+                            <button type="submit" class="btn btn-block btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete the transaction \'{{ transaction.description }}\'? This action cannot be undone.');">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
 

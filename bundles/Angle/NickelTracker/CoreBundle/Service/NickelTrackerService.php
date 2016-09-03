@@ -953,6 +953,39 @@ class NickelTrackerService
         }
     }
 
+    /**
+     * Delete a user's transactions
+     *
+     * @param int $id Transaction ID
+     * @return bool
+     */
+    public function deleteTransaction($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        /** @var Transaction $transaction */
+        $transaction = $repository->findOneBy(array(
+            'userId'        => $this->user->getUserId(),
+            'transactionId' => $id,
+        ));
+
+        if (!$transaction) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Transaction not found';
+            return false;
+        }
+
+        // Now delete the transaction
+        $this->em->remove($transaction);
+
+        return $this->flush();
+    }
+
 
     #####################################################################################################
     ###
