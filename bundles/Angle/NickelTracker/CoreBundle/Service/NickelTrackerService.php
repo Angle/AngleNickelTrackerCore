@@ -15,6 +15,7 @@ use Angle\Common\UtilityBundle\Random\RandomUtility;
 use Angle\NickelTracker\CoreBundle\Entity\User;
 use Angle\NickelTracker\CoreBundle\Entity\Account;
 use Angle\NickelTracker\CoreBundle\Entity\Category;
+use Angle\NickelTracker\CoreBundle\Entity\Commerce;
 
 class NickelTrackerService
 {
@@ -503,7 +504,7 @@ class NickelTrackerService
     /**
      * Load a single category
      *
-     * @param int $id Account ID
+     * @param int $id Category ID
      * @return Category|false
      */
     public function loadCategory($id)
@@ -513,7 +514,7 @@ class NickelTrackerService
         }
 
         // Attempt to load the Category
-        $repository = $this->doctrine->getRepository(Account::class);
+        $repository = $this->doctrine->getRepository(Category::class);
         /** @var Category $category */
         $category = $repository->findOneBy(array(
             'userId'    => $this->user->getUserId(),
@@ -543,7 +544,7 @@ class NickelTrackerService
             throw new \RuntimeException('Session user was not found');
         }
 
-        // Check if the user already has an account with that name
+        // Check if the user already has an category with that name
         $repository = $this->doctrine->getRepository(Category::class);
         $categories = $repository->findBy(array(
             'userId'    => $this->user->getUserId(),
@@ -691,6 +692,152 @@ class NickelTrackerService
 
         // Now delete the category
         $this->em->remove($category);
+
+        return $this->flush();
+    }
+
+    #####################################################################################################
+    ###
+    ###   COMMERCE METHODS
+    ###
+
+    /**
+     * Return an ArrayCollection of the User's commerces
+     * @return ArrayCollection
+     */
+    public function loadCommerces()
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Load all user categories
+        $repository = $this->doctrine->getRepository(Commerce::class);
+        $commerces = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+        ), array('name' => 'ASC')); // order by name
+
+        return $commerces;
+    }
+
+    /**
+     * Load a single commerce
+     *
+     * @param int $id Commerce ID
+     * @return Commerce|false
+     */
+    public function loadCommerce($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Category
+        $repository = $this->doctrine->getRepository(Commerce::class);
+        /** @var Commerce $commerce */
+        $commerce = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'commerceId' => $id,
+        ));
+
+        if (!$commerce) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Commerce not found';
+            return false;
+        }
+
+        return $commerce;
+    }
+
+    /**
+     * Change the name of a user's commerce
+     *
+     * @param int $id Commerce ID
+     * @param string $newName Desired new name for the commerce
+     * @return bool
+     */
+    public function changeCommerceName($id, $newName)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Check if the user already has an commerce with that name
+        $repository = $this->doctrine->getRepository(Commerce::class);
+        $commerces = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'name'      => $newName,
+        ));
+
+        if (!empty($commerces)) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Cannot have two commerces with the same name';
+            return false;
+        }
+
+        // Attempt to load the Commerce
+        /** @var Commerce $commerce */
+        $commerce = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'commerceId' => $id,
+        ));
+
+        if (!$commerce) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Commerce not found';
+            return false;
+        }
+
+        $commerce->setName($newName);
+
+        return $this->flush();
+    }
+
+    /**
+     * Delete a user's commerce
+     *
+     * @param int $id Commerce ID
+     * @return bool
+     */
+    public function deleteCommerce($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Commerce
+        $repository = $this->doctrine->getRepository(Commerce::class);
+        /** @var Commerce $commerce */
+        $commerce = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'commerceId' => $id,
+        ));
+
+        if (!$commerce) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Commerce not found';
+            return false;
+        }
+
+        // Load all the user's transactions where the commerce was used
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        $transactions = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'commerceId' => $id,
+        ));
+
+        // Remove the reference to the category from each transaction
+        foreach ($transactions as $transaction) {
+            /** @var Transaction $transaction */
+            $transaction->setCommerceId(null);
+        }
+
+        // Now delete the category
+        $this->em->remove($commerce);
 
         return $this->flush();
     }
