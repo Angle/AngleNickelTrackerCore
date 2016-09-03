@@ -8,8 +8,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ 'now'|date('F Y') }}
-            <small>You are in day {{ 'now'|date('j', 'America/Monterrey') }} of {{ 'last day of this month'|date('j') }} days</small>
+            {{ 'now'|date('F Y', 'America/Monterrey') }}
+            <small>Today's the {{ 'now'|date('jS', 'America/Monterrey') }} day of {{ 'last day of this month'|date('j', 'America/Monterrey') }} days in this month.</small>
         </h1>
     </section>
 

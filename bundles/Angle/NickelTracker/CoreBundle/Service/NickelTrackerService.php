@@ -1304,9 +1304,87 @@ ENDSQL;
         return $this->flush();
     }
 
+    /**
+     * Generate the dashboard info for a user
+     * 
+     * @return array
+     */
     public function loadDashboard()
     {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
 
+        $firstDayOfMonth = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
+        $lastDayOfMonth = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
+
+        $dashboard = array();
+
+        // Query the Transactions table to obtain general results of the user's budget and expending
+        $dashboardTransactions = <<<ENDSQL
+SELECT
+    SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END) as `income`,
+    SUM(CASE WHEN t.type = 'E' THEN t.amount ELSE 0 END) as `expense`
+FROM Transactions as t
+WHERE t.userId = 1
+AND t.date >= :firstDayOfMonth
+AND t.date <= :lastDayOfMonth
+ENDSQL;
+
+        $stmt = $this->em->getConnection()->prepare($dashboardTransactions);
+        $stmt->bindValue('userId', $this->user->getUserId());
+        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
+        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
+        $result = $stmt->execute()->fetch();
+
+        $dashboard['transactions'] = $result;
+
+
+        // Query the Accounts table to obtain general results of the user's accounts
+        $dashboardAccounts = <<<ENDSQL
+SELECT
+    SUM(CASE WHEN a.type = 'M' THEN a.balance ELSE 0 END) as `cash`,
+    SUM(CASE WHEN a.type = 'D' THEN a.balance ELSE 0 END) as `debit`,
+    SUM(CASE WHEN a.type = 'C' THEN a.balance ELSE 0 END) as `credit`,
+    SUM(CASE WHEN a.type = 'S' THEN a.balance ELSE 0 END) as `savings`,
+    SUM(CASE WHEN a.type = 'L' THEN a.balance ELSE 0 END) as `loaned`
+FROM Accounts as a
+WHERE a.userId = :userId
+AND a.deleted = 0
+ENDSQL;
+
+        $stmt = $this->em->getConnection()->prepare($dashboardAccounts);
+        $stmt->bindValue('userId', $this->user->getUserId());
+        $result = $stmt->execute()->fetch();
+
+        $dashboard['accounts'] = $result;
+
+        // Query the Transactions table again to obtain general results of categories and expenditure
+        $dashboardCategories = <<<ENDSQL
+SELECT
+	c.categoryId as `categoryId`,
+	c.name as `name`,
+	IFNULL(c.budget,0) as `budget`,
+	SUM(t.amount) as `expense`
+FROM Transactions as t
+LEFT JOIN Categories as c
+	ON t.categoryId = c.categoryId
+WHERE t.userId = :userId
+AND t.type = 'E'
+AND t.date >= :firstDayOfMonth
+AND t.date <= :lastDayOfMonth
+GROUP BY t.categoryId
+ENDSQL;
+
+        $stmt = $this->em->getConnection()->prepare($dashboardCategories);
+        $stmt->bindValue('userId', $this->user->getUserId());
+        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
+        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
+        $result = $stmt->execute()->fetch();
+
+        $dashboard['categories'] = $result;
+
+        return $dashboard;
     }
 
 }
