@@ -851,13 +851,12 @@ class NickelTrackerService
         }
 
         // Load all user accounts
-        $repository = $this->doctrine->getRepository(Account::class);
-        $accounts = $repository->findBy(array(
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        $transactions = $repository->findBy(array(
             'userId'    => $this->user->getUserId(),
-            'deleted'   => false,
-        ), array('name' => 'ASC')); // order by name
+        ), array('date' => 'DESC')); // order by date
 
-        return $accounts;
+        return $transactions;
     }
 
     /**
@@ -896,7 +895,7 @@ class NickelTrackerService
      * @param int $transactionId Transaction ID (if it exists, null if new)
      * @param int $sourceAccountId Source Account ID
      * @param string $description Transaction description
-     * @param string $details Transaction details
+     * @param string|null $details Transaction details
      * @param float $amount Transaction amount
      * @param \DateTime $date Transaction date
      * @return int|false TransactionID created
@@ -938,6 +937,113 @@ class NickelTrackerService
         // Process the transaction
         $transaction->setType(Transaction::TYPE_INCOME);
         $transaction->setSourceAccountId($sourceAccount);
+        $transaction->setDescription($description);
+        $transaction->setDetails($details);
+        $transaction->setAmount($amount);
+        $transaction->setDate($date);
+        $transaction->setUserId($this->user);
+
+        $this->em->persist($transaction);
+
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $transaction->getTransactionId();
+        }
+    }
+
+    /**
+     * Create a new expense transaction
+     *
+     * @param int $transactionId Transaction ID (if it exists, null if new)
+     * @param int $sourceAccountId Source Account ID
+     * @param int|null $categoryId Category ID
+     * @param string|null $commerceName Commerce name string
+     * @param string $description Transaction description
+     * @param string|null $details Transaction details
+     * @param float $amount Transaction amount
+     * @param \DateTime $date Transaction date
+     * @return int|false TransactionID created
+     */
+    public function processExpenseTransaction($transactionId, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, \DateTime $date)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $transaction = $this->doctrine->getRepository(Transaction::class)
+            ->findOneBy(array(
+                'userId'        => $this->user->getUserId(),
+                'transactionId' => $transactionId
+            ));
+
+        // If the transaction was not found (invalid ID) then initialize one
+        if (!$transaction) {
+            $transaction = new Transaction();
+        }
+
+        // Attempt to load the Source Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $sourceAccount */
+        $sourceAccount = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $sourceAccountId,
+            'deleted'   => false,
+        ));
+
+        if (!$sourceAccountId) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Source Account not found';
+            return false;
+        }
+
+        if ($categoryId) {
+            // Attempt to load the Category
+            $repository = $this->doctrine->getRepository(Category::class);
+            /** @var Category $category */
+            $category = $repository->findOneBy(array(
+                'userId'    => $this->user->getUserId(),
+                'categoryId' => $categoryId,
+            ));
+
+            if (!$category) {
+                $this->errorType = 'NickelTracker';
+                $this->errorCode = 1;
+                $this->errorMessage = 'Category not found';
+                return false;
+            }
+        } else {
+            $category = null;
+        }
+
+        if ($commerceName) {
+            // Attempt to load the Commerce
+            $repository = $this->doctrine->getRepository(Commerce::class);
+            /** @var Commerce $commerce */
+            $commerce = $repository->findOneBy(array(
+                'userId'    => $this->user->getUserId(),
+                'name'      => $commerceName,
+            ));
+
+            // If no commerce was found with the same name, create a new one
+            if (!$commerce) {
+                $commerce = new Commerce();
+                $commerce->setUserId($this->user);
+                $commerce->setName($commerceName);
+                $this->em->persist($commerce);
+            }
+        } else {
+            $commerce = null;
+        }
+
+
+        // Process the transaction
+        $transaction->setType(Transaction::TYPE_INCOME);
+        $transaction->setSourceAccountId($sourceAccount);
+        $transaction->setCategoryId($category);
+        $transaction->setCommerceId($commerce);
         $transaction->setDescription($description);
         $transaction->setDetails($details);
         $transaction->setAmount($amount);
