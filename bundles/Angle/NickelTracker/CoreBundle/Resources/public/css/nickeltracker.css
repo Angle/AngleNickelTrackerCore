@@ -31,6 +31,7 @@
 @media (max-width: 768px) {
     .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
         background-color: #3c8dbc !important;
+        border-top-color: #3c8dbc !important;
     }
 }
 
