@@ -1,0 +1,76 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Commerces' %}
+{% set active = 'commerce' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Commerces
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Commerce Table -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-body table-responsive">
+
+                        <table class="table" id="validate-loans">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for commerce in commerces %}
+                                <tr>
+                                    <td class="editable-td">
+                                        <input type="text" value="{{ commerce.name }}"
+                                               class="editable-field"
+                                               data-object-id="{{ commerce.commerceId }}"
+                                               data-update-path="{{ path('angle_nt_app_commerce_update') }}"
+                                               data-update-property="name"
+                                               data-original-value="{{ commerce.name }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <form action="{{ path('angle_nt_app_commerce_delete') }}" method="post">
+                                            <input type="hidden" name="id" value="{{ commerce.commerceId }}">
+                                            <button type="submit" class="btn btn-xs btn-default"
+                                                    onclick="return confirm('Are you sure you want to delete the commerce \'{{ commerce.name }}\'? This action cannot be undone.');">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" class="no-results-td">
+                                        Woops! You have not registered any commerces!
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div style="padding: 10px 0px; text-align: center;">
+                    <div class="text-muted">
+                        <strong>Reminder:</strong> commerces are created automatically when registering expense transactions.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}

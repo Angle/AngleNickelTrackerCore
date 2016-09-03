@@ -63,6 +63,12 @@
                                         </form>
                                     </td>
                                 </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="no-results-td">
+                                        Woops! You have not registered any categories!
+                                    </td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>

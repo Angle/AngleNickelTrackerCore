@@ -75,6 +75,12 @@
                                         </form>
                                     </td>
                                 </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="no-results-td">
+                                        Woops! You have not registered any accounts!
+                                    </td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>

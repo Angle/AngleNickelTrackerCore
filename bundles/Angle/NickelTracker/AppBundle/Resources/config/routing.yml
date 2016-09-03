@@ -63,10 +63,6 @@ angle_nt_app_commerce_list:
     pattern:    /commerce
     defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:list }
 
-angle_nt_app_commerce_new:
-    pattern:    /commerce/new
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:new }
-
 angle_nt_app_commerce_update:
     pattern:    /commerce/update
     defaults:   { _controller: AngleNickelTrackerAppBundle:Commerce:update }

@@ -21,6 +21,12 @@
     display: none;
 }
 
+.no-results-td {
+    text-align: center;
+    font-style: italic;
+    color: #777; /* muted */
+}
+
 
 /* Ajaxy Tables */
 .editable-td {
