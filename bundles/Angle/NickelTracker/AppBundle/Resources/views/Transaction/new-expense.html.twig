@@ -32,7 +32,7 @@
                                     <option value="" {% if not transaction.sourceAccountId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
                                     {% for account in accounts %}
                                         <option value="{{ account.accountId }}"
-                                                {% if transaction.transactionId and transaction.sourceAccountId.accountId == account.accountId %}selected="selected"{% endif %}
+                                                {% if transaction.sourceAccountId and transaction.sourceAccountId.accountId == account.accountId %}selected="selected"{% endif %}
                                         >{{ account.name }}</option>
                                     {% endfor %}
                                 </select>
@@ -43,7 +43,7 @@
                                     <option value="" {% if not transaction.categoryId %}selected="selected"{% endif %}>-- N/A --</option>
                                     {% for category in categories %}
                                         <option value="{{ category.categoryId }}"
-                                                {% if transaction.transactionId and transaction.categoryId.categoryId == category.categoryId %}selected="selected"{% endif %}
+                                                {% if transaction.categoryId and transaction.categoryId.categoryId == category.categoryId %}selected="selected"{% endif %}
                                         >{{ category.name }}</option>
                                     {% endfor %}
                                 </select>
