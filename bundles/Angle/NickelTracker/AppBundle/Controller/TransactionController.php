@@ -37,15 +37,23 @@ class TransactionController extends Controller
     }
 
     /**
-     * Create a New Income Transaction
+     * Process an Income Transaction
      *
      * @param Request $request
      * @return Response
      */
-    public function newIncomeAction(Request $request)
+    public function incomeAction(Request $request, $id)
     {
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
+
+        // Attempt to load the transaction ID
+        $transaction = $nt->loadTransaction($id);
+
+        if (!$transaction) {
+            // Transaction not found, initialize a new one
+            $transaction = new Transaction();
+        }
 
         if ($request->getMethod() == 'POST') {
             // Process new transaction
@@ -84,6 +92,7 @@ class TransactionController extends Controller
         $accounts = $nt->loadAccounts();
 
         return $this->render('AngleNickelTrackerAppBundle:Transaction:new-income.html.twig', array(
+            'transaction'   => $transaction,
             'accounts' => $accounts,
         ));
     }
