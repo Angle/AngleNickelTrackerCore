@@ -26,19 +26,15 @@
                         <i class="fa fa-plus"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">Transactions</li>
-                        <!--<li>
-                            <ul class="menu">-->
-                                <li>
-                                    <a href="#">
-                                        <h3>
-                                            <i class="fa fa-plus fa-fw"></i> <span>New Income</span>
-                                        </h3>
-                                    </a>
-                                </li>
-                            <!--</ul>
-                        </li>-->
-                        <li class="footer"><a href="#">See All Messages</a></li>
+                        <li><a href="{{ path('angle_nt_app_transaction_new_income') }}">
+                                <i class="fa fa-plus fa-fw"></i> <span>New Income</span>
+                            </a></li>
+                        <li><a href="{{ path('angle_nt_app_transaction_new_expense') }}">
+                                <i class="fa fa-minus fa-fw"></i> <span>New Expense</span>
+                            </a></li>
+                        <li><a href="{{ path('angle_nt_app_transaction_new_transfer') }}">
+                                <i class="fa fa-arrow-right fa-fw"></i> <span>New Transfer</span>
+                            </a></li>
                     </ul>
                 </li>
                 <li class="user user-menu">
