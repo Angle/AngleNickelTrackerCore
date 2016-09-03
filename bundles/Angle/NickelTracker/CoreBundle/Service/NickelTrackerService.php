@@ -937,6 +937,7 @@ class NickelTrackerService
         $transaction->setDetails($details);
         $transaction->setAmount($amount);
         $transaction->setDate($date);
+        $transaction->setUserId($this->user);
 
         $this->em->persist($transaction);
 

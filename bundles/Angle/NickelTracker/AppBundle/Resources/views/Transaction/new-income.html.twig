@@ -1,6 +1,6 @@
 {% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
 {% set page_title = 'New Income Transaction' %}
-{% set active = 'transaction' %}
+{% set active = 'new-income' %}
 
 
 {% block content %}
@@ -53,7 +53,7 @@
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate"
-                                           value="{{ today|date('Y-m-d') }}" required="required">
+                                           value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}" required="required">
                                 </div>
                             </div>
                         </div>
