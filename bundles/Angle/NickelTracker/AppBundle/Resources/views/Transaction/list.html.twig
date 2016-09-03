@@ -118,25 +118,21 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {{ e.transaction.sourceAccount }}
+                                        {{ e.sourceAccount }}
                                         {% if e.transaction.type == 'T' %}
-                                            -> {{ e.transaction.destinationAccount }}
+                                            -> {{ e.destinationAccount }}
                                         {% endif %}
                                     </td>
                                     <td>
                                         {% if e.transaction.type == 'E' %}
-                                            {% if e.transaction.category %}
-                                                {{ e.transaction.category }}
-                                            {% else %}
-                                                N/A
-                                            {% endif %}
+                                            {{ e.category|default('N/A') }}
                                         {% else %}
                                             --
                                         {% endif %}
                                     </td>
                                     <td>
                                         {% if e.transaction.type == 'E' and e.transaction.commerce %}
-                                            {{ e.transaction.commerce }}:
+                                            {{ e.commerce }}:
                                         {% endif %}
                                         {{ e.transaction.description }}
                                     </td>
