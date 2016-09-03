@@ -44,8 +44,8 @@ class TransactionController extends Controller
      */
     public function newIncomeAction(Request $request)
     {
-        // Get today's date in the default timezone
-        $today = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->get('angle.nickeltracker');
 
         if ($request->getMethod() == 'POST') {
             // Process new transaction
