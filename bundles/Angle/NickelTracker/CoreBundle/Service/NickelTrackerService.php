@@ -1326,7 +1326,7 @@ SELECT
     SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END) as `income`,
     SUM(CASE WHEN t.type = 'E' THEN t.amount ELSE 0 END) as `expense`
 FROM Transactions as t
-WHERE t.userId = 1
+WHERE t.userId = :userId
 AND t.date >= :firstDayOfMonth
 AND t.date <= :lastDayOfMonth
 ENDSQL;
