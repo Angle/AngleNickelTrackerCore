@@ -29,37 +29,55 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control pull-right datepicker" id="startDate" name="startDate" title="From"
-                                            value="{{ 'yesterday'|date('Y-m-d', 'America/Monterrey') }}">
+                                    <div class="form-group">
+                                        <label for="startDate">From</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control pull-right datepicker" id="startDate" name="startDate" title="From"
+                                                   value="{{ 'yesterday'|date('Y-m-d', 'America/Monterrey') }}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control pull-right datepicker" id="endDate" name="endDate" title="To"
-                                               value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}">
+                                    <div class="form-group">
+                                        <label for="endDate">To</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control pull-right datepicker" id="endDate" name="endDate" title="To"
+                                                   value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control" name="searchString" placeholder="Search..." />
+                                    <div class="form-group">
+                                        <label for="searchString">Search</label>
+                                        <input type="text" class="form-control" name="searchString" id="searchString" placeholder="Search..." />
+                                    </div>
                                 </div>
                                 <div class="col-xs-4">
-                                    <select class="form-control" name="categoryId" title="Categories">
-                                        <option value="0">-- Select a category --</option>
-                                        {% for category in categories %}
-                                            <option value="{{ category.categoryId }}">{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="cateogryId">Category</label>
+                                        <select class="form-control" name="categoryId" id="categoryId" title="Categories">
+                                            <option value="0">-- Select a category --</option>
+                                            {% for category in categories %}
+                                                <option value="{{ category.categoryId }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-xs-4">
-                                    <select class="form-control" name="accountId" title="Accounts">
-                                        <option value="0">-- Select an account --</option>
-                                        {% for account in accounts %}
-                                            <option value="{{ account.accountId }}">{{ account.name }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="accountId">Account</label>
+                                        <select class="form-control" name="accountId" id="accountId" title="Accounts">
+                                            <option value="0">-- Select an account --</option>
+                                            {% for account in accounts %}
+                                                <option value="{{ account.accountId }}">{{ account.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="submit" class="btn btn-primary">Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -142,8 +160,8 @@
     </script>
 
     <!-- DATA TABLES SCRIPT -->
-    <script src="{{ asset('bundles/anglepractivacore/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/anglepractivacore/plugins/datatables/dataTables.bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/datatables/dataTables.bootstrap.js') }}" type="text/javascript"></script>
 
     <script>
         // Initialize data tables
