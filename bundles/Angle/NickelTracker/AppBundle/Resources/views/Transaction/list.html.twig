@@ -26,10 +26,21 @@
             <div class="col-xs-12">
                 <div class="box box-info">
 
+                    <div class="box-header with-border">
+                        <i class="fa fa-filter"></i>
+                        <h3 class="box-title">Filters</h3>
+
+                        <div class="visible-xs-block">
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <form role="form" method="post" action="{{ path('angle_nt_app_transaction_list') }}">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-xs-4">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="startDate">From</label>
                                         <div class="input-group date">
@@ -39,7 +50,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="endDate">To</label>
                                         <div class="input-group date">
@@ -49,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="searchString">Search</label>
                                         <input type="text" class="form-control" name="searchString" id="searchString" placeholder="Search..." />
@@ -70,7 +81,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="categoryId">Category</label>
                                         <select class="form-control" name="categoryId" id="categoryId" title="Categories">
@@ -85,8 +96,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-12 col-sm-4">
                                     <button type="submit" class="btn btn-info btn-block">Filter</button>
+                                    <a href="{{ path('angle_nt_app_transaction_list') }}" class="btn btn-default btn-block">Clear</a>
                                 </div>
                             </div>
                         </div>
