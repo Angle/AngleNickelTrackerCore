@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
-                    <form role="form" class="form-horizontal">
+                    <form role="form">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-4">
@@ -34,7 +34,7 @@
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                             <input type="text" class="form-control pull-right datepicker" id="startDate" name="startDate" title="From"
-                                                   value="{{ 'yesterday'|date('Y-m-d', 'America/Monterrey') }}">
+                                                   value="{{ 'now'|date_modify("-1 day")|date('Y-m-d', 'America/Monterrey') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
-                                        <label for="cateogryId">Category</label>
+                                        <label for="categoryId">Category</label>
                                         <select class="form-control" name="categoryId" id="categoryId" title="Categories">
                                             <option value="0">-- Select a category --</option>
                                             {% for category in categories %}
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,6 @@
                             <tr>
                                 <th>Transaction</th>
                                 <th>Description</th>
-                                <th>Details</th>
                                 <th>Amount</th>
                                 <th>Date</th>
                                 <th class="text-center">Actions</th>
@@ -117,17 +116,12 @@
                                         {% endif %}
                                     </td>
                                     <td>{{ transaction.description }}</td>
-                                    <td>{{ transaction.details }}</td>
                                     <td>${{ transaction.amount|number_format(2) }}</td>
-                                    <td>{{ transaction.date|date('D j M Y') }}<small>(Wk {{ transaction.date|date('o-W') }}</small></td>
+                                    <td>{{ transaction.date|date('d/m/Y') }}</td>
                                     <td class="text-center">
-                                        <form action="{{ path('angle_nt_app_transaction_delete') }}" method="post">
-                                            <input type="hidden" name="id" value="{{ transaction.transactionId }}">
-                                            <button type="submit" class="btn btn-xs btn-default"
-                                                    onclick="return confirm('Are you sure you want to delete the account \'{{ transaction.description }}\'? This action cannot be undone.');">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_transaction_view', {'id': transaction.transactionId}) }}">
+                                            <i class="fa fa-bars"></i> Details
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
