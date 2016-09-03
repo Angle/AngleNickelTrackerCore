@@ -17,7 +17,7 @@
 
         <!-- Transaction View -->
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-plus fa-fw"></i> Income Transaction</h3>
@@ -73,7 +73,7 @@
                             </tr>
                             <tr>
                                 <th>Date</th>
-                                <td>{{ transaction.date|date('D j M Y') }} (Wk {{ transaction.date|date('o-W') }})</td>
+                                <td>{{ transaction.date|date('D j M Y') }} <small>(Wk {{ transaction.date|date('o-W') }})</small></td>
                             </tr>
                             </tbody>
                         </table>
@@ -92,10 +92,10 @@
 
             </div>
             <div class="col-xs-6">
-                <button type="button" class="btn btn-block btn-primary">Edit</button>
+                <button type="button" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Edit</button>
             </div>
             <div class="col-xs-6">
-                <button type="button" class="btn btn-block btn-danger">Delete</button>
+                <button type="button" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</button>
             </div>
         </div>
 
