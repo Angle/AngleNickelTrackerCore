@@ -69,7 +69,7 @@
                                 <label for="transactionAmount">Amount</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="text" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
+                                    <input type="number" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
                                         value="{{ transaction.amount|number_format(2, '.', '') }}">
                                 </div>
                             </div>
