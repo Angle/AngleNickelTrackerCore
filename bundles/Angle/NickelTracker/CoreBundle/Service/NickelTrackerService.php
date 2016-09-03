@@ -1335,7 +1335,8 @@ ENDSQL;
         $stmt->bindValue('userId', $this->user->getUserId());
         $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
         $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
-        $result = $stmt->execute()->fetch();
+        $stmt->execute();
+        $result = $stmt->fetch();
 
         $dashboard['transactions'] = $result;
 
@@ -1355,7 +1356,8 @@ ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardAccounts);
         $stmt->bindValue('userId', $this->user->getUserId());
-        $result = $stmt->execute()->fetch();
+        $stmt->execute();
+        $result = $stmt->fetch();
 
         $dashboard['accounts'] = $result;
 
@@ -1380,7 +1382,8 @@ ENDSQL;
         $stmt->bindValue('userId', $this->user->getUserId());
         $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
         $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
-        $result = $stmt->execute()->fetch();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
 
         $dashboard['categories'] = $result;
 
