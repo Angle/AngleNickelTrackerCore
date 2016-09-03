@@ -1367,15 +1367,36 @@ SELECT
 	c.categoryId as `categoryId`,
 	c.name as `name`,
 	IFNULL(c.budget,0) as `budget`,
+	IFNULL(tr.expense,0) as `expense`
+FROM Categories as c
+LEFT JOIN (
+	SELECT
+		t.categoryId as `categoryId`,
+		SUM(t.amount) as `expense`
+	FROM Transactions as t
+	WHERE t.userId = :userId
+	AND t.type = 'E'
+	AND t.date >= :firstDayOfMonth
+	AND t.date <= :lastDayOfMonth
+	GROUP BY t.categoryId
+) as tr ON c.categoryId = tr.categoryId
+WHERE c.userId = :userId
+
+UNION
+
+SELECT
+	null as `categoryId`,
+	null as `name`,
+	null as `budget`,
 	SUM(t.amount) as `expense`
 FROM Transactions as t
-LEFT JOIN Categories as c
-	ON t.categoryId = c.categoryId
 WHERE t.userId = :userId
+AND t.categoryId IS NULL
 AND t.type = 'E'
 AND t.date >= :firstDayOfMonth
 AND t.date <= :lastDayOfMonth
-GROUP BY t.categoryId
+
+ORDER BY expense DESC, name ASC
 ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardCategories);
