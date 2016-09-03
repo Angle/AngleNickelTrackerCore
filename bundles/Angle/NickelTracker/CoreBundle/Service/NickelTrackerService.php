@@ -925,7 +925,7 @@ ENDSQL;
             ->leftJoin('e.categoryId', 'cat')
             ->leftJoin('e.commerceId', 'com')
             ->where("e.userId = :userId")
-            ->orderBy('date','DESC')
+            ->orderBy('e.date','DESC')
             ->setParameter('userId', $this->user->getUserId());
         $transactions = $query->getQuery()->getResult();
 
