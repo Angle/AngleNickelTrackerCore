@@ -53,12 +53,12 @@
 
 #commerce-typeahead .twitter-typeahead .tt-dataset {
      /**background-color: blue;**/
-     padding: 10px 5px;
+     padding: 5px;
  }
 
 #commerce-typeahead .twitter-typeahead .tt-suggestion {
     /**background-color: blue;**/
-    padding: 0 5px;
+    padding: 5px;
 }
 
 /* Ajaxy Tables */
