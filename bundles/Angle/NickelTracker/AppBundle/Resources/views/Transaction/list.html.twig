@@ -98,7 +98,7 @@
                                             {% if transaction.categoryId %}({{ transaction.categoryId.name }}{% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>{{ transaciton.description }}</td>
+                                    <td>{{ transaction.description }}</td>
                                     <td>{{ transaction.details }}</td>
                                     <td>${{ transaction.amount|number_format(2) }}</td>
                                     <td>{{ transaction.date|date('D j M Y') }}<small>(Wk {{ transaction.date|date('o-W') }}</small></td>
