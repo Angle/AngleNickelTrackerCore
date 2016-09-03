@@ -1384,6 +1384,12 @@ ENDSQL;
 
         $dashboard['categories'] = $result;
 
+        // Sum the budget for each category to get the global
+        $dashboard['budget'] = 0;
+        foreach ($dashboard['categories'] as $row) {
+            $dashboard['budget'] += $row['budget'];
+        }
+
         return $dashboard;
     }
 
