@@ -35,6 +35,15 @@
     }
 }
 
+/* Fixing Commerce Typeahead (using Twitter's Typeahead) */
+#commerce-typeahead label {
+    display: block;
+}
+
+#commerce-typeahead .twitter-typeahead {
+    width: 100%;
+}
+
 /* Ajaxy Tables */
 .editable-td {
     position: relative;
