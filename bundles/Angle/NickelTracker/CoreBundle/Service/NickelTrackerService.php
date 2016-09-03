@@ -1040,7 +1040,7 @@ class NickelTrackerService
 
 
         // Process the transaction
-        $transaction->setType(Transaction::TYPE_INCOME);
+        $transaction->setType(Transaction::TYPE_EXPENSE);
         $transaction->setSourceAccountId($sourceAccount);
         $transaction->setCategoryId($category);
         $transaction->setCommerceId($commerce);
