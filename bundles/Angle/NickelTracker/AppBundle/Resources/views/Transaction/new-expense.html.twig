@@ -103,8 +103,16 @@
 
 {% block scripts %}
     {{ parent() }}
+
+    <!-- Twitter's typeahead.js autocomplete -->
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/typeahead/typeahead.jquery.min.js') }}"></script>
+    <script type="text/javascript">
+        var commerces = {{ commerces|json_encode|raw }};
+
+    </script>
+
     <!-- Enable DatePicker -->
-    <script>
+    <script type="text/javascript">
         $(function () {
             //Date picker
             $('.datepicker').datepicker({

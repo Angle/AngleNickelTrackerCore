@@ -57,7 +57,7 @@ class TransactionController extends Controller
         } elseif ($transaction->getType() != Transaction::TYPE_INCOME) {
             // Cannot edit another type of transaction (cannot change type)
             $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
-            $message->setExternalMessage('Invalid transaction type, cannot edit.');
+            $message->setExternalMessage('Invalid transaction type, cannot edit in this controller');
             $message->addToFlashBag($this->get('session')->getFlashBag());
             return $this->redirectToRoute('angle_nt_app_transaction_view', array('id' => $id));
         }
@@ -125,7 +125,7 @@ class TransactionController extends Controller
         } elseif ($transaction->getType() != Transaction::TYPE_EXPENSE) {
             // Cannot edit another type of transaction (cannot change type)
             $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
-            $message->setExternalMessage('Invalid transaction type, cannot edit.');
+            $message->setExternalMessage('Invalid transaction type, cannot edit in this controller');
             $message->addToFlashBag($this->get('session')->getFlashBag());
             return $this->redirectToRoute('angle_nt_app_transaction_view', array('id' => $id));
         }
@@ -168,13 +168,19 @@ class TransactionController extends Controller
         // Load the user's information to passdown
         $accounts   = $nt->loadAccounts();
         $categories = $nt->loadCategories();
+
         $commerces  = $nt->loadCommerces();
+        $commercesArray = array();
+        foreach ($commerces as $c) {
+            /** @var Commerce $c */
+            $commercesArray[] = $c->getName();
+        }
 
         return $this->render('AngleNickelTrackerAppBundle:Transaction:new-expense.html.twig', array(
             'transaction'   => $transaction,
             'accounts'      => $accounts,
             'categories'    => $categories,
-            'commerces'     => $commerces,
+            'commerces'     => $commercesArray,
         ));
     }
 
