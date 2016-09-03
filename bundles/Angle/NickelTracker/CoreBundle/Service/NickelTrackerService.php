@@ -118,11 +118,11 @@ INNER JOIN (
         SELECT
             t.sourceAccountId as `accountId`,
             SUM(CASE
-            WHEN t.type = 'I' THEN t.amount
-            WHEN t.type = 'E' THEN t.amount*-1
-            WHEN t.type = 'T' THEN t.amount*-1
-            ELSE 0
-            END) as `amount`
+                WHEN t.type = 'I' THEN t.amount
+                WHEN t.type = 'E' THEN t.amount*-1
+                WHEN t.type = 'T' THEN t.amount*-1
+                ELSE 0
+                END) as `amount`
         FROM Transactions as t
         WHERE t.userId = :userId
         GROUP BY t.sourceAccountId
@@ -132,9 +132,9 @@ INNER JOIN (
         SELECT
             t.destinationAccountId as `accountId`,
             SUM(CASE
-            WHEN t.type = 'T' THEN t.amount
-            ELSE 0
-            END) as `amount`
+                WHEN t.type = 'T' THEN t.amount
+                ELSE 0
+                END) as `amount`
         FROM Transactions as t
         WHERE t.userId = :userId
         AND t.destinationAccountId IS NOT NULL
@@ -149,7 +149,7 @@ ENDSQL;
 
             $stmt = $this->em->getConnection()->prepare($updateBalanceSql);
             $stmt->bindValue('userId', $this->user->getUserId());
-            $rows = $stmt->executeUpdate();
+            $rows = $stmt->execute();
 
         } catch (DBALException $e) {
             $this->errorType = 'Doctrine';
