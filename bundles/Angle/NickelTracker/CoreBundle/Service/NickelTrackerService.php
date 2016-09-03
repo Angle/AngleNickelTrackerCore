@@ -842,4 +842,109 @@ class NickelTrackerService
         return $this->flush();
     }
 
+    #####################################################################################################
+    ###
+    ###   TRANSACTION METHODS
+    ###
+
+    ## TODO: LIST TRANSACTIONS AND FILTERS!
+    /**
+     * Return an ArrayCollection of the User's transactions
+     * @return ArrayCollection
+     */
+    public function loadTransactions()
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Load all user accounts
+        $repository = $this->doctrine->getRepository(Account::class);
+        $accounts = $repository->findBy(array(
+            'userId'    => $this->user->getUserId(),
+            'deleted'   => false,
+        ), array('name' => 'ASC')); // order by name
+
+        return $accounts;
+    }
+
+    /**
+     * Load a single transaction
+     *
+     * @param int $id Transaction ID
+     * @return Transaction|false
+     */
+    public function loadTransaction($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        /** @var Transaction $transaction */
+        $transaction = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'transactionId' => $id,
+        ));
+
+        if (!$transaction) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Transaction not found';
+            return false;
+        }
+
+        return $transaction;
+    }
+
+    /**
+     * Create a new income transaction
+     *
+     * @param int $sourceAccountId Source Account ID
+     * @param string $description Transaction description
+     * @param string $details Transaction details
+     * @param float $amount Transaction amount
+     * @param \DateTime $date Transaction date
+     * @return int|false TransactionID created
+     */
+    public function createIncomeTransaction($sourceAccountId, $description, $details, $amount, \DateTime $date)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Source Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $sourceAccount */
+        $sourceAccount = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $sourceAccountId,
+            'deleted'   => false,
+        ));
+
+        if (!$sourceAccountId) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Source Account not found';
+            return false;
+        }
+
+        $transaction = new Transaction();
+        $transaction->setType(Transaction::TYPE_INCOME);
+        $transaction->setSourceAccountId($sourceAccount);
+        $transaction->setDescription($description);
+        $transaction->setDetails($details);
+        $transaction->setAmount($amount);
+        $transaction->setDate($date);
+
+        $this->em->persist($transaction);
+
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $transaction->getTransactionId();
+        }
+    }
+
 }

@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-edit"></i> Register New Income Transaction
+            <i class="fa fa-plus"></i> New Income Transaction
         </h1>
     </section>
 
@@ -79,6 +79,7 @@
             //Date picker
             $('.datepicker').datepicker({
                 autoclose: true,
+                setDate: new Date(),
                 format: "yyyy-mm-dd",
                 todayBtn: "linked",
                 clearBtn: true
