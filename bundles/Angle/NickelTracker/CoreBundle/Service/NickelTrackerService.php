@@ -100,6 +100,67 @@ class NickelTrackerService
         return true;
     }
 
+    public function flushAndUpdateBalances()
+    {
+        try {
+            $this->em->flush();
+
+            $updateBalanceSql = <<<ENDSQL
+UPDATE Accounts as acc
+INNER JOIN (
+    SELECT
+        a.accountId as `accountId`,
+        a.type as `type`,
+        a.name as `name`,
+        (IFNULL(t1.amount,0) + IFNULL(t2.amount,0)) as `total`
+    FROM Accounts as a
+    LEFT JOIN (
+        SELECT
+            t.sourceAccountId as `accountId`,
+            SUM(CASE
+            WHEN t.type = 'I' THEN t.amount
+            WHEN t.type = 'E' THEN t.amount*-1
+            WHEN t.type = 'T' THEN t.amount*-1
+            ELSE 0
+            END) as `amount`
+        FROM Transactions as t
+        WHERE t.userId = :userId
+        GROUP BY t.sourceAccountId
+    ) as t1
+        ON t1.accountId = a.accountId
+    LEFT JOIN (
+        SELECT
+            t.destinationAccountId as `accountId`,
+            SUM(CASE
+            WHEN t.type = 'T' THEN t.amount
+            ELSE 0
+            END) as `amount`
+        FROM Transactions as t
+        WHERE t.userId = :userId
+        AND t.destinationAccountId IS NOT NULL
+        GROUP BY t.destinationAccountId
+    ) as t2
+        ON t2.accountId = a.accountId
+    WHERE a.userId = :userId
+    AND a.deleted = 0
+) as calc ON acc.accountId = calc.accountId
+SET acc.balance = calc.total
+ENDSQL;
+
+            $stmt = $this->em->getConnection()->prepare($updateBalanceSql);
+            $stmt->bindValue('userId', $this->user->getUserId());
+            $rows = $stmt->executeUpdate();
+
+        } catch (DBALException $e) {
+            $this->errorType = 'Doctrine';
+            $this->errorCode = $e->getCode();
+            $this->errorMessage = $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
 
     #####################################################################################################
     ###
@@ -945,7 +1006,7 @@ class NickelTrackerService
 
         $this->em->persist($transaction);
 
-        if (!$this->flush()) {
+        if (!$this->flushAndUpdateBalances()) {
             return false;
         } else {
             return $transaction->getTransactionId();
@@ -1052,7 +1113,7 @@ class NickelTrackerService
 
         $this->em->persist($transaction);
 
-        if (!$this->flush()) {
+        if (!$this->flushAndUpdateBalances()) {
             return false;
         } else {
             return $transaction->getTransactionId();
@@ -1132,7 +1193,7 @@ class NickelTrackerService
 
         $this->em->persist($transaction);
 
-        if (!$this->flush()) {
+        if (!$this->flushAndUpdateBalances()) {
             return false;
         } else {
             return $transaction->getTransactionId();
@@ -1169,7 +1230,7 @@ class NickelTrackerService
         // Now delete the transaction
         $this->em->remove($transaction);
 
-        return $this->flush();
+        return $this->flushAndUpdateBalances();
     }
 
 
@@ -1203,6 +1264,11 @@ class NickelTrackerService
         $this->em->persist($this->user);
 
         return $this->flush();
+    }
+
+    public function loadDashboard()
+    {
+
     }
 
 }
