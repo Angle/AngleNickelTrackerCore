@@ -44,6 +44,9 @@ class TransactionController extends Controller
      */
     public function newIncomeAction(Request $request)
     {
+        // Get today's date in the default timezone
+        $today = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
+
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
 
@@ -84,6 +87,7 @@ class TransactionController extends Controller
         $accounts = $nt->loadAccounts();
 
         return $this->render('AngleNickelTrackerAppBundle:Transaction:new-income.html.twig', array(
+            'today' => $today,
             'accounts' => $accounts,
         ));
     }

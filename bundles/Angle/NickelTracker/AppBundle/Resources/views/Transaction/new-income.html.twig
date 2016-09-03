@@ -52,7 +52,8 @@
                                 <label for="transactionDate">Date</label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate" required="required">
+                                    <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate"
+                                           value="{{ today|date('Y-m-d') }}" required="required">
                                 </div>
                             </div>
                         </div>
@@ -78,8 +79,6 @@
             //Date picker
             $('.datepicker').datepicker({
                 autoclose: true,
-                useCurrent: true,
-                defaultDate: new Date(),
                 format: "yyyy-mm-dd",
                 todayBtn: "linked",
                 clearBtn: true
