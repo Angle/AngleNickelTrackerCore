@@ -92,7 +92,9 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                        <a href="{{ path('angle_nt_app_transaction_income', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
                     </div>
                     <div class="col-xs-6">
                         <button type="button" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</button>

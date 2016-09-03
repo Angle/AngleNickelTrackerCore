@@ -93,19 +93,23 @@ angle_nt_app_transaction_delete:
     defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:delete }
     methods:    [POST]
 
-angle_nt_app_transaction_new_income:
+angle_nt_app_transaction_income:
     pattern:    /transaction/income/{id}
     defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:income, id: 0 }
     requirements:
         id:     \d+
 
-angle_nt_app_transaction_new_expense:
-    pattern:    /transaction/new/expense
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newExpense }
+angle_nt_app_transaction_expense:
+    pattern:    /transaction/expense/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:expense, id: 0 }
+    requirements:
+        id:     \d+
 
-angle_nt_app_transaction_new_transfer:
-    pattern:    /transaction/new/transfer
-    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:newTransfer }
+angle_nt_app_transaction_transfer:
+    pattern:    /transaction/transfer/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Transaction:transfer, id: 0 }
+    requirements:
+        id:     \d+
 
 ## Report
 angle_nt_app_report_list:

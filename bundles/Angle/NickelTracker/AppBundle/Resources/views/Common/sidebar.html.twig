@@ -48,17 +48,17 @@
 
             <li class="header">TRANSACTIONS</li>
             <li class="{% if active == 'new-income' %}active{% endif %}">
-                <a href="{{ path('angle_nt_app_transaction_new_income') }}">
+                <a href="{{ path('angle_nt_app_transaction_income') }}">
                     <i class="fa fa-plus fa-fw"></i> <span>New Income</span>
                 </a>
             </li>
             <li class="{% if active == 'new-expense' %}active{% endif %}">
-                <a href="{{ path('angle_nt_app_transaction_new_expense') }}">
+                <a href="{{ path('angle_nt_app_transaction_expense') }}">
                     <i class="fa fa-minus fa-fw"></i> <span>New Expense</span>
                 </a>
             </li>
             <li class="{% if active == 'new-transfer' %}active{% endif %}">
-                <a href="{{ path('angle_nt_app_transaction_new_transfer') }}">
+                <a href="{{ path('angle_nt_app_transaction_transfer') }}">
                     <i class="fa fa-arrow-right fa-fw"></i> <span>New Transfer</span>
                 </a>
             </li>
