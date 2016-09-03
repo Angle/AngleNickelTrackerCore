@@ -19,6 +19,35 @@
        <!-- Progress Bar -->
         <div class="row">
             <div class="col-xs-12">
+
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-usd"></i>
+                        <h3 class="box-title">Budget</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <p>
+                        {{ dashboard.expense }}
+                        <span class="pull-right">Max ${{ dashboard.budget|number_format(2) }}</span>
+                        </p>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+
+                        <h4>Fun facts</h4>
+                        <p>You have spent %% of your budget in the first () days of this month.</p>
+                        <p>You are spending on average $$ per day.</p>
+                        <p>You have $$ left for the remaining %% days of this month.</p>
+
+                    </div>
+                </div>
+
                 <pre>
                     {{ dump(dashboard) }}
                 </pre>
@@ -61,7 +90,7 @@
             <!-- /.col -->
         </div>
 
-        <!-- Small info boxes -->
+        {% if dashboard.accounts %}
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
@@ -71,11 +100,8 @@
                         <span class="info-box-text">Cash</span>
                         <span class="info-box-number"><small>$</small>500,000.00</span>
                     </div>
-                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box -->
             </div>
-            <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-university"></i></span>
@@ -84,13 +110,9 @@
                         <span class="info-box-text">Debit</span>
                         <span class="info-box-number"><small>$</small>800,000.00</span>
                     </div>
-                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box -->
             </div>
-            <!-- /.col -->
 
-            <!-- fix for small devices only -->
             <div class="clearfix visible-sm-block"></div>
 
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -101,11 +123,8 @@
                         <span class="info-box-text">Savings</span>
                         <span class="info-box-number"><small>$</small>15,000.00</span>
                     </div>
-                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box -->
             </div>
-            <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-credit-card"></i></span>
@@ -114,12 +133,10 @@
                         <span class="info-box-text">Credit</span>
                         <span class="info-box-number"><small>$</small>20,000.00</span>
                     </div>
-                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box -->
             </div>
-            <!-- /.col -->
         </div>
+        {% endif %}
 
         <!-- Categories -->
         <div class="row">

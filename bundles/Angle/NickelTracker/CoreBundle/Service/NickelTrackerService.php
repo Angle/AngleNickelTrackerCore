@@ -1338,7 +1338,13 @@ ENDSQL;
         $stmt->execute();
         $result = $stmt->fetch();
 
-        $dashboard['transactions'] = $result;
+        if (!$result) {
+            $dashboard['income'] = 0;
+            $dashboard['expense'] = 0;
+        } else {
+            $dashboard['income'] = $result['income'];
+            $dashboard['expense'] = $result['expense'];
+        }
 
 
         // Query the Accounts table to obtain general results of the user's accounts
