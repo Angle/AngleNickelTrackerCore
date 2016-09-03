@@ -113,3 +113,8 @@ angle_nt_app_report_list:
 angle_nt_app_report_monthly_balance:
     pattern:    /report/monthly-balance
     defaults:   { _controller: AngleNickelTrackerAppBundle:Report:monthlyBalance }
+
+## Help
+angle_nt_app_help_howto:
+    pattern:    /help/howto
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Help:howto }
