@@ -40,6 +40,7 @@ class TransactionController extends Controller
      * Process an Income Transaction
      *
      * @param Request $request
+     * @param int $id Transaction ID (if it exists)
      * @return Response
      */
     public function incomeAction(Request $request, $id)
@@ -67,7 +68,7 @@ class TransactionController extends Controller
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
                 // Attempt to create a new account
-                $r = $nt->createIncomeTransaction($sourceAccountId, $description, $details, $amount, $date);
+                $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $amount, $date);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag

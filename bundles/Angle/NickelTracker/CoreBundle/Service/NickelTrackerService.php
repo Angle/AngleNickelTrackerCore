@@ -893,6 +893,7 @@ class NickelTrackerService
     /**
      * Create a new income transaction
      *
+     * @param int $transactionId Transaction ID (if it exists, null if new)
      * @param int $sourceAccountId Source Account ID
      * @param string $description Transaction description
      * @param string $details Transaction details
@@ -900,10 +901,22 @@ class NickelTrackerService
      * @param \DateTime $date Transaction date
      * @return int|false TransactionID created
      */
-    public function createIncomeTransaction($sourceAccountId, $description, $details, $amount, \DateTime $date)
+    public function processIncomeTransaction($transactionId, $sourceAccountId, $description, $details, $amount, \DateTime $date)
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $transaction = $this->doctrine->getRepository(Transaction::class)
+            ->findOneBy(array(
+                'userId'        => $this->user->getUserId(),
+                'transactionId' => $transactionId
+            ));
+
+        // If the transaction was not found (invalid ID) then initialize one
+        if (!$transaction) {
+            $transaction = new Transaction();
         }
 
         // Attempt to load the Source Account
@@ -922,7 +935,7 @@ class NickelTrackerService
             return false;
         }
 
-        $transaction = new Transaction();
+        // Process the transaction
         $transaction->setType(Transaction::TYPE_INCOME);
         $transaction->setSourceAccountId($sourceAccount);
         $transaction->setDescription($description);
