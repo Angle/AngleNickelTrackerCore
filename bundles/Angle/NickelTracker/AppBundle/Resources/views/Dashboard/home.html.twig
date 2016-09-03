@@ -9,7 +9,7 @@
     <section class="content-header">
         <h1>
             {{ 'now'|date('F Y') }}
-            <small>You are in day {{ 'now'|date('d', 'America/Monterrey') }} of {{ 'last day of this month'|date('d') }} days</small>
+            <small>You are in day {{ 'now'|date('j', 'America/Monterrey') }} of {{ 'last day of this month'|date('j') }} days</small>
         </h1>
     </section>
 
@@ -87,7 +87,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-university"></i></span>
+                    <span class="info-box-icon bg-green"><i class="fa fa-suitcase"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Savings</span>
@@ -129,15 +129,15 @@
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
                         <div class="row">
-                            <div class="col-md-9 col-sm-8">
-                                <div class="pad">
-                                    Pie Chart goes here
+                            <div class="col-md-7 col-sm-8">
+                                <div class="chart-responsive">
+                                    <canvas id="categoryPieChart" height="155" width="244" style="width: 244px; height: 155px;"></canvas>
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-md-3 col-sm-4">
+                            <div class="col-md-5 col-sm-4">
                                 <div class="pad box-pane-right bg-green" style="min-height: 280px">
-                                    <table class="table table-condensed">
+                                    <table class="table">
                                         <thead>
                                             <tr>
                                                 <th>Category</th>
@@ -211,4 +211,47 @@
 
 
     </section><!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <!-- ChartJs -->
+    <script src="{{ asset('bundles/anglenickeltrackercore/plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            var ctx = $("#categoryPieChart");
+
+            var data = {
+                labels: [
+                    "Red",
+                    "Blue",
+                    "Yellow"
+                ],
+                datasets: [
+                    {
+                        data: [300, 50, 100],
+                        backgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ],
+                        hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ]
+                    }]
+            };
+
+            // For a pie chart
+            var myPieChart = new Chart(ctx,{
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+
 {% endblock %}
