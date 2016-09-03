@@ -44,6 +44,14 @@
     width: 100%;
 }
 
+#commerce-typeahead .twitter-typeahead .tt-open {
+    background-color: red;
+}
+
+#commerce-typeahead .twitter-typeahead .tt-dataset {
+    background-color: blue;
+}
+
 /* Ajaxy Tables */
 .editable-td {
     position: relative;
