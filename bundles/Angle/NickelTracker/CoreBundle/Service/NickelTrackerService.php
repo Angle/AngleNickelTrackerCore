@@ -1329,9 +1329,9 @@ ENDSQL;
         $firstDayOfMonth    = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
         $lastDayOfMonth     = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
 
-        $dashboard['today'] = intval($today->format('j'));
-        $dashboard['firstDay'] = intval($firstDayOfMonth->format('j'));
-        $dashboard['lastDay'] = intval($lastDayOfMonth->format('j'));
+        $dashboard['currentDay']    = intval($today->format('j'));
+        $dashboard['firstDay']      = intval($firstDayOfMonth->format('j'));
+        $dashboard['lastDay']       = intval($lastDayOfMonth->format('j'));
 
         $dashboard = array();
 
