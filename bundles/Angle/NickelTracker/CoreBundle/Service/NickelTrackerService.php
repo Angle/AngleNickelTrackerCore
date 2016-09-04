@@ -1325,6 +1325,8 @@ ENDSQL;
             throw new \RuntimeException('Session user was not found');
         }
 
+        $dashboard = array();
+
         $today              = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
         $firstDayOfMonth    = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
         $lastDayOfMonth     = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
@@ -1332,8 +1334,6 @@ ENDSQL;
         $dashboard['currentDay']    = intval($today->format('j'));
         $dashboard['firstDay']      = intval($firstDayOfMonth->format('j'));
         $dashboard['lastDay']       = intval($lastDayOfMonth->format('j'));
-
-        $dashboard = array();
 
         // Query the Transactions table to obtain general results of the user's budget and expending
         $dashboardTransactions = <<<ENDSQL
