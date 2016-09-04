@@ -9,7 +9,7 @@
     <section class="content-header">
         <h1>
             {{ 'now'|date('F Y', 'America/Monterrey') }}
-            <small>Today's the {{ 'now'|date('jS', 'America/Monterrey') }} day of {{ 'last day of this month'|date('j', 'America/Monterrey') }} days in this month.</small>
+            <small>Today's the {{ 'now'|date('jS', 'America/Monterrey') }} day of {{ dashboard.lastDay }} days in this month.</small>
         </h1>
     </section>
 
@@ -51,8 +51,20 @@
                         </div>
 
                         <h4>Your Statistics</h4>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-4">
+                                    You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ dashboard.currentDay }} days of this month.
+                                </div>
+
+                                <div class="col-xs-12 col-sm-4">
+                                </div>
+
+
+                                <div class="col-xs-12 col-sm-4">
+                                </div>
+                            </div>
                         <ul>
-                            <li>You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ 'now'|date('j', 'America/Monterrey') }} days of this month.</li>
+                            <li>You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ dashboard.currentDay }} days of this month.</li>
                             <li>You are spending on average ${{ (dashboard.expense/dashboard.currentDay)|number_format(2) }} per day.</li>
                             <li>You have
                                 {% if dashboard.expense < dashboard.budget %}{{ (dashboard.budget-dashboard.expense)|number_format(2) }}{% else %}$0.00{% endif %}

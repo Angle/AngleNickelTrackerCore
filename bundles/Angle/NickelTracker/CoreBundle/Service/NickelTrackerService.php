@@ -1327,13 +1327,14 @@ ENDSQL;
 
         $dashboard = array();
 
-        $today              = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
-        $firstDayOfMonth    = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
-        $lastDayOfMonth     = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
+        $today = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
 
         $dashboard['currentDay']    = intval($today->format('j'));
-        $dashboard['firstDay']      = intval($firstDayOfMonth->format('j'));
-        $dashboard['lastDay']       = intval($lastDayOfMonth->format('j'));
+        $dashboard['lastDay']       = intval($today->format('t'));
+
+        // Hacky way to get the first and last dates of this month, based on the user's timezone
+        $firstDayOfMonth = $today->format('Y-m') . '-01';
+        $lastDayOfMonth = $today->format('Y-m-t');
 
         // Query the Transactions table to obtain general results of the user's budget and expending
         $dashboardTransactions = <<<ENDSQL
@@ -1348,8 +1349,8 @@ ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardTransactions);
         $stmt->bindValue('userId', $this->user->getUserId());
-        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
-        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
+        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth);
+        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth);
         $stmt->execute();
         $result = $stmt->fetch();
 
@@ -1422,8 +1423,8 @@ ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardCategories);
         $stmt->bindValue('userId', $this->user->getUserId());
-        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth->format('Y-m-d'));
-        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth->format('Y-m-d'));
+        $stmt->bindValue('firstDayOfMonth', $firstDayOfMonth);
+        $stmt->bindValue('lastDayOfMonth', $lastDayOfMonth);
         $stmt->execute();
         $result = $stmt->fetchAll();
 
