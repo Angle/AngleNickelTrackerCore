@@ -35,6 +35,11 @@
     }
 }
 
+/* Fixing responsive charts */
+.chart-responsive {
+    padding: 15px 0;
+}
+
 /* Fixing Commerce Typeahead (using Twitter's Typeahead) */
 #commerce-typeahead label {
     display: block;

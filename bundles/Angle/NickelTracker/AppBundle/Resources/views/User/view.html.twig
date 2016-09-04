@@ -101,16 +101,5 @@
             </div>
         </div><!-- /.row (main row) -->
 
-        <br>
-
-
-        {% if debug is defined and debug.executionTime is defined %}
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <small>Execution time: {{ debug.executionTime|number_format(3) }} seconds</small>
-                </div>
-            </div>
-        {% endif %}
-
     </section><!-- /.content -->
 {% endblock %}

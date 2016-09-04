@@ -1287,6 +1287,15 @@ ENDSQL;
     ###   USER METHODS
     ###
 
+    public function loadUser()
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        return $this->user;
+    }
+
     public function changeUserPassword($oldPassword, $newPassword)
     {
         if (!$this->user) {
@@ -1408,8 +1417,8 @@ UNION
 
 SELECT
 	null as `categoryId`,
-	null as `name`,
-	null as `budget`,
+	'-- No Category --' as `name`,
+	0.0 as `budget`,
 	SUM(t.amount) as `expense`
 FROM Transactions as t
 WHERE t.userId = :userId

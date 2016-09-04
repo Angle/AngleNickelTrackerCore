@@ -111,6 +111,16 @@ angle_nt_app_transaction_transfer:
     requirements:
         id:     \d+
 
+## User
+angle_nt_app_user_profile:
+    pattern:    /user
+    defaults:   { _controller: AngleNickelTrackerAppBundle:User:profile }
+
+angle_nt_app_user_change_password:
+    pattern:    /user/change-password
+    defaults:   { _controller: AngleNickelTrackerAppBundle:User:changePassword }
+    methods:    [POST]
+
 ## Report
 angle_nt_app_report_list:
     pattern:    /report

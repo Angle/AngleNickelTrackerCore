@@ -8,10 +8,17 @@ class UserController extends Controller
 {
     public function profileAction()
     {
+        /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
+        $nt = $this->get('angle.nickeltracker');
 
+        $user = $nt->loadUser();
+
+        return $this->render('AngleNickelTrackerAppBundle:User:view.html.twig', array(
+            'user' => $user
+        ));
     }
 
-    public function changePasswordAction()
+    public function changePasswordAction(Request $request)
     {
         
     }
