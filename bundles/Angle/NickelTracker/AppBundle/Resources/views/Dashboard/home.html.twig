@@ -187,9 +187,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {% for category in dashboard.categories %}
+                                        {% for key, category in dashboard.categories %}
                                             <tr>
-
+                                                <td><div class="color-box" data-key="{{ key }}"></div></td>
                                                 <td>{{ category.name|default('-- No Category --') }}</td>
                                                 <td>$ {{ category.budget|number_format(2) }}</td>
                                                 <td>$ {{ category.expense|number_format(2) }}</td>
@@ -232,6 +232,15 @@
 
 
         $(document).ready(function () {
+
+            $('.color-box').each(function(){
+                var $this = $(this);
+                if ($this.attr('data-key')) {
+                    var color = getPaletteColor($this.data('key'));
+                    $this.css('background-color', color);
+                }
+            });
+
             // Preparing information for pie chart
             var rawData = {{ dashboard.categories|json_encode()|raw }};
             var pieData = [];
