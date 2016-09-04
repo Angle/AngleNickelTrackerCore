@@ -611,6 +611,11 @@ ENDSQL;
             return false;
         }
 
+        // Validate the budget
+        if ($budget < 0) {
+            $budget = 0;
+        }
+
         $category = new Category();
         $category->setName($name);
         $category->setBudget($budget);
@@ -696,6 +701,11 @@ ENDSQL;
             $this->errorCode = 1;
             $this->errorMessage = 'Category not found';
             return false;
+        }
+
+        // Validate the new budget
+        if ($newBudget < 0) {
+            $newBudget = 0;
         }
 
         $category->setBudget($newBudget);
@@ -1323,8 +1333,8 @@ ENDSQL;
         // Query the Transactions table to obtain general results of the user's budget and expending
         $dashboardTransactions = <<<ENDSQL
 SELECT
-    SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END) as `income`,
-    SUM(CASE WHEN t.type = 'E' THEN t.amount ELSE 0 END) as `expense`
+    IFNULL(SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END), 0) as `income`,
+    IFNULL(SUM(CASE WHEN t.type = 'E' THEN t.amount ELSE 0 END), 0) as `expense`
 FROM Transactions as t
 WHERE t.userId = :userId
 AND t.date >= :firstDayOfMonth
@@ -1350,11 +1360,11 @@ ENDSQL;
         // Query the Accounts table to obtain general results of the user's accounts
         $dashboardAccounts = <<<ENDSQL
 SELECT
-    SUM(CASE WHEN a.type = 'M' THEN a.balance ELSE 0 END) as `cash`,
-    SUM(CASE WHEN a.type = 'D' THEN a.balance ELSE 0 END) as `debit`,
-    SUM(CASE WHEN a.type = 'C' THEN a.balance ELSE 0 END) as `credit`,
-    SUM(CASE WHEN a.type = 'S' THEN a.balance ELSE 0 END) as `savings`,
-    SUM(CASE WHEN a.type = 'L' THEN a.balance ELSE 0 END) as `loaned`
+    IFNULL(SUM(CASE WHEN a.type = 'M' THEN a.balance ELSE 0 END), 0) as `cash`,
+    IFNULL(SUM(CASE WHEN a.type = 'D' THEN a.balance ELSE 0 END), 0) as `debit`,
+    IFNULL(SUM(CASE WHEN a.type = 'C' THEN a.balance ELSE 0 END), 0) as `credit`,
+    IFNULL(SUM(CASE WHEN a.type = 'S' THEN a.balance ELSE 0 END), 0) as `savings`,
+    IFNULL(SUM(CASE WHEN a.type = 'L' THEN a.balance ELSE 0 END), 0) as `loaned`
 FROM Accounts as a
 WHERE a.userId = :userId
 AND a.deleted = 0

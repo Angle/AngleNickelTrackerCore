@@ -30,7 +30,7 @@
                     <div class="box-body">
 
                         <p>
-                        {{ dashboard.expense }}
+                        ${{ dashboard.expense|number_format(2) }} spent
                         <span class="pull-right">Max ${{ dashboard.budget|number_format(2) }}</span>
                         </p>
 
@@ -41,7 +41,7 @@
                         </div>
 
                         <h4>Fun facts</h4>
-                        <p>You have spent %% of your budget in the first () days of this month.</p>
+                        <p>You have spent {% if dashboard.budget > 0 %} of your budget in the first () days of this month.</p>
                         <p>You are spending on average $$ per day.</p>
                         <p>You have $$ left for the remaining %% days of this month.</p>
 
