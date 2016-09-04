@@ -51,48 +51,31 @@
                         </div>
 
                         <h4>Your Statistics</h4>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-4">
-                                    You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ dashboard.currentDay }} days of this month.
-                                </div>
-
-                                <div class="col-xs-12 col-sm-4">
-                                </div>
-
-
-                                <div class="col-xs-12 col-sm-4">
-                                </div>
-                            </div>
                         <ul>
-                            <li>You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ dashboard.currentDay }} days of this month.</li>
-                            <li>You are spending on average ${{ (dashboard.expense/dashboard.currentDay)|number_format(2) }} per day.</li>
+                            <li>You have spent <strong>{{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget</strong> in the first {{ dashboard.currentDay }} days of this month.</li>
+                            <li>You are spending an average of <strong>${{ (dashboard.expense/dashboard.currentDay)|number_format(2) }} per day</strong>.</li>
                             <li>You have
-                                {% if dashboard.expense < dashboard.budget %}{{ (dashboard.budget-dashboard.expense)|number_format(2) }}{% else %}$0.00{% endif %}
-                                left for the remaining
+                                <strong>{% if dashboard.expense < dashboard.budget %}${{ (dashboard.budget-dashboard.expense)|number_format(2) }}{% else %}$0.00{% endif %}
+                                left</strong> for the remaining
                                 {{ (dashboard.lastDay-dashboard.currentDay)|number_format(0) }}
                                 days of this month (
                                 {% if dashboard.expense < dashboard.budget %}
                                     {% if (dashboard.lastDay-dashboard.currentDay) <= 0 %}
-                                        {{ (dashboard.budget-dashboard.expense)|number_format(2) }}
+                                        ${{ (dashboard.budget-dashboard.expense)|number_format(2) }}
                                     {% else %}
-                                        {{ ((dashboard.budget-dashboard.expense)/(dashboard.lastDay-dashboard.currentDay))|number_format(2) }}
+                                        ${{ ((dashboard.budget-dashboard.expense)/(dashboard.lastDay-dashboard.currentDay))|number_format(2) }}
                                     {% endif %}
                                 {% else %}
                                     $0.00
                                 {% endif %}
                                 per day).</li>
+                            <li>You have spent {% if dashboard.income > 0 %}{{ (100.0*dashboard.expense/dashboard.income)|number_format(2) }}%{% else %}0.00%{% endif %} of your income.</li>
                         </ul>
 
                         {% else %}
                             <p class="text-center">You have not setup a budget yet. Please go into the categories menu and define your monthly budget.</p>
                         {% endif %}
 
-                    </div>
-                </div>
-
-                <div class="progress">
-                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                        <span class="sr-only">40% Complete (success)</span>
                     </div>
                 </div>
             </div>
