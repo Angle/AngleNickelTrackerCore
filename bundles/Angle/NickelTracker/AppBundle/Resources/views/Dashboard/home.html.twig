@@ -39,9 +39,9 @@
                         <div class="progress">
                             {% if dashboard.expense <= dashboard.budget %}
                                 <div class="progress-bar progress-bar-primary" role="progressbar"
-                                     aria-valuenow="{{ (dashboard.expense/dashboard.budget|number_format(0)) }}"
+                                     aria-valuenow="{{ (dashboard.expense/dashboard.budget)|number_format(0) }}"
                                      aria-valuemin="0" aria-valuemax="100"
-                                     style="width: {{ (dashboard.expense/dashboard.budget|number_format(0)) }}%">
+                                     style="width: {{ (dashboard.expense/dashboard.budget)|number_format(0) }}%">
                                 </div>
                             {% else %}
                                 <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
@@ -188,7 +188,13 @@
                                         </thead>
                                         <tbody>
                                         {% for key, category in dashboard.categories %}
-                                            <tr>
+                                            <tr
+                                                {% if category.expense > category.budget %}
+                                                class="danger"
+                                                {% elseif category.expense > (category.budget*0.8) %}
+                                                class="warning"
+                                                {% endif %}
+                                            >
                                                 <td style="vertical-align: middle;"><div class="color-box" data-key="{{ key }}"></div></td>
                                                 <td>{{ category.name }}</td>
                                                 <td>$ {{ category.budget|number_format(2) }}</td>
