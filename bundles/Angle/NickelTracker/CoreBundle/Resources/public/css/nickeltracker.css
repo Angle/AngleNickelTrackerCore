@@ -27,6 +27,14 @@
     color: #777; /* muted */
 }
 
+/* Color box */
+.color-box {
+    box-sizing: border-box;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+}
+
 /* Fixing dropdown menu for mobiles */
 @media (max-width: 768px) {
     .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
