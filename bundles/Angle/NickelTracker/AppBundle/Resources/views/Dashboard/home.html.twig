@@ -29,20 +29,30 @@
 
                     <div class="box-body">
 
+                        {% if dashboard.budget > 0 %}
+
                         <p>
                         ${{ dashboard.expense|number_format(2) }} spent
                         <span class="pull-right">Max ${{ dashboard.budget|number_format(2) }}</span>
                         </p>
 
                         <div class="progress">
-                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">40% Complete (success)</span>
-                            </div>
+                            {% if dashboard.expense <= dashboard.budget %}
+                                <div class="progress-bar progress-bar-primary" role="progressbar"
+                                     aria-valuenow="{{ (dashboard.expense/dashboard.budget|number_format(0)) }}"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     style="width: {{ (dashboard.expense/dashboard.budget|number_format(0)) }}%">
+                                </div>
+                            {% else %}
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    OVERSPENT
+                                </div>
+                            {% endif %}
                         </div>
 
-                        <h4>Stats</h4>
+                        <h4>Your Statistics</h4>
                         <ul>
-                            <li>You have spent {% if dashboard.budget > 0 %}{{ (dashboard.expense/dashboard.budget)|number_format(2) }}{% else %}0.00{% endif %}% of your budget in the first {{ 'now'|date('j', 'America/Monterrey') }} days of this month.</li>
+                            <li>You have spent {{ (100.0*dashboard.expense/dashboard.budget)|number_format(2) }}% of your budget in the first {{ 'now'|date('j', 'America/Monterrey') }} days of this month.</li>
                             <li>You are spending on average ${{ (dashboard.expense/dashboard.currentDay)|number_format(2) }} per day.</li>
                             <li>You have
                                 {% if dashboard.expense < dashboard.budget %}{{ (dashboard.budget-dashboard.expense)|number_format(2) }}{% else %}$0.00{% endif %}
@@ -61,12 +71,12 @@
                                 per day).</li>
                         </ul>
 
+                        {% else %}
+                            <p class="text-center">You have not setup a budget yet. Please go into the categories menu and define your monthly budget.</p>
+                        {% endif %}
+
                     </div>
                 </div>
-
-                <pre>
-                    {{ dump(dashboard) }}
-                </pre>
 
                 <div class="progress">
                     <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
@@ -84,7 +94,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Monthly Income</span>
-                        <span class="info-box-number"><small>$</small>500,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.income|number_format(2) }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -97,7 +107,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Monthly Expense</span>
-                        <span class="info-box-number"><small>$</small>800,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.expense|number_format(2) }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
