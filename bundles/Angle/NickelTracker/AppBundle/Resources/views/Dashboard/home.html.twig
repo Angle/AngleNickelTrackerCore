@@ -219,8 +219,15 @@
     <script src="{{ asset('bundles/anglenickeltrackercore/plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
 
     <script>
-        function getRandomHexColor() {
-            return '#'+Math.floor(Math.random()*16777215).toString(16);
+        function getPaletteColor(key) {
+
+            var colors = ['#357ca5', '#00a7d0', '#008d4c', '#db8b0d', '#d33724', '#b5bbc8', '#001a35', '#30bbbb', '#555299', '#ff7701', '#ca195a', '#000000',
+            '#3c8dbc', '#00c0ef', '#00a65a', '#f39c12', '#f56954', '#d2d6de', '#001f3f', '#39cccc', '#605ca8', '#ff851b', '#d81b60', '#111111',
+            '#80b5d3', '#5ad6f4', '#5ac594', '#f7bf65', '#e98a7e', '#e2e4e9', '#5a6e82', '#7edede', '#9895c6', '#ffb06b', '#e66b98', '#656565']
+
+            var i = key % colors.length;
+
+            return colors[i];
         }
 
 
@@ -234,7 +241,8 @@
                     var temp = new Object();
                     temp['value'] = category.expense;
                     temp['label'] = category.name;
-                    temp['color'] = getRandomHexColor();
+                    temp['color'] = getPaletteColor(key);
+                    temp['highlight'] = temp['color'];
                     pieData.push(temp);
                 }
             });
