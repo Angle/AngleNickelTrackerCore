@@ -189,7 +189,7 @@
                                         <tbody>
                                         {% for key, category in dashboard.categories %}
                                             <tr>
-                                                <td><div class="color-box" data-key="{{ key }}"></div></td>
+                                                <td style="vertical-align: middle;"><div class="color-box" data-key="{{ key }}"></div></td>
                                                 <td>{{ category.name }}</td>
                                                 <td>$ {{ category.budget|number_format(2) }}</td>
                                                 <td>$ {{ category.expense|number_format(2) }}</td>
