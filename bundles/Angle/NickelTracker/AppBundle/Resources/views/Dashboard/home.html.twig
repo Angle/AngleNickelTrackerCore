@@ -190,7 +190,7 @@
                                         {% for category in dashboard.categories %}
                                             <tr>
 
-                                                <td>{{ category.name }}</td>
+                                                <td>{{ category.name|default('-- No Category --') }}</td>
                                                 <td>$ {{ category.budget|number_format(2) }}</td>
                                                 <td>$ {{ category.expense|number_format(2) }}</td>
                                             </tr>
@@ -221,7 +221,7 @@
     <script>
         $(document).ready(function () {
             // Preparing information for pie chart
-            var rawData = {{ dashboard.categories|json_encode() }};
+            var rawData = {{ dashboard.categories|json_encode()|raw }};
             var pieData = [];
 
             for (var category in rawData) {
