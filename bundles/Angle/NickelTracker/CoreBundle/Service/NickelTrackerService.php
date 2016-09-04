@@ -1325,8 +1325,13 @@ ENDSQL;
             throw new \RuntimeException('Session user was not found');
         }
 
-        $firstDayOfMonth = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
-        $lastDayOfMonth = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
+        $today              = new \DateTime("now", new \DateTimeZone('America/Monterrey'));
+        $firstDayOfMonth    = new \DateTime("first day of this month", new \DateTimeZone('America/Monterrey'));
+        $lastDayOfMonth     = new \DateTime("last day of this month", new \DateTimeZone('America/Monterrey'));
+
+        $dashboard['today'] = intval($today->format('j'));
+        $dashboard['firstDay'] = intval($firstDayOfMonth->format('j'));
+        $dashboard['lastDay'] = intval($lastDayOfMonth->format('j'));
 
         $dashboard = array();
 

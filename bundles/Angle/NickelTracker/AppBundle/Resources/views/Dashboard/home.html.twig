@@ -43,9 +43,9 @@
                         <h4>Stats</h4>
                         <ul>
                             <li>You have spent {% if dashboard.budget > 0 %}{{ (dashboard.expense/dashboard.budget)|number_format(2) }}{% else %}0.00{% endif %}% of your budget in the first {{ 'now'|date('j', 'America/Monterrey') }} days of this month.</li>
-                            <li>You are spending on average ${{ (dashboard.expense/('now'|date('j', 'America/Monterrey')))|number_format(2) }} per day.</li>
+                            <li>You are spending on average ${{ (dashboard.expense/dashboard.currentDay)|number_format(2) }} per day.</li>
                         </ul>
-                        <p>You have $$ left for the remaining %% days of this month.</p>
+                        <p>You have $$ left for the remaining %% days of this month ($$ per day).</p>
 
                     </div>
                 </div>
