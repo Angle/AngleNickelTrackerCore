@@ -235,11 +235,15 @@
             var pieData = [];
 
             for (var category in rawData) {
-                var temp = new Object();
-                temp['value'] = category.expense;
-                temp['label'] = category.name;
-                pieData.push(temp);
+                console.log(category);
+                if (category.expense > 0) {
+                    var temp = new Object();
+                    temp['value'] = category.expense;
+                    temp['label'] = category.name;
+                    pieData.push(temp);
+                }
             }
+            console.log(pieData);
 
 
 
