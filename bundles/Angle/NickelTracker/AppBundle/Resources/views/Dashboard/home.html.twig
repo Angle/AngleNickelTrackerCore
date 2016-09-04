@@ -224,6 +224,11 @@
     <script src="{{ asset('bundles/anglenickeltrackercore/plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
 
     <script>
+        function getRandomHexColor() {
+            return '#'+Math.floor(Math.random()*16777215).toString(16);
+        }
+
+
         $(document).ready(function () {
             // Preparing information for pie chart
             var rawData = {{ dashboard.categories|json_encode()|raw }};
@@ -234,6 +239,7 @@
                     var temp = new Object();
                     temp['value'] = category.expense;
                     temp['label'] = category.name;
+                    temp['color'] = getRandomHexColor():
                     pieData.push(temp);
                 }
             });
