@@ -246,18 +246,14 @@
             var rawData = {{ dashboard.categories|json_encode()|raw }};
             var pieData = [];
 
-            for (var category in rawData) {
-                console.log(category);
+            $.each(rawData, function (key, category){
                 if (category.expense > 0) {
                     var temp = new Object();
                     temp['value'] = category.expense;
                     temp['label'] = category.name;
                     pieData.push(temp);
                 }
-            }
-            console.log(pieData);
-
-
+            });
 
             //-------------
             //- PIE CHART -
