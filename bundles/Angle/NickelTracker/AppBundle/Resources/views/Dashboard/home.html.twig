@@ -69,7 +69,7 @@
                                     $0.00
                                 {% endif %}
                                 per day).</li>
-                            <li>You have spent {% if dashboard.income > 0 %}{{ (100.0*dashboard.expense/dashboard.income)|number_format(2) }}%{% else %}0.00%{% endif %} of your income.</li>
+                            <li>You have spent {% if dashboard.income > 0 %}{{ (100.0*dashboard.expense/dashboard.income)|number_format(2) }}%{% else %}0.00%{% endif %} of your income this month.</li>
                         </ul>
 
                         {% else %}
@@ -98,7 +98,7 @@
             <!-- /.col -->
             <div class="col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-yellow"><i class="fa fa-minus"></i></span>
+                    <span class="info-box-icon bg-red"><i class="fa fa-minus"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Monthly Expense</span>
@@ -125,7 +125,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-university"></i></span>
+                    <span class="info-box-icon bg-blue"><i class="fa fa-university"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Debit</span>
@@ -138,7 +138,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-suitcase"></i></span>
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Savings</span>
