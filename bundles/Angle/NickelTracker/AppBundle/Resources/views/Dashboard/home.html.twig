@@ -101,7 +101,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Cash</span>
-                        <span class="info-box-number"><small>$</small>500,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.accounts.cash|number_format(2) }}</span>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Debit</span>
-                        <span class="info-box-number"><small>$</small>800,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.accounts.debit|number_format(2) }}</span>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Savings</span>
-                        <span class="info-box-number"><small>$</small>15,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.accounts.savings|number_format(2) }}</span>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Credit</span>
-                        <span class="info-box-number"><small>$</small>20,000.00</span>
+                        <span class="info-box-number"><small>$</small>{{ dashboard.accounts.credit|number_format(2) }}</span>
                     </div>
                 </div>
             </div>
@@ -174,56 +174,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        {% for category in dashboard.categories %}
                                             <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
+
+                                                <td>{{ category.name }}</td>
+                                                <td>$ {{ category.budget|number_format(2) }}</td>
+                                                <td>$ {{ category.expense|number_format(2) }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Groceries</td>
-                                                <td>$ 14,000.00</td>
-                                                <td>$ 14,000.00</td>
-                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
