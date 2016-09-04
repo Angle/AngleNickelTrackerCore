@@ -41,6 +41,9 @@
                         </div>
 
                         <h4>Fun facts</h4>
+                        <ul>
+                            <li>You have spent {% if dashboard.budget > 0 %}{{ (dashboard.expense/dashboard.budget)|number_format(2) }}{% else %}0.00{% endif %}% of your budget in the first () days of this month.</li>
+                        </ul>
                         <p>You have spent {% if dashboard.budget > 0 %} of your budget in the first () days of this month.</p>
                         <p>You are spending on average $$ per day.</p>
                         <p>You have $$ left for the remaining %% days of this month.</p>
