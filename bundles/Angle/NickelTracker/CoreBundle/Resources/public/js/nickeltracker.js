@@ -101,10 +101,18 @@ $( document ).ready(function() {
             var $this = $(this);
             $this.val($this.data('original-value'));
         });
+
+    $('#logout').click(function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        var r = confirm("Are you sure you want to logout?");
+        if (r == true) {
+            window.location = '/logout';
+        }
+    });
 });
 
 function fixMoneyFormat(editableElement) {
     editableElement.val(parseFloat(editableElement.val()).formatMoney(2));
 }
-
-// TODO: Number format a number after "blur"
