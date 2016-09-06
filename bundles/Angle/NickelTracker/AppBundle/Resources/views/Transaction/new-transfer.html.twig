@@ -64,7 +64,10 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
                                     <input type="number" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
-                                           value="{{ transaction.amount|number_format(2, '.', '') }}" min="0">
+                                       {% if transaction.amount != 0 %}
+                                           value="{{ transaction.amount|number_format(2, '.', '') }}"
+                                       {% endif %}
+                                           min="0">
                                 </div>
                             </div>
                             <div class="form-group">

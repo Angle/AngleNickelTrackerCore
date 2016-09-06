@@ -47,7 +47,7 @@ class Transaction
     /**
      * @ORM\Column(type="decimal", precision=19, scale=4, nullable=false)
      */
-    protected $amount;
+    protected $amount = 0;
 
     /**
      * @ORM\Column(type="string", nullable=false)

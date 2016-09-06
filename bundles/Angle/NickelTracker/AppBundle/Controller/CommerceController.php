@@ -52,7 +52,7 @@ class CommerceController extends Controller
         $nt = $this->get('angle.nickeltracker');
 
         if ($data['property'] == 'name') {
-            $r = $nt->changeCommerceName($data['id'], $data['value']);
+            $r = $nt->changeCommerceName($data['id'], trim($data['value']));
 
             if ($r) {
                 $json = array('error' => 0, 'description' => 'Success');

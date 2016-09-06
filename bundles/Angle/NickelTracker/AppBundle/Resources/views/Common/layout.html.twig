@@ -10,9 +10,14 @@
         <title>NickelTracker{% if page_title is defined %} | {{ page_title }}{% endif %}</title>
 
         <!-- Fav Icons -->
-        <link rel="apple-touch-icon" href="{{ asset('bundles/anglenickeltrackercore/img/apple-touch-icon.png') }}">
         <link rel="icon" sizes="48x48" href="{{ asset('bundles/anglenickeltrackercore/img/favicon-48.png') }}">
         <link rel="icon" sizes="120x120" href="{{ asset('bundles/anglenickeltrackercore/img/favicon-120.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('bundles/anglenickeltrackercore/img/apple-touch-icon.png') }}">
+
+        <!-- Web App -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
 
         {% block styles %}
             <!-- Bootstrap 3.3.5 -->

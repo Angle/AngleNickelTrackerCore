@@ -82,8 +82,13 @@
 
 .editable-td input {
     width: 100%;
+    min-width: 150px;
     box-sizing: border-box;
     border: 1px solid transparent;
+}
+
+.editable-td input.money {
+    min-width: 100px;
 }
 
 .editable-td input:focus {

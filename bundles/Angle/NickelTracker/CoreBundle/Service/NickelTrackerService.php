@@ -229,7 +229,11 @@ ENDSQL;
             $this->em->persist($category);
         }
 
-        return $this->flush();
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $user->getUserId();
+        }
     }
 
 
@@ -1043,6 +1047,14 @@ ENDSQL;
             return false;
         }
 
+        if (!$amount) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Amount cannot be zero';
+            return false;
+        }
+
+
         // Process the transaction
         $transaction->setType(Transaction::TYPE_INCOME);
         $transaction->setSourceAccountId($sourceAccount);
@@ -1147,6 +1159,13 @@ ENDSQL;
             $commerce = null;
         }
 
+        if (!$amount) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Amount cannot be zero';
+            return false;
+        }
+
 
         // Process the transaction
         $transaction->setType(Transaction::TYPE_EXPENSE);
@@ -1228,6 +1247,14 @@ ENDSQL;
             $this->errorMessage = 'Destination Account not found';
             return false;
         }
+
+        if (!$amount) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Amount cannot be zero';
+            return false;
+        }
+
 
         // Process the transaction
         $transaction->setType(Transaction::TYPE_TRANSFER);

@@ -101,8 +101,8 @@ class TransactionController extends Controller
         if ($request->getMethod() == 'POST') {
             // Process new transaction
             $sourceAccountId    = $request->request->get('transactionSourceAccount');
-            $description        = $request->request->get('transactionDescription');
-            $details            = $request->request->get('transactionDetails');
+            $description        = trim($request->request->get('transactionDescription'));
+            $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
             $date               = $request->request->get('transactionDate');
             $date = \DateTime::createFromFormat('Y-m-d', $date);
@@ -170,9 +170,9 @@ class TransactionController extends Controller
             // Process new transaction
             $sourceAccountId    = $request->request->get('transactionSourceAccount');
             $categoryId         = $request->request->get('transactionCategory');
-            $commerceName       = $request->request->get('transactionCommerce');
-            $description        = $request->request->get('transactionDescription');
-            $details            = $request->request->get('transactionDetails');
+            $commerceName       = trim($request->request->get('transactionCommerce'));
+            $description        = trim($request->request->get('transactionDescription'));
+            $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
             $date               = $request->request->get('transactionDate');
             $date = \DateTime::createFromFormat('Y-m-d', $date);
@@ -250,8 +250,8 @@ class TransactionController extends Controller
             // Process new transaction
             $sourceAccountId    = $request->request->get('transactionSourceAccount');
             $destinationAccountId = $request->request->get('transactionDestinationAccount');
-            $description        = $request->request->get('transactionDescription');
-            $details            = $request->request->get('transactionDetails');
+            $description        = trim($request->request->get('transactionDescription'));
+            $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
             $date               = $request->request->get('transactionDate');
             $date = \DateTime::createFromFormat('Y-m-d', $date);

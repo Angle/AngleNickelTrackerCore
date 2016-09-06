@@ -34,7 +34,7 @@ class CategoryController extends Controller
     {
         if ($request->getMethod() == 'POST') {
             // Process new category
-            $name   = $request->request->get('categoryName');
+            $name   = trim($request->request->get('categoryName'));
             $budget = $request->request->get('categoryBudget');
 
             // Check the request parameters (budget is not required)
@@ -99,7 +99,7 @@ class CategoryController extends Controller
         $nt = $this->get('angle.nickeltracker');
 
         if ($data['property'] == 'name') {
-            $r = $nt->changeCategoryName($data['id'], $data['value']);
+            $r = $nt->changeCategoryName($data['id'], trim($data['value']));
 
             if ($r) {
                 $json = array('error' => 0, 'description' => 'Success');

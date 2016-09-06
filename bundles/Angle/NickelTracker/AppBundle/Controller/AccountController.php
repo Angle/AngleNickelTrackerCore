@@ -35,7 +35,7 @@ class AccountController extends Controller
         if ($request->getMethod() == 'POST') {
             // Process new account
             $type   = $request->request->get('accountType');
-            $name   = $request->request->get('accountName');
+            $name   = trim($request->request->get('accountName'));
             $limit  = $request->request->get('accountCreditLimit');
 
             // Check the request parameters
@@ -100,7 +100,7 @@ class AccountController extends Controller
         $nt = $this->get('angle.nickeltracker');
 
         if ($data['property'] == 'name') {
-            $r = $nt->changeAccountName($data['id'], $data['value']);
+            $r = $nt->changeAccountName($data['id'], trim($data['value']));
 
             if ($r) {
                 $json = array('error' => 0, 'description' => 'Success');
