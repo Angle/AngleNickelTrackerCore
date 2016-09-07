@@ -1,6 +1,12 @@
 # NickelTrackerCore
 Envelope budget
 
+## Features
+TODO: Write a list of the current system features
+
+## Feature Requests / Wishlist
+- Implement "recurring transactions"
+
 ## Documentation
 TODO: See `/doc/`
 
