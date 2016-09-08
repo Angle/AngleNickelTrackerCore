@@ -89,6 +89,21 @@
                                             {% endif %}>
                                 </div>
                             </div>
+                            <div class="form-group expense-options">
+                                <label class="expense-options-title">Flags</label>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagFiscal" value="1">
+                                        Fiscal
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagExtraordinary" value="1">
+                                        Extraordinary
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
 
@@ -97,6 +112,15 @@
                         </div>
                     </form>
 
+                </div>
+
+                <div class="bottom-message">
+                    <div class="text-muted">
+                        <h4>Transaction Flags</h4>
+                        <strong>Fiscal:</strong> this transaction has generated a fiscal invoice or bill. It is merely informative
+                        and it is meant to help you organize your tax declarations.<br>
+                        <strong>Extraordinary:</strong> this transaction will not be considered in your budget and limit calculations.
+                    </div>
                 </div>
             </div>
         </div>

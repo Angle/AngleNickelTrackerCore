@@ -27,12 +27,29 @@
     color: #777; /* muted */
 }
 
+.bottom-message {
+    padding: 10px 0;
+    text-align: center;
+}
+
 /* Color box */
 .color-box {
     box-sizing: border-box;
     width: 15px;
     height: 15px;
     border-radius: 2px;
+}
+
+/* Fix Expense Options checboxes */
+.expense-options {
+
+}
+.expense-options-title {
+    display: block;
+}
+.expense-options .checkbox {
+    width: 50%;
+    display: inline-block;
 }
 
 /* Fixing dropdown menu for mobiles */
