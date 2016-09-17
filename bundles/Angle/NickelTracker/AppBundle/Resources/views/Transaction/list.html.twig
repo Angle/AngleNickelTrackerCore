@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <label for="searchString">Search</label>
                                         <input type="text" class="form-control" name="searchString" id="searchString" placeholder="Search..."
-                                        {% if filters and filters.searchString %}{{ filters.searchString }}{% endif %}>
+                                        {% if filters and filters.searchString %}value="{{ filters.searchString }}"{% endif %}>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
