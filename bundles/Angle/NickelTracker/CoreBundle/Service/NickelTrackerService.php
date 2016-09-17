@@ -1408,13 +1408,13 @@ ENDSQL;
         /** @var ScheduledTransaction $transaction */
         $transaction = $repository->findOneBy(array(
             'userId'    => $this->user->getUserId(),
-            'transactionId' => $id,
+            'scheduledTransactionId' => $id,
         ));
 
         if (!$transaction) {
             $this->errorType = 'NickelTracker';
             $this->errorCode = 1;
-            $this->errorMessage = 'Transaction not found';
+            $this->errorMessage = 'Scheduled Transaction not found';
             return false;
         }
 
