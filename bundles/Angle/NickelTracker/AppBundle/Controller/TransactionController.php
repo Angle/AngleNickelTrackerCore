@@ -108,10 +108,18 @@ class TransactionController extends Controller
             $date               = $request->request->get('transactionDate');
             $date               = \DateTime::createFromFormat('Y-m-d', $date);
 
+            $flags = array();
+            if ($request->request->get('transactionFlagFiscal')) {
+                $flags['fiscal'] = true;
+            }
+            if ($request->request->get('transactionFlagExtraordinary')) {
+                $flags['extraordinary'] = true;
+            }
+
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
                 // Attempt to create a new account
-                $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $amount, $date);
+                $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
@@ -175,13 +183,22 @@ class TransactionController extends Controller
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
+
             $date               = $request->request->get('transactionDate');
-            $date = \DateTime::createFromFormat('Y-m-d', $date);
+            $date               = \DateTime::createFromFormat('Y-m-d', $date);
+
+            $flags = array();
+            if ($request->request->get('transactionFlagFiscal')) {
+                $flags['fiscal'] = true;
+            }
+            if ($request->request->get('transactionFlagExtraordinary')) {
+                $flags['extraordinary'] = true;
+            }
 
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
                 // Attempt to create a new account
-                $r = $nt->processExpenseTransaction($id, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, $date);
+                $r = $nt->processExpenseTransaction($id, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
@@ -254,13 +271,22 @@ class TransactionController extends Controller
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
+
             $date               = $request->request->get('transactionDate');
             $date = \DateTime::createFromFormat('Y-m-d', $date);
+
+            $flags = array();
+            if ($request->request->get('transactionFlagFiscal')) {
+                $flags['fiscal'] = true;
+            }
+            if ($request->request->get('transactionFlagExtraordinary')) {
+                $flags['extraordinary'] = true;
+            }
 
             // Check the request parameters
             if ($sourceAccountId && $destinationAccountId && $description && $amount && $date) {
                 // Attempt to create a new account
-                $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $amount, $date);
+                $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
