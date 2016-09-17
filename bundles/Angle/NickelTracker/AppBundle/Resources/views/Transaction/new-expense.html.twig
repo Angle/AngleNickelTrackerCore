@@ -73,7 +73,7 @@
                                         {% if transaction.amount != 0 %}
                                            value="{{ transaction.amount|number_format(2, '.', '') }}"
                                         {% endif %}
-                                        placeholder="0.00">
+                                        placeholder="0.00" step="any">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -119,7 +119,8 @@
                         <h4>Transaction Flags</h4>
                         <strong>Fiscal:</strong> this transaction has generated a fiscal invoice or bill. It is merely informative
                         and it is meant to help you organize your tax declarations.<br>
-                        <strong>Extraordinary:</strong> this transaction will not be considered in your budget and limit calculations.
+                        <strong>Extraordinary:</strong> this transaction will not be considered in your budget and limit
+                        calculations. (Don't use it to fool yourself!)
                     </div>
                 </div>
             </div>
