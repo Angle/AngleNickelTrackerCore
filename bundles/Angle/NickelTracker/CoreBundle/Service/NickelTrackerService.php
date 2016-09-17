@@ -1417,7 +1417,7 @@ ENDSQL;
         $firstDayOfMonth = $today->format('Y-m') . '-01';
         $lastDayOfMonth = $today->format('Y-m-t');
 
-        // Query the Transactions table to obtain general results of the user's budget and expending
+        // Query the Transactions table to obtain general results of the user's budget and spending
         $dashboardTransactions = <<<ENDSQL
 SELECT
     IFNULL(SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END), 0) as `income`,
@@ -1426,6 +1426,7 @@ FROM Transactions as t
 WHERE t.userId = :userId
 AND t.date >= :firstDayOfMonth
 AND t.date <= :lastDayOfMonth
+AND t.extraordinary = 0
 ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardTransactions);
@@ -1478,9 +1479,10 @@ LEFT JOIN (
 		SUM(t.amount) as `expense`
 	FROM Transactions as t
 	WHERE t.userId = :userId
-	AND t.type = 'E'
-	AND t.date >= :firstDayOfMonth
-	AND t.date <= :lastDayOfMonth
+        AND t.type = 'E'
+        AND t.date >= :firstDayOfMonth
+        AND t.date <= :lastDayOfMonth
+        AND t.extraordinary = 0
 	GROUP BY t.categoryId
 ) as tr ON c.categoryId = tr.categoryId
 WHERE c.userId = :userId
@@ -1494,10 +1496,11 @@ SELECT
 	SUM(t.amount) as `expense`
 FROM Transactions as t
 WHERE t.userId = :userId
-AND t.categoryId IS NULL
-AND t.type = 'E'
-AND t.date >= :firstDayOfMonth
-AND t.date <= :lastDayOfMonth
+    AND t.categoryId IS NULL
+    AND t.type = 'E'
+    AND t.date >= :firstDayOfMonth
+    AND t.date <= :lastDayOfMonth
+    AND t.extraordinary = 0
 
 ORDER BY expense DESC, name ASC
 ENDSQL;
