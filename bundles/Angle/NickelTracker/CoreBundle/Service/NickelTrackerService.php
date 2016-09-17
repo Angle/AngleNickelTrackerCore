@@ -2,7 +2,7 @@
 
 namespace Angle\NickelTracker\CoreBundle\Service;
 
-use Angle\NickelTracker\CoreBundle\Entity\Transaction;
+
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
@@ -16,6 +16,8 @@ use Angle\NickelTracker\CoreBundle\Entity\User;
 use Angle\NickelTracker\CoreBundle\Entity\Account;
 use Angle\NickelTracker\CoreBundle\Entity\Category;
 use Angle\NickelTracker\CoreBundle\Entity\Commerce;
+use Angle\NickelTracker\CoreBundle\Entity\Transaction;
+use Angle\NickelTracker\CoreBundle\Entity\ScheduledTransaction;
 
 class NickelTrackerService
 {
@@ -914,7 +916,6 @@ ENDSQL;
     ###   TRANSACTION METHODS
     ###
 
-    ## TODO: LIST TRANSACTIONS AND FILTERS!
     /**
      * Return an ArrayCollection of the User's transactions
      * @param array $filters
@@ -1353,6 +1354,73 @@ ENDSQL;
         return $this->flushAndUpdateBalances();
     }
 
+    #####################################################################################################
+    ###
+    ###   SCHEDULED TRANSACTION METHODS
+    ###
+
+    /**
+     * Return an ArrayCollection of the User's Scheduled Transactions
+     * @return ArrayCollection
+     */
+    public function loadScheduledTransactions()
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Load the user's scheduled transactions
+        /* @var \Doctrine\ORM\EntityRepository $repository */
+        $repository = $this->doctrine->getRepository(ScheduledTransaction::class);
+        $query = $repository->createQueryBuilder('e')
+            ->select('e AS transaction')
+            ->addSelect('src.name AS sourceAccount')
+            ->addSelect('dst.name AS destinationAccount')
+            ->addSelect('cat.name AS category')
+            ->addSelect('com.name AS commerce')
+            ->leftJoin('e.sourceAccountId', 'src')
+            ->leftJoin('e.destinationAccountId', 'dst')
+            ->leftJoin('e.categoryId', 'cat')
+            ->leftJoin('e.commerceId', 'com')
+            ->where("e.userId = :userId")
+            ->orderBy('e.day','ASC')
+            ->setParameter('userId', $this->user->getUserId());
+
+        $transactions = $query->getQuery()->getResult();
+
+        return $transactions;
+    }
+
+    /**
+     * Load a single scheduled transaction
+     *
+     * @param int $id Scheduled Transaction ID
+     * @return ScheduledTransaction|false
+     */
+    public function loadScheduledTransaction($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Transaction
+        $repository = $this->doctrine->getRepository(ScheduledTransaction::class);
+        /** @var ScheduledTransaction $transaction */
+        $transaction = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'transactionId' => $id,
+        ));
+
+        if (!$transaction) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Transaction not found';
+            return false;
+        }
+
+        return $transaction;
+    }
+
 
     #####################################################################################################
     ###
@@ -1394,6 +1462,12 @@ ENDSQL;
 
         return $this->flush();
     }
+
+
+    #####################################################################################################
+    ###
+    ###   REPORTS
+    ###
 
     /**
      * Generate the dashboard info for a user

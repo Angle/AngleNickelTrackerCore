@@ -1,0 +1,161 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Transaction' %}
+{% set active = 'transaction' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-text-o"></i> Transaction Details
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Transaction View -->
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            {% if transaction.type == 'I' %}
+                                <i class="fa fa-plus fa-fw"></i> Income Transaction
+                            {% elseif transaction.type == 'E'%}
+                                <i class="fa fa-minus fa-fw"></i> Expense Transaction
+                            {% elseif transaction.type == 'T' %}
+                                <i class="fa fa-arrow-right fa-fw"></i> Transfer Transaction
+                            {% endif %}
+                        </h3>
+                    </div>
+
+                    <div class="box-body no-padding">
+
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Source Account</th>
+                                <td>{{ transaction.sourceAccountId.name }}</td>
+                            </tr>
+                            {% if transaction.type == 'T' %}
+                            <tr>
+                                <th>Destination Account</th>
+                                <td>{{ transaction.destinationAccountId.name }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if transaction.type == 'E' %}
+                            <tr>
+                                <th>Category</th>
+                                <td>
+                                    {% if transaction.categoryId %}
+                                        {{ transaction.categoryId.name }}
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Commerce</th>
+                                <td>
+                                    {% if transaction.commerceId %}
+                                        {{ transaction.commerceId.name }}
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ transaction.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Details</th>
+                                <td>{{ transaction.details }}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount</th>
+                                <td>${{ transaction.amount|number_format(2) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ transaction.date|date('D j M Y') }} <small>(Wk {{ transaction.date|date('o-W') }})</small></td>
+                            </tr>
+                            <tr>
+                                <th>Flags</th>
+                                <td>{% if transaction.fiscal and transaction.extraordinary %}
+                                    Fiscal<br>Extraordinary
+                                    {% elseif transaction.fiscal %}
+                                    Fiscal
+                                    {% elseif transaction.extraordinary %}
+                                    Extraordinary
+                                    {% else %}
+                                    <em>None</em>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                {#
+                <div style="padding: 10px 0px; text-align: center;">
+                    <div class="text-muted">
+                        <strong>Reminder:</strong> Nothing to remind..
+                    </div>
+                </div>
+                #}
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        {% if transaction.type == 'I' %}
+                            <a href="{{ path('angle_nt_app_transaction_income', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                        {% elseif transaction.type == 'E'%}
+                            <a href="{{ path('angle_nt_app_transaction_expense', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                        {% elseif transaction.type == 'T' %}
+                            <a href="{{ path('angle_nt_app_transaction_transfer', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-6">
+                        <form action="{{ path('angle_nt_app_transaction_delete') }}" method="post">
+                            <input type="hidden" name="id" value="{{ transaction.transactionId }}">
+                            <button type="submit" class="btn btn-block btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete the transaction \'{{ transaction.description }}\'? This action cannot be undone.');">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <!-- Enable DatePicker -->
+    <script>
+        $(function () {
+            //Date picker
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                clearBtn: true
+            });
+        });
+    </script>
+{% endblock %}

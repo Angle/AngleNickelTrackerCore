@@ -1,0 +1,86 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'Scheduled Transactions' %}
+{% set active = 'scheduled' %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Scheduled Transactions
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Scheduled Transactions Table -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-body table-responsive">
+
+                        <table class="table" id="datatable">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Account</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Day</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for e in transactions %}
+                                <tr>
+                                    <td>
+                                        {% if e.transaction.type == 'I' %}
+                                            <i class="fa fa-plus"></i>
+                                        {% elseif e.transaction.type == 'E' %}
+                                            <i class="fa fa-minus"></i>
+                                        {% elseif e.transaction.type == 'T' %}
+                                            <i class="fa fa-arrow-right"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ e.sourceAccount }}
+                                        {% if e.transaction.type == 'T' %}
+                                            <i class="fa fa-angle-right"></i> {{ e.destinationAccount }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if e.transaction.type == 'E' %}
+                                            {{ e.category|default('N/A') }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if e.transaction.type == 'E' and e.commerce %}
+                                            {{ e.commerce }}:
+                                        {% endif %}
+                                        {{ e.transaction.description }}
+                                    </td>
+                                    <td>${{ e.transaction.amount|number_format(2) }}</td>
+                                    <td>{{ e.transaction.day }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_scheduled_view', {'id': e.transaction.scheduledTransactionId}) }}">
+                                            <i class="fa fa-bars"></i> Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}

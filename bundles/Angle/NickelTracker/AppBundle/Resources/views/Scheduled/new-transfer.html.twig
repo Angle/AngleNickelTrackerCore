@@ -1,0 +1,132 @@
+{% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
+{% set page_title = 'New Transfer Transaction' %}
+{% set active = 'new-transfer' %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {% if transaction.transactionId %}
+                <i class="fa fa-edit"></i> Edit Transfer Transaction
+            {% else %}
+                <i class="fa fa-arrow-right"></i> New Transfer Transaction
+            {% endif %}
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Transaction Form -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                <div class="box box-primary">
+
+                    <form role="form" method="post" action="{{ path('angle_nt_app_transaction_transfer', {'id': transaction.transactionId}) }}">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="transactionSourceAccount">Account</label>
+                                <select class="form-control" id="transactionSourceAccount" name="transactionSourceAccount" required="required">
+                                    <option value="" {% if not transaction.sourceAccountId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
+                                    {% for account in accounts %}
+                                        <option value="{{ account.accountId }}"
+                                                {% if transaction.sourceAccountId and transaction.sourceAccountId.accountId == account.accountId %}selected="selected"{% endif %}
+                                        >{{ account.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionDestinationAccount">Account</label>
+                                <select class="form-control" id="transactionDestinationAccount" name="transactionDestinationAccount" required="required">
+                                    <option value="" {% if not transaction.destinationAccountId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
+                                    {% for account in accounts %}
+                                        <option value="{{ account.accountId }}"
+                                                {% if transaction.destinationAccountId and transaction.destinationAccountId.accountId == account.accountId %}selected="selected"{% endif %}
+                                        >{{ account.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionDescription">Description</label>
+                                <input type="text" class="form-control" id="transactionDescription" name="transactionDescription"
+                                       placeholder="Enter a general description of the transaction" required="required"
+                                       value="{{ transaction.description }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionDetails">Details</label>
+                                <textarea class="form-control" rows="3" name="transactionDetails"
+                                          placeholder="Enter a detailed description..">{{ transaction.details }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionAmount">Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
+                                       {% if transaction.amount != 0 %}
+                                           value="{{ transaction.amount|number_format(2, '.', '') }}"
+                                       {% endif %}
+                                       placeholder="0.00" min="0" step="any">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionDate">Date</label>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate"
+                                           required="required"
+                                            {% if transaction.date %}
+                                        value="{{ transaction.date|date('Y-m-d') }}"
+                                    {% else %}
+                                        value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}"
+                                            {% endif %}>
+                                </div>
+                            </div>
+                            <div class="form-group expense-options">
+                                <label class="expense-options-title">Flags</label>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagFiscal" value="1"
+                                               {% if transaction.fiscal %}checked="checked"{% endif %}>
+                                        Fiscal
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagExtraordinary" value="1"
+                                               {% if transaction.extraordinary %}checked="checked"{% endif %}>
+                                        Extraordinary
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <!-- Enable DatePicker -->
+    <script>
+        $(function () {
+            //Date picker
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                clearBtn: true
+            });
+        });
+    </script>
+{% endblock %}

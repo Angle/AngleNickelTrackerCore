@@ -111,6 +111,28 @@ angle_nt_app_transaction_transfer:
     requirements:
         id:     \d+
 
+## Scheduled Transaction
+angle_nt_app_scheduled_list:
+    pattern:    /scheduled
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Scheduled:list }
+
+angle_nt_app_scheduled_view:
+    pattern:    /scheduled/view/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Scheduled:view }
+    requirements:
+        id:     \d+
+
+angle_nt_app_scheduled_delete:
+    pattern:    /scheduled/delete
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Scheduled:delete }
+    methods:    [POST]
+
+angle_nt_app_scheduled_process:
+    pattern:    /scheduled/process/{id}
+    defaults:   { _controller: AngleNickelTrackerAppBundle:Scheduled:process, id: 0 }
+    requirements:
+        id:     \d+
+
 ## User
 angle_nt_app_user_profile:
     pattern:    /user

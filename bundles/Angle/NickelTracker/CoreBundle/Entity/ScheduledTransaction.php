@@ -6,27 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Angle\Common\UtilityBundle\Random\RandomUtility;
+use Angle\NickelTracker\CoreBundle\Entity\Transaction;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Transactions", indexes={@ORM\Index(name="date_idx", columns={"date"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="amount_idx", columns={"amount"})})
+ * @ORM\Table(name="ScheduledTransactions")
  * @ORM\HasLifecycleCallbacks()
  */
-class Transaction
+class ScheduledTransaction
 {
     #########################
     ##        PRESETS      ##
     #########################
 
-    const TYPE_INCOME   = 'I';
-    const TYPE_EXPENSE  = 'E';
-    const TYPE_TRANSFER = 'T';
-
-    protected static $types = array(
-        self::TYPE_INCOME   => 'Income',
-        self::TYPE_EXPENSE  => 'Expense',
-        self::TYPE_TRANSFER => 'Transfer'
-    );
+    // none. Inheriting from Transaction
 
     #########################
     ##      PROPERTIES     ##
@@ -37,7 +30,7 @@ class Transaction
      * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $transactionId;
+    protected $scheduledTransactionId;
 
     /**
      * @ORM\Column(type="string", length=1, nullable=false)
@@ -60,9 +53,9 @@ class Transaction
     protected $details;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="smallint", nullable=false)
      */
-    protected $date;
+    protected $day;
 
     /**
      * Unique auto-generated code
@@ -133,7 +126,7 @@ class Transaction
 
     public static function getAvailableTypes()
     {
-        return self::$types;
+        return Transaction::getAvailableTypes();
     }
 
 
@@ -143,11 +136,11 @@ class Transaction
 
     public function getTypeName()
     {
-        if (!array_key_exists($this->type, self::$types)) {
-            throw new \RuntimeException("Transaction Type '" . $this->type . "' for Transaction ID " . $this->transactionId . " is invalid.");
+        if (!array_key_exists($this->type, Transaction::getAvailableTypes())) {
+            throw new \RuntimeException("Scheduled Transaction Type '" . $this->type . "' for Scheduled Transaction ID " . $this->scheduledTransactionId . " is invalid.");
         }
 
-        return self::$types[$this->type];
+        return Transaction::getAvailableTypes()[$this->type];
     }
 
 
@@ -160,7 +153,7 @@ class Transaction
      */
     public function getTransactionId()
     {
-        return $this->transactionId;
+        return $this->scheduledTransactionId;
     }
 
     /**
@@ -173,7 +166,7 @@ class Transaction
 
     /**
      * @param string $type
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setType($type)
     {
@@ -191,7 +184,7 @@ class Transaction
 
     /**
      * @param float $amount
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setAmount($amount)
     {
@@ -209,7 +202,7 @@ class Transaction
 
     /**
      * @param string $description
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setDescription($description)
     {
@@ -227,7 +220,7 @@ class Transaction
 
     /**
      * @param string $details
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setDetails($details)
     {
@@ -235,23 +228,7 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param \DateTime $date
-     * @return Transaction
-     */
-    public function setDate(\DateTime $date)
-    {
-        $this->date = $date;
-        return $this;
-    }
+    // TODO: Day
 
     /**
      * @return string
@@ -263,7 +240,7 @@ class Transaction
 
     /**
      * @param string $code
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setCode($code)
     {
@@ -281,7 +258,7 @@ class Transaction
 
     /**
      * @param bool $fiscal
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setFiscal($fiscal)
     {
@@ -299,7 +276,7 @@ class Transaction
 
     /**
      * @param bool $extraordinary
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setExtraordinary($extraordinary)
     {
@@ -322,7 +299,7 @@ class Transaction
 
     /**
      * @param User $userId
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setUserId(User $userId)
     {
@@ -334,7 +311,7 @@ class Transaction
      * Set sourceAccountId
      *
      * @param Account $accountId
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setSourceAccountId(Account $accountId)
     {
@@ -357,7 +334,7 @@ class Transaction
      * Set destinationAccountId
      *
      * @param Account|null $accountId
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setDestinationAccountId(Account $accountId = null)
     {
@@ -386,7 +363,7 @@ class Transaction
 
     /**
      * @param Category|null $categoryId
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setCategoryId(Category $categoryId = null)
     {
@@ -404,7 +381,7 @@ class Transaction
 
     /**
      * @param Commerce|null $commerceId
-     * @return Transaction
+     * @return ScheduledTransaction
      */
     public function setCommerceId(Commerce $commerceId = null)
     {
