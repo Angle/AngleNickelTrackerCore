@@ -227,14 +227,17 @@
                 $dest.attr('disabled', 'disabled');
                 $cat.attr('disabled', 'disabled');
                 $comm.attr('disabled', 'disabled');
+                $comm.css('background-color', '#eee'); // fixing issue with Typeahead
             } else if (t == 'E') {
                 $dest.attr('disabled', 'disabled');
                 $cat.removeAttr('disabled');
                 $comm.removeAttr('disabled');
+                $comm.css('background-color', 'transparent'); // fixing issue with Typeahead
             } else if (t == 'T') {
                 $dest.removeAttr('disabled');
                 $cat.attr('disabled', 'disabled');
                 $comm.attr('disabled', 'disabled');
+                $comm.css('background-color', '#eee'); // fixing issue with Typeahead
             }
 
         });
