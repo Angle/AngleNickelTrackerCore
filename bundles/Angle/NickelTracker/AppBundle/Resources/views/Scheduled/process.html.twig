@@ -27,6 +27,28 @@
                     <form role="form" method="post" action="{{ path('angle_nt_app_scheduled_process', {'id': transaction.scheduledTransactionId}) }}">
                         <div class="box-body">
                             <div class="form-group">
+                                <label>Type</label>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="radio" name="transactionType" value="I"
+                                               {% if transaction.type == 'I' %}checked="checked"{% endif %}>
+                                        <i class="fa fa-minus"></i> Income
+                                    </label>
+                                </div>
+                                    <label>
+                                        <input type="radio" name="transactionType" value="E"
+                                               {% if transaction.type == 'E' %}checked="checked"{% endif %}>
+                                        <i class="fa fa-minus"></i> Expense
+                                    </label>
+                                </div>
+                                    <label>
+                                        <input type="radio" name="transactionType" value="T"
+                                               {% if transaction.type == 'T' %}checked="checked"{% endif %}>
+                                        <i class="fa fa-minus"></i> Transfer
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="transactionSourceAccount">Source Account</label>
                                 <select class="form-control" id="transactionSourceAccount" name="transactionSourceAccount" required="required">
                                     <option value="" {% if not transaction.sourceAccountId %}selected="selected"{% endif %} disabled="disabled">-- Select Account --</option>
