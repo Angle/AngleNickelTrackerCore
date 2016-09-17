@@ -8,6 +8,10 @@
     <section class="content-header">
         <h1>
             Scheduled Transactions
+
+            <a href="{{ path('angle_nt_app_scheduled_process') }}" class="btn btn-primary btn-sm pull-right">
+                <i class="fa fa-plus"></i> New Scheduled Transaction
+            </a>
         </h1>
     </section>
 
@@ -70,6 +74,12 @@
                                         <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_scheduled_view', {'id': e.transaction.scheduledTransactionId}) }}">
                                             <i class="fa fa-bars"></i> Details
                                         </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="no-results-td">
+                                        Woops! You have not registered any scheduled transactions!
                                     </td>
                                 </tr>
                             {% endfor %}
