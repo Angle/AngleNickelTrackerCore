@@ -70,6 +70,17 @@ class Transaction
      */
     protected $code;
 
+    // Flags
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $fiscal = false;
+
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    protected $extraordinary = false;
+
 
     #########################
     ## OBJECT RELATIONSHIP ##
@@ -257,6 +268,42 @@ class Transaction
     public function setCode($code)
     {
         $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFiscal()
+    {
+        return $this->fiscal;
+    }
+
+    /**
+     * @param bool $fiscal
+     * @return Transaction
+     */
+    public function setFiscal($fiscal)
+    {
+        $this->fiscal = $fiscal;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getExtraordinary()
+    {
+        return $this->extraordinary;
+    }
+
+    /**
+     * @param bool $extraordinary
+     * @return Transaction
+     */
+    public function setExtraordinary($extraordinary)
+    {
+        $this->extraordinary = $extraordinary;
         return $this;
     }
 

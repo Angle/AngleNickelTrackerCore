@@ -1011,9 +1011,10 @@ ENDSQL;
      * @param string|null $details Transaction details
      * @param float $amount Transaction amount
      * @param \DateTime $date Transaction date
+     * @param array|null $flags Optionals transaction flags
      * @return int|false TransactionID created
      */
-    public function processIncomeTransaction($transactionId, $sourceAccountId, $description, $details, $amount, \DateTime $date)
+    public function processIncomeTransaction($transactionId, $sourceAccountId, $description, $details, $amount, \DateTime $date, $flags=array())
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -1062,6 +1063,13 @@ ENDSQL;
         $transaction->setDetails($details);
         $transaction->setAmount($amount);
         $transaction->setDate($date);
+
+        // Transaction Flags
+        if (array_key_exists('fiscal', $flags)) {
+            $transaction->setFiscal($flags['fiscal']);
+        }
+
+        // Set the User ID
         $transaction->setUserId($this->user);
 
         $this->em->persist($transaction);
@@ -1084,9 +1092,10 @@ ENDSQL;
      * @param string|null $details Transaction details
      * @param float $amount Transaction amount
      * @param \DateTime $date Transaction date
+     * @param array|null $flags Optionals transaction flags
      * @return int|false TransactionID created
      */
-    public function processExpenseTransaction($transactionId, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, \DateTime $date)
+    public function processExpenseTransaction($transactionId, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, \DateTime $date, $flags=array())
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -1176,6 +1185,16 @@ ENDSQL;
         $transaction->setDetails($details);
         $transaction->setAmount($amount);
         $transaction->setDate($date);
+
+        // Transaction Flags
+        if (array_key_exists('fiscal', $flags)) {
+            $transaction->setFiscal($flags['fiscal']);
+        }
+        if (array_key_exists('extraordinary', $flags)) {
+            $transaction->setExtraordinary($flags['extraordinary']);
+        }
+
+        // Set the User ID
         $transaction->setUserId($this->user);
 
         $this->em->persist($transaction);
@@ -1197,9 +1216,10 @@ ENDSQL;
      * @param string|null $details Transaction details
      * @param float $amount Transaction amount
      * @param \DateTime $date Transaction date
+     * @param array|null $flags Optionals transaction flags
      * @return int|false TransactionID created
      */
-    public function processTransferTransaction($transactionId, $sourceAccountId, $destinationAccountId, $description, $details, $amount, \DateTime $date)
+    public function processTransferTransaction($transactionId, $sourceAccountId, $destinationAccountId, $description, $details, $amount, \DateTime $date, $flags=array())
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -1264,6 +1284,13 @@ ENDSQL;
         $transaction->setDetails($details);
         $transaction->setAmount($amount);
         $transaction->setDate($date);
+
+        // Transaction Flags
+        if (array_key_exists('fiscal', $flags)) {
+            $transaction->setFiscal($flags['fiscal']);
+        }
+
+        // Set the User ID
         $transaction->setUserId($this->user);
 
         $this->em->persist($transaction);

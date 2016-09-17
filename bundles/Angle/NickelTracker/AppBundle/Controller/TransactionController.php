@@ -104,8 +104,9 @@ class TransactionController extends Controller
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
             $amount             = $request->request->get('transactionAmount');
+
             $date               = $request->request->get('transactionDate');
-            $date = \DateTime::createFromFormat('Y-m-d', $date);
+            $date               = \DateTime::createFromFormat('Y-m-d', $date);
 
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
