@@ -22,6 +22,7 @@ class Account
     const TYPE_DEBIT     = 'D';
     const TYPE_CREDIT    = 'C';
     const TYPE_SAVINGS   = 'S';
+    const TYPE_COUPON    = 'P';
     const TYPE_LOANED    = 'L';
 
     protected static $types = array(
@@ -29,6 +30,7 @@ class Account
         self::TYPE_DEBIT     => 'Debit',
         self::TYPE_CREDIT    => 'Credit',
         self::TYPE_SAVINGS   => 'Savings',
+        self::TYPE_COUPON    => 'Coupon',
         self::TYPE_LOANED    => 'Loaned',
     );
 
