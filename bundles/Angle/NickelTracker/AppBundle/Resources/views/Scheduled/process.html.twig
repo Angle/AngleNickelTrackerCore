@@ -26,25 +26,25 @@
 
                     <form role="form" method="post" action="{{ path('angle_nt_app_scheduled_process', {'id': transaction.scheduledTransactionId}) }}">
                         <div class="box-body">
-                            <div class="form-group bottom-divider">
+                            <div class="form-group bottom-divider" id="transactionType">
                                 <label>Type</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="transactionType" value="I"
+                                        <input type="radio" id="transactionTypeIncome" name="transactionType" value="I"
                                                {% if transaction.type == 'I' %}checked="checked"{% endif %}>
                                         <i class="fa fa-minus fa-fw"></i> Income
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="transactionType" value="E"
+                                        <input type="radio" id="transactionTypeExpense" name="transactionType" value="E"
                                                {% if transaction.type == 'E' %}checked="checked"{% endif %}>
                                         <i class="fa fa-plus fa-fw"></i> Expense
                                     </label>
                                 <div class="radio">
                                 </div>
                                     <label>
-                                        <input type="radio" name="transactionType" value="T"
+                                        <input type="radio" id="transactionTypeTransfer" name="transactionType" value="T"
                                                {% if transaction.type == 'T' %}checked="checked"{% endif %}>
                                         <i class="fa fa-arrow-right fa-fw"></i> Transfer
                                     </label>
@@ -211,6 +211,21 @@
 
     <!-- Disable and enable fields based on the selected transaction type -->
     <script type="text/javascript">
+        $('#transactionType input[type=radio]').change(function() {
+            var t = $(this).val();
+
+            if (t == 'I') {
+                alert('Income selected');
+            } else if (t == 'E') {
+                alert('Expense selected');
+            } else if (t == 'T') {
+                alert('Transfer selected');
+            }
+
+        });
+
+
+        /*
         $('#transactionType').change(function(){
             //console.log('New type selected: ' + $(this).val());
             // Check if the selected account type is Credit, if so, enable the Credit Limit input
@@ -221,5 +236,6 @@
                 $i.attr('disabled','disabled');
             }
         });
+        */
     </script>
 {% endblock %}
