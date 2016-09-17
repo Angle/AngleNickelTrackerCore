@@ -214,12 +214,27 @@
         $('#transactionType input[type=radio]').change(function() {
             var t = $(this).val();
 
+            // Fields that change:
+            // - Destination Account
+            // - Category
+            // - Commerce
+
+            var $dest = $('#transactionDestinationAccount');
+            var $cat = $('#transactionCategory');
+            var $comm = $('#transactionCommerce');
+
             if (t == 'I') {
-                alert('Income selected');
+                $dest.attr('disabled', 'disabled');
+                $cat.attr('disabled', 'disabled');
+                $comm.attr('disabled', 'disabled');
             } else if (t == 'E') {
-                alert('Expense selected');
+                $dest.attr('disabled', 'disabled');
+                $cat.removeAttr('disabled');
+                $comm.removeAttr('disabled');
             } else if (t == 'T') {
-                alert('Transfer selected');
+                $dest.removeAttr('disabled');
+                $cat.attr('disabled', 'disabled');
+                $comm.attr('disabled', 'disabled');
             }
 
         });
