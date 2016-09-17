@@ -28,23 +28,25 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label>Type</label>
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label>
                                         <input type="radio" name="transactionType" value="I"
                                                {% if transaction.type == 'I' %}checked="checked"{% endif %}>
-                                        <i class="fa fa-minus"></i> Income
+                                        <i class="fa fa-minus fa-fw"></i> Income
                                     </label>
                                 </div>
+                                <div class="radio">
                                     <label>
                                         <input type="radio" name="transactionType" value="E"
                                                {% if transaction.type == 'E' %}checked="checked"{% endif %}>
-                                        <i class="fa fa-minus"></i> Expense
+                                        <i class="fa fa-plus fa-fw"></i> Expense
                                     </label>
+                                <div class="radio">
                                 </div>
                                     <label>
                                         <input type="radio" name="transactionType" value="T"
                                                {% if transaction.type == 'T' %}checked="checked"{% endif %}>
-                                        <i class="fa fa-minus"></i> Transfer
+                                        <i class="fa fa-arrow-right fa-fw"></i> Transfer
                                     </label>
                                 </div>
                             </div>
