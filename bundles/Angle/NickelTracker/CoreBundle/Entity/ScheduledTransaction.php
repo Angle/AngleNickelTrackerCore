@@ -228,7 +228,23 @@ class ScheduledTransaction
         return $this;
     }
 
-    // TODO: Day
+    /**
+     * @return int
+     */
+    public function getDay()
+    {
+        return $this->day;
+    }
+
+    /**
+     * @param int $day
+     * @return ScheduledTransaction
+     */
+    public function setDay($day)
+    {
+        $this->day = $day;
+        return $this;
+    }
 
     /**
      * @return string

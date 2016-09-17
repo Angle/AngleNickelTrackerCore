@@ -110,16 +110,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="transactionDate">Date</label>
-                                <div class="input-group date">
+                                <label for="transactionDay">Day</label>
+                                <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control pull-right datepicker" id="transactionDate" name="transactionDate"
-                                           required="required"
-                                            {% if transaction.date %}
-                                                value="{{ transaction.date|date('Y-m-d') }}"
-                                            {% else %}
-                                                value="{{ 'now'|date('Y-m-d', 'America/Monterrey') }}"
-                                            {% endif %}>
+                                    <input type="number" class="form-control" id="transactionDay" name="transactionDay" required="required"
+                                            {% if transaction.day %}
+                                                value="{{ transaction.day }}"
+                                            {% endif %}
+                                           placeholder="--" step="1">
                                 </div>
                             </div>
                             <div class="form-group expense-options">
