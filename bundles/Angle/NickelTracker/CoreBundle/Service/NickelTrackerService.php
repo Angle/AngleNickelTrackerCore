@@ -1067,9 +1067,13 @@ ENDSQL;
         // Transaction Flags
         if (array_key_exists('fiscal', $flags)) {
             $transaction->setFiscal($flags['fiscal']);
+        } else {
+            $transaction->setFiscal(false);
         }
         if (array_key_exists('extraordinary', $flags)) {
             $transaction->setExtraordinary($flags['extraordinary']);
+        } else {
+            $transaction->setExtraordinary(false);
         }
 
         // Set the User ID
@@ -1192,9 +1196,13 @@ ENDSQL;
         // Transaction Flags
         if (array_key_exists('fiscal', $flags)) {
             $transaction->setFiscal($flags['fiscal']);
+        } else {
+            $transaction->setFiscal(false);
         }
         if (array_key_exists('extraordinary', $flags)) {
             $transaction->setExtraordinary($flags['extraordinary']);
+        } else {
+            $transaction->setExtraordinary(false);
         }
 
         // Set the User ID
@@ -1291,9 +1299,13 @@ ENDSQL;
         // Transaction Flags
         if (array_key_exists('fiscal', $flags)) {
             $transaction->setFiscal($flags['fiscal']);
+        } else {
+            $transaction->setFiscal(false);
         }
         if (array_key_exists('extraordinary', $flags)) {
             $transaction->setExtraordinary($flags['extraordinary']);
+        } else {
+            $transaction->setExtraordinary(false);
         }
 
         // Set the User ID

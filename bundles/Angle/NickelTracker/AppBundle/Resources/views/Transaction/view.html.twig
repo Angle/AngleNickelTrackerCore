@@ -83,6 +83,19 @@
                                 <th>Date</th>
                                 <td>{{ transaction.date|date('D j M Y') }} <small>(Wk {{ transaction.date|date('o-W') }})</small></td>
                             </tr>
+                            <tr>
+                                <th>Flags</th>
+                                <td>{% if transaction.fiscal and transaction.extraordinary %}
+                                    Fiscal<br>Extraordinary
+                                    {% elseif transaction.fiscal %}
+                                    Fiscal
+                                    {% elseif transaction.extraordinary %}
+                                    Extraordinary
+                                    {% else %}
+                                    <em>None</em>
+                                    {% endif %}
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
 
