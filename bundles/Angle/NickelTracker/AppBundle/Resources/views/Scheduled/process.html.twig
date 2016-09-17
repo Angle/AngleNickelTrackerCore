@@ -41,8 +41,8 @@
                                                {% if transaction.type == 'E' %}checked="checked"{% endif %}>
                                         <i class="fa fa-plus fa-fw"></i> Expense
                                     </label>
-                                <div class="radio">
                                 </div>
+                                <div class="radio">
                                     <label>
                                         <input type="radio" id="transactionTypeTransfer" name="transactionType" value="T"
                                                {% if transaction.type == 'T' %}checked="checked"{% endif %}>
@@ -119,7 +119,7 @@
                                             {% if transaction.day %}
                                                 value="{{ transaction.day }}"
                                             {% endif %}
-                                           placeholder="--" step="1">
+                                           placeholder="--" step="1" min="1" max="31">
                                 </div>
                             </div>
                             <div class="form-group expense-options">

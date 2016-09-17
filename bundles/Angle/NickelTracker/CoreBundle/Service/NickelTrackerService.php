@@ -1265,25 +1265,25 @@ ENDSQL;
             return false;
         }
 
-        // Attempt to load the Destionation Account
-        /** @var Account $sourceAccount */
+        // Attempt to load the Destination Account
+        /** @var Account $destinationAccount */
         $destinationAccount = $repository->findOneBy(array(
             'userId'    => $this->user->getUserId(),
             'accountId' => $destinationAccountId,
             'deleted'   => false,
         ));
 
-        if (!$sourceAccountId) {
+        if (!$destinationAccount) {
             $this->errorType = 'NickelTracker';
             $this->errorCode = 1;
             $this->errorMessage = 'Destination Account not found';
             return false;
         }
 
-        if (!$amount) {
+        if (!$amount || $amount < 0) {
             $this->errorType = 'NickelTracker';
             $this->errorCode = 1;
-            $this->errorMessage = 'Amount cannot be zero';
+            $this->errorMessage = 'Amount cannot be less than or equal to zero';
             return false;
         }
 
@@ -1419,6 +1419,188 @@ ENDSQL;
         }
 
         return $transaction;
+    }
+
+    /**
+     * Create a new expense transaction
+     *
+     * @param int $transactionId Scheduled Transaction ID (if it exists, null if new)
+     * @param string $type Scheduled Transaction type
+     * @param int $sourceAccountId Source Account ID
+     * @param int $destinationAccountId Destination Account ID
+     * @param int|null $categoryId Category ID
+     * @param string|null $commerceName Commerce name string
+     * @param string $description Transaction description
+     * @param string|null $details Transaction details
+     * @param float $amount Transaction amount
+     * @param int $day Recurring transaction day
+     * @param array|null $flags Optionals transaction flags
+     * @return int|false TransactionID created
+     */
+    public function processScheduledTransaction($transactionId, $type, $sourceAccountId, $destinationAccountId, $categoryId, $commerceName, $description, $details, $amount, $day, $flags=array())
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Scheduled Transaction
+        $transaction = $this->doctrine->getRepository(ScheduledTransaction::class)
+            ->findOneBy(array(
+                'userId'        => $this->user->getUserId(),
+                'scheduledTransactionId' => $transactionId
+            ));
+
+        // If the transaction was not found (invalid ID) then initialize one
+        if (!$transaction) {
+            $transaction = new ScheduledTransaction();
+        }
+
+        ## VALIDATE COMMON PROPERTIES
+        // Check if transaction type exists
+        if (!array_key_exists($type, ScheduledTransaction::getAvailableTypes())) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Invalid Scheduled Transaction type';
+            return false;
+        }
+
+        // Check the provided day
+        if ($day < 1 || $day > 31) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Invalid recurring day selected';
+            return false;
+        }
+
+        // Attempt to load the Source Account
+        $repository = $this->doctrine->getRepository(Account::class);
+        /** @var Account $sourceAccount */
+        $sourceAccount = $repository->findOneBy(array(
+            'userId'    => $this->user->getUserId(),
+            'accountId' => $sourceAccountId,
+            'deleted'   => false,
+        ));
+
+        if (!$sourceAccountId) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Source Account not found';
+            return false;
+        }
+
+        // Check the transaction amount
+        if (!$amount) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Amount cannot be zero';
+            return false;
+        }
+
+        ## VALIDATE SPECIAL PROPERTIES FOR EACH TYPE
+        if ($type == 'E') {
+            // Expense properties
+            if ($categoryId) {
+                // Attempt to load the Category
+                $repository = $this->doctrine->getRepository(Category::class);
+                /** @var Category $category */
+                $category = $repository->findOneBy(array(
+                    'userId'    => $this->user->getUserId(),
+                    'categoryId' => $categoryId,
+                ));
+
+                if (!$category) {
+                    $this->errorType = 'NickelTracker';
+                    $this->errorCode = 1;
+                    $this->errorMessage = 'Category not found';
+                    return false;
+                }
+            } else {
+                $category = null;
+            }
+
+            if ($commerceName) {
+                // Attempt to load the Commerce
+                $repository = $this->doctrine->getRepository(Commerce::class);
+                /** @var Commerce $commerce */
+                $commerce = $repository->findOneBy(array(
+                    'userId'    => $this->user->getUserId(),
+                    'name'      => $commerceName,
+                ));
+
+                // If no commerce was found with the same name, create a new one
+                if (!$commerce) {
+                    $commerce = new Commerce();
+                    $commerce->setUserId($this->user);
+                    $commerce->setName($commerceName);
+                    $this->em->persist($commerce);
+                }
+            } else {
+                $commerce = null;
+            }
+        } else {
+            $category = null;
+            $commerce = null;
+        }
+
+        if ($type == 'T') {
+            // Attempt to load the Destination Account
+            /** @var Account $destinationAccount */
+            $destinationAccount = $repository->findOneBy(array(
+                'userId'    => $this->user->getUserId(),
+                'accountId' => $destinationAccountId,
+                'deleted'   => false,
+            ));
+
+            if (!$destinationAccount) {
+                $this->errorType = 'NickelTracker';
+                $this->errorCode = 1;
+                $this->errorMessage = 'Destination Account not found';
+                return false;
+            }
+
+            if (!$amount || $amount < 0) {
+                $this->errorType = 'NickelTracker';
+                $this->errorCode = 1;
+                $this->errorMessage = 'Amount cannot be less than or equal to zero';
+                return false;
+            }
+        } else {
+            $destinationAccount = null;
+        }
+
+        // Process the transaction
+        $transaction->setType($type);
+        $transaction->setSourceAccountId($sourceAccount);
+        $transaction->setDestinationAccountId($destinationAccount);
+        $transaction->setCategoryId($category);
+        $transaction->setCommerceId($commerce);
+        $transaction->setDescription($description);
+        $transaction->setDetails($details);
+        $transaction->setAmount($amount);
+        $transaction->setDay($day);
+
+        // Transaction Flags
+        if (array_key_exists('fiscal', $flags)) {
+            $transaction->setFiscal($flags['fiscal']);
+        } else {
+            $transaction->setFiscal(false);
+        }
+        if (array_key_exists('extraordinary', $flags)) {
+            $transaction->setExtraordinary($flags['extraordinary']);
+        } else {
+            $transaction->setExtraordinary(false);
+        }
+
+        // Set the User ID
+        $transaction->setUserId($this->user);
+
+        $this->em->persist($transaction);
+
+        if (!$this->flush()) {
+            return false;
+        } else {
+            return $transaction->getScheduledTransactionId();
+        }
     }
 
 

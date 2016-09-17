@@ -118,7 +118,7 @@ class TransactionController extends Controller
 
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
-                // Attempt to create a new account
+                // Attempt to create a new income transaction
                 $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
@@ -197,7 +197,7 @@ class TransactionController extends Controller
 
             // Check the request parameters
             if ($sourceAccountId && $description && $amount && $date) {
-                // Attempt to create a new account
+                // Attempt to create a new expense transaction
                 $r = $nt->processExpenseTransaction($id, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
@@ -285,7 +285,7 @@ class TransactionController extends Controller
 
             // Check the request parameters
             if ($sourceAccountId && $destinationAccountId && $description && $amount && $date) {
-                // Attempt to create a new account
+                // Attempt to create a new transfer transaction
                 $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $amount, $date, $flags);
 
                 if ($r) {
