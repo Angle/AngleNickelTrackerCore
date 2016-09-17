@@ -30,11 +30,13 @@
                     <i class="fa fa-book fa-fw"></i> <span>Transactions</span>
                 </a>
             </li>
+            {% if app.environment == 'dev' %}
             <li class="{% if active == 'scheduled' %}active{% endif %}">
                 <a href="{{ path('angle_nt_app_scheduled_list') }}">
                     <i class="fa fa-calendar fa-fw"></i> <span>Scheduled</span>
                 </a>
             </li>
+            {% endif %}
 
             {#
             <li class="{% if active == 'report' %}active{% endif %}">
