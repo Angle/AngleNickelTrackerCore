@@ -1,6 +1,6 @@
 {% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
-{% set page_title = 'New Expense Transaction' %}
-{% set active = 'new-expense' %}
+{% set page_title = 'New Scheduled Transaction' %}
+{% set active = 'scheduled' %}
 
 
 {% block content %}
@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {% if transaction.transactionId %}
+            {% if transaction.scheduledTransactionId %}
                 <i class="fa fa-edit"></i> Edit Expense Transaction
             {% else %}
                 <i class="fa fa-minus"></i> New Expense Transaction
@@ -24,7 +24,7 @@
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                 <div class="box box-primary">
 
-                    <form role="form" method="post" action="{{ path('angle_nt_app_transaction_expense', {'id': transaction.transactionId}) }}">
+                    <form role="form" method="post" action="{{ path('angle_nt_app_scheduled_process', {'id': transaction.scheduledTransactionId}) }}">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="transactionSourceAccount">Source Account</label>
@@ -127,17 +127,6 @@
 
                 </div>
 
-                {#
-                <div class="bottom-message">
-                    <div class="text-muted">
-                        <h4>Transaction Flags</h4>
-                        <strong>Fiscal:</strong> this transaction has generated a fiscal invoice or bill. It is merely informative
-                        and it is meant to help you organize your tax declarations.<br>
-                        <strong>Extraordinary:</strong> this transaction will not be considered in your budget and limit
-                        calculations. (Don't use it to fool yourself!)
-                    </div>
-                </div>
-                #}
             </div>
         </div>
 
@@ -195,6 +184,20 @@
                 todayBtn: "linked",
                 clearBtn: true
             });
+        });
+    </script>
+
+    <!-- Disable and enable fields based on the selected transaction type -->
+    <script type="text/javascript">
+        $('#transactionType').change(function(){
+            //console.log('New type selected: ' + $(this).val());
+            // Check if the selected account type is Credit, if so, enable the Credit Limit input
+            var $i = $('#accountCreditLimit');
+            if ($(this).val() == 'C') {
+                $i.removeAttr('disabled');
+            } else {
+                $i.attr('disabled','disabled');
+            }
         });
     </script>
 {% endblock %}
