@@ -32,6 +32,20 @@
     text-align: center;
 }
 
+/* Login Screen */
+.login-page footer {
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 10px;
+}
+.login-registration-message {
+    margin-top: 15px;
+    color: #666;
+    text-align: center;
+}
+
 /* Color box */
 .color-box {
     box-sizing: border-box;

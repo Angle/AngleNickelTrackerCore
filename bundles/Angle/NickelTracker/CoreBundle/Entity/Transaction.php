@@ -77,7 +77,7 @@ class Transaction
     protected $fiscal = false;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $extraordinary = false;
 
