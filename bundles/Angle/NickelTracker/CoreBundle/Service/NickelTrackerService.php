@@ -1603,6 +1603,52 @@ ENDSQL;
         }
     }
 
+    /**
+     * Safe-delete an scheduled transaction
+     *
+     * @param int $id Transaction ID
+     * @return bool
+     */
+    public function deleteScheduledTransaction($id)
+    {
+        if (!$this->user) {
+            throw new \RuntimeException('Session user was not found');
+        }
+
+        // Attempt to load the Scheduled Transaction
+        $repository = $this->doctrine->getRepository(ScheduledTransaction::class);
+        /** @var ScheduledTransaction $transaction */
+        $transaction = $repository->findOneBy(array(
+            'userId'        => $this->user->getUserId(),
+            'scheduledTransactionId' => $id,
+        ));
+
+        if (!$transaction) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Scheduled Transaction not found';
+            return false;
+        }
+
+        // TODO: Scheduled transaction reference
+        // Load all the user's transactions where the Scheduled Transaction was used
+        $repository = $this->doctrine->getRepository(Transaction::class);
+        $transactions = $repository->findBy(array(
+            'userId'                 => $this->user->getUserId(),
+            'scheduledTransactionId' => $id,
+        ));
+
+        // Remove the reference to the ScheduledTransaction from each transaction
+        foreach ($transactions as $transaction) {
+            /** @var Transaction $transaction */
+            $transaction->setScheduledTransactionId(null);
+        }
+
+        // Now delete the Scheduled transaction
+        $this->em->remove($transaction);
+
+        return $this->flush();
+    }
 
     #####################################################################################################
     ###

@@ -1,21 +1,20 @@
 {% extends 'AngleNickelTrackerAppBundle:Common:layout.html.twig' %}
-{% set page_title = 'Transaction' %}
-{% set active = 'transaction' %}
-
+{% set page_title = 'Scheduled Transaction' %}
+{% set active = 'scheduled' %}
 
 {% block content %}
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-text-o"></i> Transaction Details
+            <i class="fa fa-text-o"></i> Scheduled Transaction Details
         </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
 
-        <!-- Transaction View -->
+        <!-- Scheduled Transaction View -->
         <div class="row">
             <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <div class="box box-primary">
@@ -113,25 +112,15 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {% if transaction.type == 'I' %}
-                            <a href="{{ path('angle_nt_app_transaction_income', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                        {% elseif transaction.type == 'E'%}
-                            <a href="{{ path('angle_nt_app_transaction_expense', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                        {% elseif transaction.type == 'T' %}
-                            <a href="{{ path('angle_nt_app_transaction_transfer', {'id': transaction.transactionId}) }}" class="btn btn-block btn-primary">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                        {% endif %}
+                        <a href="{{ path('angle_nt_app_scheduled_process', {'id': transaction.scheduledTransactionId}) }}" class="btn btn-block btn-primary">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
                     </div>
                     <div class="col-xs-6">
-                        <form action="{{ path('angle_nt_app_transaction_delete') }}" method="post">
-                            <input type="hidden" name="id" value="{{ transaction.transactionId }}">
+                        <form action="{{ path('angle_nt_app_scheduled_delete') }}" method="post">
+                            <input type="hidden" name="id" value="{{ transaction.scheduledTransactionId }}">
                             <button type="submit" class="btn btn-block btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete the transaction \'{{ transaction.description }}\'? This action cannot be undone.');">
+                                    onclick="return confirm('Are you sure you want to delete the scheduled transaction \'{{ transaction.description }}\'? This action cannot be undone.');">
                                 <i class="fa fa-trash"></i> Delete
                             </button>
                         </form>
@@ -142,20 +131,4 @@
         </div>
 
     </section><!-- /.content -->
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <!-- Enable DatePicker -->
-    <script>
-        $(function () {
-            //Date picker
-            $('.datepicker').datepicker({
-                autoclose: true,
-                format: "yyyy-mm-dd",
-                todayBtn: "linked",
-                clearBtn: true
-            });
-        });
-    </script>
 {% endblock %}

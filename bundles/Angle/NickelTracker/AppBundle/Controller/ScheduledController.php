@@ -33,13 +33,13 @@ class ScheduledController extends Controller
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
 
-        $transaction = $nt->loadTransaction($id);
+        $transaction = $nt->loadScheduledTransaction($id);
 
         if (!$transaction) {
-            throw $this->createNotFoundException('Transaction ID ' . $id . ' not found.');
+            throw $this->createNotFoundException('Scheduled Transaction ID ' . $id . ' not found.');
         }
 
-        return $this->render('AngleNickelTrackerAppBundle:Transaction:view.html.twig', array(
+        return $this->render('AngleNickelTrackerAppBundle:Scheduled:view.html.twig', array(
             'transaction' => $transaction
         ));
     }
@@ -127,10 +127,8 @@ class ScheduledController extends Controller
         ));
     }
 
-
-
     /**
-     * Safe-delete a transaction
+     * Safe-delete a scheduled transaction
      *
      * @param Request $request
      * @return Response
@@ -143,7 +141,7 @@ class ScheduledController extends Controller
         if ($id) {
             /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
             $nt = $this->get('angle.nickeltracker');
-            $r = $nt->deleteTransaction($id);
+            $r = $nt->deleteScheduledTransaction($id);
 
             if ($r) {
                 // Everything went ok
@@ -162,6 +160,6 @@ class ScheduledController extends Controller
             $message->addToFlashBag($this->get('session')->getFlashBag());
         }
 
-        return $this->redirectToRoute('angle_nt_app_transaction_list');
+        return $this->redirectToRoute('angle_nt_app_scheduled_list');
     }
 }

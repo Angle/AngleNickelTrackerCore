@@ -143,19 +143,3 @@
 
     </section><!-- /.content -->
 {% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <!-- Enable DatePicker -->
-    <script>
-        $(function () {
-            //Date picker
-            $('.datepicker').datepicker({
-                autoclose: true,
-                format: "yyyy-mm-dd",
-                todayBtn: "linked",
-                clearBtn: true
-            });
-        });
-    </script>
-{% endblock %}
