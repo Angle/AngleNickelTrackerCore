@@ -42,14 +42,16 @@
 
 /* Fix Expense Options checboxes */
 .expense-options {
-
+    font-size: 0;
 }
 .expense-options-title {
     display: block;
+    font-size: 14px;
 }
 .expense-options .checkbox {
     width: 50%;
     display: inline-block;
+    font-size: 14px;
 }
 
 /* Fixing dropdown menu for mobiles */
@@ -57,6 +59,7 @@
     .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
         background-color: #3c8dbc !important;
         border-top-color: #3c8dbc !important;
+        border: none;
     }
 }
 

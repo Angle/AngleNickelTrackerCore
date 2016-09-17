@@ -93,13 +93,15 @@
                                 <label class="expense-options-title">Flags</label>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="transactionFlagFiscal" value="1">
+                                        <input type="checkbox" name="transactionFlagFiscal" value="1"
+                                        {% if transaction.fiscal %}checked="checked"{% endif %}>
                                         Fiscal
                                     </label>
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="transactionFlagExtraordinary" value="1">
+                                        <input type="checkbox" name="transactionFlagExtraordinary" value="1"
+                                       {% if transaction.extraordinary %}checked="checked"{% endif %}>
                                         Extraordinary
                                     </label>
                                 </div>

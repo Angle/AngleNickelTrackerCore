@@ -72,6 +72,23 @@
                                             {% endif %}>
                                 </div>
                             </div>
+                            <div class="form-group expense-options">
+                                <label class="expense-options-title">Flags</label>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagFiscal" value="1"
+                                               {% if transaction.fiscal %}checked="checked"{% endif %}>
+                                        Fiscal
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="transactionFlagExtraordinary" value="1"
+                                               {% if transaction.extraordinary %}checked="checked"{% endif %}>
+                                        Extraordinary
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
 
