@@ -54,6 +54,12 @@
     border-radius: 2px;
 }
 
+/* Form extensions */
+.form-group.bottom-divider {
+    border-bottom: 1px solid #D2D6DE;
+    padding-bottom: 10px;
+}
+
 /* Fix Expense Options checboxes */
 .expense-options {
     font-size: 0;
