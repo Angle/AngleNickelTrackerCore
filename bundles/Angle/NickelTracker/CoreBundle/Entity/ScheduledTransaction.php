@@ -151,7 +151,7 @@ class ScheduledTransaction
     /**
      * @return integer
      */
-    public function getTransactionId()
+    public function getScheduledTransactionId()
     {
         return $this->scheduledTransactionId;
     }
