@@ -122,34 +122,29 @@ class ScheduledController extends Controller
     }
 
     /**
-     * Process an Expense Transaction
+     * Process a Scheduled Transaction
      *
      * @param Request $request
-     * @param int $id Transaction ID (if it exists)
+     * @param int $id Scheduled Transaction ID (if it exists)
      * @return Response
      */
-    public function expenseAction(Request $request, $id)
+    public function processAction(Request $request, $id)
     {
         /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
         $nt = $this->get('angle.nickeltracker');
 
         // Attempt to load the transaction ID
-        $transaction = $nt->loadTransaction($id);
+        $transaction = $nt->loadScheduledTransaction($id);
 
         if (!$transaction) {
             // Transaction not found, initialize a new one
-            $transaction = new Transaction();
-        } elseif ($transaction->getType() != Transaction::TYPE_EXPENSE) {
-            // Cannot edit another type of transaction (cannot change type)
-            $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
-            $message->setExternalMessage('Invalid transaction type, cannot edit in this controller');
-            $message->addToFlashBag($this->get('session')->getFlashBag());
-            return $this->redirectToRoute('angle_nt_app_transaction_view', array('id' => $id));
+            $transaction = new ScheduledTransaction();
         }
 
         if ($request->getMethod() == 'POST') {
             // Process new transaction
             $sourceAccountId    = $request->request->get('transactionSourceAccount');
+            $destinationAccountId = $request->request->get('transactionDestinationAccount');
             $categoryId         = $request->request->get('transactionCategory');
             $commerceName       = trim($request->request->get('transactionCommerce'));
             $description        = trim($request->request->get('transactionDescription'));
@@ -202,7 +197,7 @@ class ScheduledController extends Controller
             $commercesArray[] = $c->getName();
         }
 
-        return $this->render('AngleNickelTrackerAppBundle:Transaction:new-expense.html.twig', array(
+        return $this->render('AngleNickelTrackerAppBundle:Scheduled:process.html.twig', array(
             'transaction'   => $transaction,
             'accounts'      => $accounts,
             'categories'    => $categories,

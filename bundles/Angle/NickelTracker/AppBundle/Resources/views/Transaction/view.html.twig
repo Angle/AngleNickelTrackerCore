@@ -36,7 +36,7 @@
                         <table class="table">
                             <tbody>
                             <tr>
-                                <th>Source Account</th>
+                                <th>{% if transaction.type =='T' %}Source {% endif %}Account</th>
                                 <td>{{ transaction.sourceAccountId.name }}</td>
                             </tr>
                             {% if transaction.type == 'T' %}
