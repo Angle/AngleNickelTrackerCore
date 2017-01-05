@@ -364,11 +364,12 @@ ENDSQL;
      * Create a new account for the user
      *
      * @param string $type Account type
+     * @param string $currency Account currency
      * @param string $name Account name
      * @param float $creditLimit Account's credit limit (only used for Credit accounts)
      * @return int|false AccountID created
      */
-    public function createAccount($type, $name, $creditLimit=null)
+    public function createAccount($type, $currency, $name, $creditLimit=null)
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
@@ -396,8 +397,16 @@ ENDSQL;
             return false;
         }
 
+        if (!array_key_exists($currency, Account::getAvailableCurrencies())) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Invalid currency ID provided';
+            return false;
+        }
+
         $account = new Account();
         $account->setType($type);
+        $account->setCurrency($currency);
         $account->setName($name);
         $account->setUserId($this->user);
         $account->setCreditLimit($creditLimit);

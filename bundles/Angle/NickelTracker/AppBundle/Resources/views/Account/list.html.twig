@@ -31,6 +31,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Type</th>
+                                <th>Currency</th>
                                 <th>Balance</th>
                                 <th>Credit Limit</th>
                                 <th class="text-center">Actions</th>
@@ -48,7 +49,8 @@
                                                data-original-value="{{ account.name }}">
                                     </td>
                                     <td>{{ account.typeName }}</td>
-                                    <td>${{ account.balance|number_format(2) }}
+                                    <td>{{ account.currencyName }}</td>
+                                    <td>{{ account.formattedBalance }}
                                     {% if account.type == 'C' and account.creditLimit > 0 and (account.balance/account.creditLimit) < -0.80 %}
                                         <i class="fa fa-exclamation-triangle text-warning"></i>
                                     {% endif %}

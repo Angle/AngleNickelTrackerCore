@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Angle\Common\UtilityBundle\Random\RandomUtility;
 
+use Angle\NickelTracker\CoreBundle\Preset\Currency;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="Accounts")
@@ -49,6 +51,12 @@ class Account
      * @ORM\Column(type="string", length=1, nullable=false)
      */
     protected $type;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     * @see \Angle\NickelTracker\CoreBundle\Preset\Currency
+     */
+    protected $currency = 1;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -112,6 +120,11 @@ class Account
         return self::$types;
     }
 
+    public static function getAvailableCurrencies()
+    {
+        return Currency::availableCurrenciesFlat();
+    }
+
 
     #########################
     ##   SPECIAL METHODS   ##
@@ -124,6 +137,21 @@ class Account
         }
 
         return self::$types[$this->type];
+    }
+
+    public function getCurrencyName()
+    {
+        return Currency::getCurrencyName($this->currency);
+    }
+
+    public function getCurrencyCode()
+    {
+        return Currency::getCurrencyCode($this->currency);
+    }
+
+    public function getFormattedBalance($full=false)
+    {
+        return Currency::formatMoney($this->currency, $this->balance, $full);
     }
 
 
@@ -154,6 +182,24 @@ class Account
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param int $currency
+     * @return Account
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
         return $this;
     }
 

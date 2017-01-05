@@ -34,16 +34,17 @@ class AccountController extends Controller
     {
         if ($request->getMethod() == 'POST') {
             // Process new account
-            $type   = $request->request->get('accountType');
-            $name   = trim($request->request->get('accountName'));
-            $limit  = $request->request->get('accountCreditLimit');
+            $type       = $request->request->get('accountType');
+            $currency   = $request->request->get('accountCurrency');
+            $name       = trim($request->request->get('accountName'));
+            $limit      = $request->request->get('accountCreditLimit');
 
             // Check the request parameters
-            if ($type && $name) {
+            if ($type && $currency && $name) {
                 // Attempt to create a new account
                 /** @var \Angle\NickelTracker\CoreBundle\Service\NickelTrackerService $nt */
                 $nt = $this->get('angle.nickeltracker');
-                $r = $nt->createAccount($type, $name, $limit);
+                $r = $nt->createAccount($type, $currency, $name, $limit);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
