@@ -154,6 +154,11 @@ class Account
         return Currency::formatMoney($this->currency, $this->balance, $full);
     }
 
+    public function getFormattedCreditLimit($full=false)
+    {
+        return Currency::formatMoney($this->currency, $this->creditLimit, $full);
+    }
+
 
     #########################
     ## GETTERS AND SETTERS ##

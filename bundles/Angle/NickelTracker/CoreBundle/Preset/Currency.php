@@ -90,12 +90,13 @@ abstract class Currency
      * @param boolean $full Full money representation
      * @return string
      */
-    public static function formatMoney($id, $amount, $full=true)
+    public static function formatMoney($id, $amount, $full=false)
     {
         $s = '';
         switch (self::getCurrencyFormat($id)) {
             case 1:
                 $s = self::getCurrencySymbol($id) . number_format($amount, 2);
+                if ($amount < 0) $s = '-' . $s;
                 if ($full) $s .= ' ' . self::getCurrencyCode($id);
                 break;
         }
