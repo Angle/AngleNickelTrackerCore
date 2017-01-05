@@ -74,6 +74,7 @@
                                            value="{{ transaction.amount|number_format(2, '.', '') }}"
                                         {% endif %}
                                         placeholder="0.00" step="any">
+                                    <span class="input-group-addon" id="amountCurrencyCode">--</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -172,6 +173,20 @@
                     name: 'commerces',
                     source: substringMatcher(commerces)
                 });
+    </script>
+
+    <!-- Enable currency code change on account selection -->
+    <script type="text/javascript">
+        var currencies = {{ currencies|json_encode|raw }};
+
+        $('#transactionSourceAccount').change(function(){
+            var $s = $('#accountCurrencyCode');
+            if ($(this).val() > 0) {
+                $s.text(currencies[$(this).val()]);
+            } else {
+                $s.text('--');
+            }
+        });
     </script>
 
     <!-- Enable DatePicker -->

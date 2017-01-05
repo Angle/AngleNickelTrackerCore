@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Angle\Common\UtilityBundle\Random\RandomUtility;
 
+use Angle\NickelTracker\CoreBundle\Preset\Currency;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="Transactions", indexes={@ORM\Index(name="date_idx", columns={"date"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="amount_idx", columns={"amount"})})
