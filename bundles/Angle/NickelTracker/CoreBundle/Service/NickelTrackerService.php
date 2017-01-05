@@ -2,7 +2,6 @@
 
 namespace Angle\NickelTracker\CoreBundle\Service;
 
-
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
