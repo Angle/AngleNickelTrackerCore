@@ -253,7 +253,12 @@ class Account
      */
     public function setCreditLimit($creditLimit)
     {
-        $this->creditLimit = $creditLimit;
+        if ($creditLimit >= 0) {
+            $this->creditLimit = $creditLimit;
+        } else {
+            $this->creditLimit = 0;
+        }
+
         return $this;
     }
 
