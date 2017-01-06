@@ -165,9 +165,9 @@
                                         {{ e.transaction.description }}
                                     </td>
                                     {% if e.transaction.type == 'T' and e.transaction.sourceCurrency != e.transaction.destinationCurrency %}
-                                        <td>{{ e.transaction.formattedSourceAmount }} <i class="fa fa-angle-right"></i> {{ e.transaction.formattedDestinationAmount }}</td>
+                                        <td>{{ e.transaction.getFormattedSourceAmount(true) }} <i class="fa fa-angle-right"></i> {{ e.transaction.getFormattedDestinationAmount(true) }}</td>
                                     {% else %}
-                                        <td>{{ e.transaction.formattedSourceAmount }}</td>
+                                        <td>{{ e.transaction.getFormattedSourceAmount(true) }}</td>
                                     {% endif %}
                                     <td>{{ e.transaction.date|date('d/m/Y') }}</td>
                                     <td class="text-center">
