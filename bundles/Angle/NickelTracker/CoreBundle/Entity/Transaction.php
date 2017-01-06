@@ -55,7 +55,7 @@ class Transaction
      * @ORM\Column(type="smallint", nullable=false)
      * @see \Angle\NickelTracker\CoreBundle\Preset\Currency
      */
-    protected $currency;
+    protected $sourceCurrency;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -163,19 +163,19 @@ class Transaction
         return self::$types[$this->type];
     }
 
-    public function getCurrencyName()
+    public function getSourceCurrencyName()
     {
-        return Currency::getCurrencyName($this->currency);
+        return Currency::getCurrencyName($this->sourceCurrency);
     }
 
-    public function getCurrencyCode()
+    public function getSourceCurrencyCode()
     {
-        return Currency::getCurrencyCode($this->currency);
+        return Currency::getCurrencyCode($this->sourceCurrency);
     }
 
     public function getFormattedSourceAmount($full=false)
     {
-        return Currency::formatMoney($this->currency, $this->sourceAmount, $full);
+        return Currency::formatMoney($this->sourceCurrency, $this->sourceAmount, $full);
     }
 
 
@@ -367,7 +367,7 @@ class Transaction
     public function setSourceAccountId(Account $accountId)
     {
         $this->sourceAccountId = $accountId;
-        $this->currency = $accountId->getCurrency();
+        $this->sourceCurrency = $accountId->getCurrency();
 
         return $this;
     }
