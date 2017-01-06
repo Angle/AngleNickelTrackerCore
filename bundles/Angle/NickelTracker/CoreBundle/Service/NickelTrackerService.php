@@ -119,9 +119,9 @@ INNER JOIN (
         SELECT
             t.sourceAccountId as `accountId`,
             SUM(CASE
-                WHEN t.type = 'I' THEN t.amount
-                WHEN t.type = 'E' THEN t.amount*-1
-                WHEN t.type = 'T' THEN t.amount*-1
+                WHEN t.type = 'I' THEN t.sourceAmount
+                WHEN t.type = 'E' THEN t.sourceAmount*-1
+                WHEN t.type = 'T' THEN t.sourceAmount*-1
                 ELSE 0
                 END) as `amount`
         FROM Transactions as t
@@ -133,7 +133,7 @@ INNER JOIN (
         SELECT
             t.destinationAccountId as `accountId`,
             SUM(CASE
-                WHEN t.type = 'T' THEN t.amount
+                WHEN t.type = 'T' THEN t.destinationAmount
                 ELSE 0
                 END) as `amount`
         FROM Transactions as t
@@ -1030,6 +1030,7 @@ ENDSQL;
         }
 
         // Attempt to load the Transaction
+        /** @var Transaction $transaction */
         $transaction = $this->doctrine->getRepository(Transaction::class)
             ->findOneBy(array(
                 'userId'        => $this->user->getUserId(),
@@ -1070,7 +1071,7 @@ ENDSQL;
         $transaction->setSourceAccountId($sourceAccount);
         $transaction->setDescription($description);
         $transaction->setDetails($details);
-        $transaction->setAmount($amount);
+        $transaction->setSourceAmount($amount);
         $transaction->setDate($date);
 
         // Transaction Flags
@@ -1118,6 +1119,7 @@ ENDSQL;
         }
 
         // Attempt to load the Transaction
+        /** @var Transaction $transaction */
         $transaction = $this->doctrine->getRepository(Transaction::class)
             ->findOneBy(array(
                 'userId'        => $this->user->getUserId(),
@@ -1199,7 +1201,7 @@ ENDSQL;
         $transaction->setCommerceId($commerce);
         $transaction->setDescription($description);
         $transaction->setDetails($details);
-        $transaction->setAmount($amount);
+        $transaction->setSourceAmount($amount);
         $transaction->setDate($date);
 
         // Transaction Flags
@@ -1234,18 +1236,20 @@ ENDSQL;
      * @param int $destinationAccountId Destination Account ID
      * @param string $description Transaction description
      * @param string|null $details Transaction details
-     * @param float $amount Transaction amount
+     * @param float $sourceAmount Transaction source account amount
+     * @param float $destinationAmount Transaction destination account amount
      * @param \DateTime $date Transaction date
      * @param array|null $flags Optionals transaction flags
      * @return int|false TransactionID created
      */
-    public function processTransferTransaction($transactionId, $sourceAccountId, $destinationAccountId, $description, $details, $amount, \DateTime $date, $flags=array())
+    public function processTransferTransaction($transactionId, $sourceAccountId, $destinationAccountId, $description, $details, $sourceAmount, $destinationAmount, \DateTime $date, $flags=array())
     {
         if (!$this->user) {
             throw new \RuntimeException('Session user was not found');
         }
 
         // Attempt to load the Transaction
+        /** @var Transaction $transaction */
         $transaction = $this->doctrine->getRepository(Transaction::class)
             ->findOneBy(array(
                 'userId'        => $this->user->getUserId(),
@@ -1288,10 +1292,17 @@ ENDSQL;
             return false;
         }
 
-        if (!$amount || $amount < 0) {
+        if (!$sourceAmount || $sourceAmount < 0) {
             $this->errorType = 'NickelTracker';
             $this->errorCode = 1;
-            $this->errorMessage = 'Amount cannot be less than or equal to zero';
+            $this->errorMessage = 'Source Amount cannot be less than or equal to zero';
+            return false;
+        }
+
+        if (!$destinationAmount || $destinationAmount < 0) {
+            $this->errorType = 'NickelTracker';
+            $this->errorCode = 1;
+            $this->errorMessage = 'Destination Amount cannot be less than or equal to zero';
             return false;
         }
 
@@ -1302,7 +1313,8 @@ ENDSQL;
         $transaction->setDestinationAccountId($destinationAccount);
         $transaction->setDescription($description);
         $transaction->setDetails($details);
-        $transaction->setAmount($amount);
+        $transaction->setSourceAmount($sourceAmount);
+        $transaction->setDestinationAmount($destinationAmount);
         $transaction->setDate($date);
 
         // Transaction Flags
