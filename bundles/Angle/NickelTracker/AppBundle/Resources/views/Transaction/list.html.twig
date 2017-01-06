@@ -164,10 +164,10 @@
                                         {% endif %}
                                         {{ e.transaction.description }}
                                     </td>
-                                    {% if transaction.type == 'T' and transaction.sourceCurrency != transaction.destinationCurrency %}
-                                        <td>{{ transaction.formattedSourceAmount }} <i class="fa fa-angle-right"></i> {{ transaction.formattedDestinatinoAmount }}</td>
+                                    {% if e.transaction.type == 'T' and e.transaction.sourceCurrency != e.transaction.destinationCurrency %}
+                                        <td>{{ e.transaction.formattedSourceAmount }} <i class="fa fa-angle-right"></i> {{ e.transaction.formattedDestinationAmount }}</td>
                                     {% else %}
-                                        <td>{{ transaction.formattedSourceAmount }}</td>
+                                        <td>{{ e.transaction.formattedSourceAmount }}</td>
                                     {% endif %}
                                     <td>{{ e.transaction.date|date('d/m/Y') }}</td>
                                     <td class="text-center">
