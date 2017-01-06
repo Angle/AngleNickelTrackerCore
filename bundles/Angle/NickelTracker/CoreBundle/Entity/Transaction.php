@@ -58,6 +58,17 @@ class Transaction
     protected $sourceCurrency;
 
     /**
+     * @ORM\Column(type="decimal", precision=19, scale=4, nullable=true)
+     */
+    protected $destinationAmount = 0;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     * @see \Angle\NickelTracker\CoreBundle\Preset\Currency
+     */
+    protected $destinationCurrency;
+
+    /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected $description;
@@ -178,6 +189,21 @@ class Transaction
         return Currency::formatMoney($this->sourceCurrency, $this->sourceAmount, $full);
     }
 
+    public function getDestinationCurrencyName()
+    {
+        return Currency::getCurrencyName($this->destinationCurrency);
+    }
+
+    public function getDestinationCurrencyCode()
+    {
+        return Currency::getCurrencyCode($this->destinationCurrency);
+    }
+
+    public function getFormattedDestinationAmount($full=false)
+    {
+        return Currency::formatMoney($this->destinationCurrency, $this->destinationAmount, $full);
+    }
+
 
     #########################
     ## GETTERS AND SETTERS ##
@@ -224,6 +250,60 @@ class Transaction
     public function setSourceAmount($sourceAmount)
     {
         $this->sourceAmount = $sourceAmount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSourceCurrency()
+    {
+        return $this->sourceCurrency;
+    }
+
+    /**
+     * @param int $sourceCurrency
+     * @return Transaction
+     */
+    public function setSourceCurrency($sourceCurrency)
+    {
+        $this->sourceCurrency = $sourceCurrency;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDestinationAmount()
+    {
+        return $this->destinationAmount;
+    }
+
+    /**
+     * @param float $destinationAmount
+     * @return Transaction
+     */
+    public function setDestinationAmount($destinationAmount)
+    {
+        $this->destinationAmount = $destinationAmount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDestinationCurrency()
+    {
+        return $this->destinationCurrency;
+    }
+
+    /**
+     * @param int $destinationCurrency
+     * @return Transaction
+     */
+    public function setDestinationCurrency($destinationCurrency)
+    {
+        $this->destinationCurrency = $destinationCurrency;
         return $this;
     }
 
@@ -391,6 +471,12 @@ class Transaction
     public function setDestinationAccountId(Account $accountId = null)
     {
         $this->destinationAccountId = $accountId;
+
+        if ($accountId) {
+            $this->destinationCurrency = $accountId->getCurrency();
+        } else {
+            $this->destinationCurrency = null;
+        }
 
         return $this;
     }
