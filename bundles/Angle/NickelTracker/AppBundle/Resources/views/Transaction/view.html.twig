@@ -75,10 +75,21 @@
                                 <th>Details</th>
                                 <td>{{ transaction.details }}</td>
                             </tr>
-                            <tr>
-                                <th>Amount</th>
-                                <td>${{ transaction.amount|number_format(2) }}</td>
-                            </tr>
+                            {% if transaction.type == 'T' and transaction.sourceCurrency != transaction.destinationCurrency %}
+                                <tr>
+                                    <th>Source Amount</th>
+                                    <td>${{ transaction.formattedSourceAmount|number_format(2) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Destination Amount</th>
+                                    <td>${{ transaction.destinatinoSourceAmmount|number_format(2) }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <th>Amount</th>
+                                    <td>${{ transaction.formattedSourceAmount|number_format(2) }}</td>
+                                </tr>
+                            {% endif %}
                             <tr>
                                 <th>Date</th>
                                 <td>{{ transaction.date|date('D j M Y') }} <small>(Wk {{ transaction.date|date('o-W') }})</small></td>
