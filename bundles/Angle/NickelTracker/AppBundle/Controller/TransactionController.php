@@ -239,7 +239,7 @@ class TransactionController extends Controller
         return $this->render('AngleNickelTrackerAppBundle:Transaction:new-expense.html.twig', array(
             'transaction'   => $transaction,
             'accounts'      => $accounts,
-            'currencies'    => $currenciesByAccounts,
+            'currenciesByAccounts' => $currenciesByAccounts,
             'categories'    => $categories,
             'commerces'     => $commercesArray,
         ));
