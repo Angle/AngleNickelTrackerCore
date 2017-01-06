@@ -103,7 +103,7 @@ class TransactionController extends Controller
             $sourceAccountId    = $request->request->get('transactionSourceAccount');
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
-            $amount             = $request->request->get('transactionAmount');
+            $sourceAmount       = $request->request->get('transactionSourceAmount');
 
             $date               = $request->request->get('transactionDate');
             $date               = \DateTime::createFromFormat('Y-m-d', $date);
@@ -117,9 +117,9 @@ class TransactionController extends Controller
             }
 
             // Check the request parameters
-            if ($sourceAccountId && $description && $amount && $date) {
+            if ($sourceAccountId && $description && $sourceAmount && $date) {
                 // Attempt to create a new income transaction
-                $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $amount, $date, $flags);
+                $r = $nt->processIncomeTransaction($id, $sourceAccountId, $description, $details, $sourceAmount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
@@ -188,7 +188,7 @@ class TransactionController extends Controller
             $commerceName       = trim($request->request->get('transactionCommerce'));
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
-            $amount             = $request->request->get('transactionAmount');
+            $sourceAmount       = $request->request->get('transactionSourceAmount');
 
             $date               = $request->request->get('transactionDate');
             $date               = \DateTime::createFromFormat('Y-m-d', $date);
@@ -202,9 +202,9 @@ class TransactionController extends Controller
             }
 
             // Check the request parameters
-            if ($sourceAccountId && $description && $amount && $date) {
+            if ($sourceAccountId && $description && $sourceAmount && $date) {
                 // Attempt to create a new expense transaction
-                $r = $nt->processExpenseTransaction($id, $sourceAccountId, $categoryId, $commerceName, $description, $details, $amount, $date, $flags);
+                $r = $nt->processExpenseTransaction($id, $sourceAccountId, $categoryId, $commerceName, $description, $details, $sourceAmount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
