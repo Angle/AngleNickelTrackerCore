@@ -57,7 +57,13 @@
                                            value="{{ transaction.sourceAmount|number_format(2, '.', '') }}"
                                         {% endif %}
                                        placeholder="0.00" step="any">
-                                    <span class="input-group-addon" id="sourceAmountCurrencyCode">--</span>
+                                    <span class="input-group-addon" id="sourceCurrencyCode">
+                                        {% if transaction.sourceCurrency %}
+                                            {{ transaction.sourceCurrencyCode }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -125,7 +131,7 @@
         var currenciesByAccounts = {{ currenciesByAccounts|json_encode|raw }};
 
         $('#transactionSourceAccount').change(function(){
-            var $s = $('#sourceAmountCurrencyCode');
+            var $s = $('#sourceCurrencyCode');
             if ($(this).val() > 0) {
                 $s.text(currenciesByAccounts[$(this).val()]);
             } else {
