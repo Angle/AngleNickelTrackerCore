@@ -52,6 +52,12 @@ class Transaction
     protected $amount = 0;
 
     /**
+     * @ORM\Column(type="smallint", nullable=false)
+     * @see \Angle\NickelTracker\CoreBundle\Preset\Currency
+     */
+    protected $currency;
+
+    /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected $description;
@@ -138,6 +144,11 @@ class Transaction
         return self::$types;
     }
 
+    public static function getAvailableCurrencies()
+    {
+        return Currency::availableCurrenciesFlat();
+    }
+
 
     #########################
     ##   SPECIAL METHODS   ##
@@ -150,6 +161,21 @@ class Transaction
         }
 
         return self::$types[$this->type];
+    }
+
+    public function getCurrencyName()
+    {
+        return Currency::getCurrencyName($this->currency);
+    }
+
+    public function getCurrencyCode()
+    {
+        return Currency::getCurrencyCode($this->currency);
+    }
+
+    public function getFormattedAmount($full=false)
+    {
+        return Currency::formatMoney($this->currency, $this->amount, $full);
     }
 
 

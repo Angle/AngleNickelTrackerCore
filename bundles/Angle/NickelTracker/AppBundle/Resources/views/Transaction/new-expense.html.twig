@@ -180,7 +180,7 @@
         var currencies = {{ currencies|json_encode|raw }};
 
         $('#transactionSourceAccount').change(function(){
-            var $s = $('#accountCurrencyCode');
+            var $s = $('#amountCurrencyCode');
             if ($(this).val() > 0) {
                 $s.text(currencies[$(this).val()]);
             } else {
