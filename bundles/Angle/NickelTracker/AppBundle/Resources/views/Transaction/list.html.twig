@@ -164,7 +164,11 @@
                                         {% endif %}
                                         {{ e.transaction.description }}
                                     </td>
-                                    <td>${{ e.transaction.amount|number_format(2) }}</td>
+                                    {% if transaction.type == 'T' and transaction.sourceCurrency != transaction.destinationCurrency %}
+                                        <td>{{ transaction.formattedSourceAmount }} <i class="fa fa-angle-right"></i> {{ transaction.formattedDestinatinoAmount }}</td>
+                                    {% else %}
+                                        <td>{{ transaction.formattedSourceAmount }}</td>
+                                    {% endif %}
                                     <td>{{ e.transaction.date|date('d/m/Y') }}</td>
                                     <td class="text-center">
                                         <a class="btn btn-xs btn-default" href="{{ path('angle_nt_app_transaction_view', {'id': e.transaction.transactionId}) }}">

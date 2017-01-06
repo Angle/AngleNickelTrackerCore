@@ -78,16 +78,16 @@
                             {% if transaction.type == 'T' and transaction.sourceCurrency != transaction.destinationCurrency %}
                                 <tr>
                                     <th>Source Amount</th>
-                                    <td>${{ transaction.formattedSourceAmount|number_format(2) }}</td>
+                                    <td>{{ transaction.formattedSourceAmount }}</td>
                                 </tr>
                                 <tr>
                                     <th>Destination Amount</th>
-                                    <td>${{ transaction.destinatinoSourceAmmount|number_format(2) }}</td>
+                                    <td>{{ transaction.formattedDestinatinoAmount }}</td>
                                 </tr>
                             {% else %}
                                 <tr>
                                     <th>Amount</th>
-                                    <td>${{ transaction.formattedSourceAmount|number_format(2) }}</td>
+                                    <td>{{ transaction.formattedSourceAmount }}</td>
                                 </tr>
                             {% endif %}
                             <tr>
