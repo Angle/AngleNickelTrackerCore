@@ -11,7 +11,7 @@ use Angle\NickelTracker\CoreBundle\Preset\Currency;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Transactions", indexes={@ORM\Index(name="date_idx", columns={"date"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="amount_idx", columns={"amount"})})
+ * @ORM\Table(name="Transactions", indexes={@ORM\Index(name="date_idx", columns={"date"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="source_amount_idx", columns={"sourceAmount"})})
  * @ORM\HasLifecycleCallbacks()
  */
 class Transaction
@@ -49,7 +49,7 @@ class Transaction
     /**
      * @ORM\Column(type="decimal", precision=19, scale=4, nullable=false)
      */
-    protected $amount = 0;
+    protected $sourceAmount = 0;
 
     /**
      * @ORM\Column(type="smallint", nullable=false)
@@ -173,9 +173,9 @@ class Transaction
         return Currency::getCurrencyCode($this->currency);
     }
 
-    public function getFormattedAmount($full=false)
+    public function getFormattedSourceAmount($full=false)
     {
-        return Currency::formatMoney($this->currency, $this->amount, $full);
+        return Currency::formatMoney($this->currency, $this->sourceAmount, $full);
     }
 
 
@@ -212,18 +212,18 @@ class Transaction
     /**
      * @return float
      */
-    public function getAmount()
+    public function getSourceAmount()
     {
-        return $this->amount;
+        return $this->sourceAmount;
     }
 
     /**
-     * @param float $amount
+     * @param float $sourceAmount
      * @return Transaction
      */
-    public function setAmount($amount)
+    public function setSourceAmount($sourceAmount)
     {
-        $this->amount = $amount;
+        $this->sourceAmount = $sourceAmount;
         return $this;
     }
 
@@ -367,6 +367,7 @@ class Transaction
     public function setSourceAccountId(Account $accountId)
     {
         $this->sourceAccountId = $accountId;
+        $this->currency = $accountId->getCurrency();
 
         return $this;
     }
