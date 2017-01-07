@@ -60,14 +60,39 @@
                                           placeholder="Enter a detailed description..">{{ transaction.details }}</textarea>
                             </div>
                             <div class="form-group">
-                                <label for="transactionAmount">Amount</label>
+                                <label for="transactionSourceAmount" id="transactionSourceAmountLabel">Amount</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="number" class="form-control" id="transactionAmount" name="transactionAmount" required="required"
-                                       {% if transaction.amount != 0 %}
-                                           value="{{ transaction.amount|number_format(2, '.', '') }}"
-                                       {% endif %}
-                                       placeholder="0.00" min="0" step="any">
+                                    <input type="number" class="form-control" id="transactionSourceAmount" name="transactionSourceAmount" required="required"
+                                            {% if transaction.sourceAmount != 0 %}
+                                                value="{{ transaction.sourceAmount|number_format(2, '.', '') }}"
+                                            {% endif %}
+                                           placeholder="0.00" step="any">
+                                    <span class="input-group-addon" id="sourceCurrencyCode">
+                                        {% if transaction.sourceCurrency %}
+                                            {{ transaction.sourceCurrencyCode }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" id="transactionDestinationAmountGroup" style="display:none;">
+                                <label for="transactionDestinationAmount">Destination Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" id="transactionDestinationAmount" name="transactionDestinationAmount"
+                                            {% if transaction.destinationAmount != 0 %}
+                                                value="{{ transaction.destinationAmount|number_format(2, '.', '') }}"
+                                            {% endif %}
+                                           placeholder="0.00" step="any">
+                                    <span class="input-group-addon" id="destinationCurrencyCode">
+                                        {% if transaction.destinationCurrency %}
+                                            {{ transaction.destinationCurrencyCode }}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -127,6 +152,73 @@
                 todayBtn: "linked",
                 clearBtn: true
             });
+        });
+    </script>
+
+    <!-- Enable currency code change on account selection -->
+    <script type="text/javascript">
+        var currenciesByAccounts = {{ currenciesByAccounts|json_encode|raw }};
+
+        function showDestinationAmount() {
+            // Show the group
+            var $g = ('#transactionDestinationAmountGroup');
+            $g.show();
+
+            // Change Source Amount label text
+            var $l = ('#transactionSourceAmountLabel');
+            $l.text('Source Amount');
+
+            // Add the "required" property to the destination amount field
+            var $f = ('#transactionDestinationAmount');
+            //$i.removeAttr('disabled');
+            $f.attr('required','required');
+        }
+
+        function hideDestinationAmount() {
+            // Show the group
+            var $g = ('#transactionDestinationAmountGroup');
+            $g.hide();
+
+            // Change Source Amount label text
+            var $l = ('#transactionSourceAmountLabel');
+            $l.text('Amount');
+
+            // Add the "required" property to the destination amount field
+            var $f = ('#transactionDestinationAmount');
+            $i.removeAttr('required');
+        }
+
+        function checkAccountCurrencies() {
+            var $s = $('#transactionSourceAccount');
+            var $d = $('#transactionDestinationAccount');
+
+            if ($s.val() > 0 && $d.val() > 0) {
+                if (currenciesByAccounts[$s.val()] != currenciesByAccounts[$s.val()]) {
+                    showDestinationAmount();
+                } else {
+                    hideDestinationAmount();
+                }
+            } else {
+                hideDestinationAmount();
+            }
+        }
+
+        $('#transactionSourceAccount').change(function(){
+            var $s = $('#sourceCurrencyCode');
+            if ($(this).val() > 0) {
+                $s.text(currenciesByAccounts[$(this).val()]);
+            } else {
+                $s.text('--');
+            }
+        });
+
+        $('#transactionDestinationAccount').change(function(){
+            var $s = $('#destinationCurrencyCode');
+            if ($(this).val() > 0) {
+                $s.text(currenciesByAccounts[$(this).val()]);
+            } else {
+                $s.text('--');
+            }
         });
     </script>
 {% endblock %}
