@@ -161,30 +161,30 @@
 
         function showDestinationAmount() {
             // Show the group
-            var $g = ('#transactionDestinationAmountGroup');
+            var $g = $('#transactionDestinationAmountGroup');
             $g.show();
 
             // Change Source Amount label text
-            var $l = ('#transactionSourceAmountLabel');
+            var $l = $('#transactionSourceAmountLabel');
             $l.text('Source Amount');
 
             // Add the "required" property to the destination amount field
-            var $f = ('#transactionDestinationAmount');
+            var $f = $('#transactionDestinationAmount');
             //$i.removeAttr('disabled');
             $f.attr('required','required');
         }
 
         function hideDestinationAmount() {
             // Show the group
-            var $g = ('#transactionDestinationAmountGroup');
+            var $g = $('#transactionDestinationAmountGroup');
             $g.hide();
 
             // Change Source Amount label text
-            var $l = ('#transactionSourceAmountLabel');
+            var $l = $('#transactionSourceAmountLabel');
             $l.text('Amount');
 
             // Add the "required" property to the destination amount field
-            var $f = ('#transactionDestinationAmount');
+            var $f = $('#transactionDestinationAmount');
             $i.removeAttr('required');
         }
 
