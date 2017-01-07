@@ -317,6 +317,7 @@ class TransactionController extends Controller
             } else {
                 // Invalid request parameters
                 $message = new ResponseMessage(ResponseMessage::CUSTOM, 1);
+                $message->setExternalMessage('Invalid request parameters');
                 $message->addToFlashBag($this->get('session')->getFlashBag());
             }
         }
