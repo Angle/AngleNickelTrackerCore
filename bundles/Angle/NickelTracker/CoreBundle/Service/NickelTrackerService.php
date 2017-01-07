@@ -1745,15 +1745,17 @@ ENDSQL;
         $lastDayOfMonth = $today->format('Y-m-t');
 
         // Query the Transactions table to obtain general results of the user's budget and spending
+        // TODO: Support multiple currencies
         $dashboardTransactions = <<<ENDSQL
 SELECT
-    IFNULL(SUM(CASE WHEN t.type = 'I' THEN t.amount ELSE 0 END), 0) as `income`,
-    IFNULL(SUM(CASE WHEN t.type = 'E' THEN t.amount ELSE 0 END), 0) as `expense`
+    IFNULL(SUM(CASE WHEN t.type = 'I' THEN t.sourceAmount ELSE 0 END), 0) as `income`,
+    IFNULL(SUM(CASE WHEN t.type = 'E' THEN t.sourceAmount ELSE 0 END), 0) as `expense`
 FROM Transactions as t
 WHERE t.userId = :userId
 AND t.date >= :firstDayOfMonth
 AND t.date <= :lastDayOfMonth
 AND t.extraordinary = 0
+AND t.sourceCurrency = 1 /* FOR NOW, SUPPORT ONLY MEXICAN CURRENCY */
 ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardTransactions);
@@ -1773,6 +1775,7 @@ ENDSQL;
 
 
         // Query the Accounts table to obtain general results of the user's accounts
+        // TODO: Support multiple currencies
         $dashboardAccounts = <<<ENDSQL
 SELECT
     IFNULL(SUM(CASE WHEN a.type = 'M' THEN a.balance ELSE 0 END), 0) as `cash`,
@@ -1783,6 +1786,7 @@ SELECT
 FROM Accounts as a
 WHERE a.userId = :userId
 AND a.deleted = 0
+AND a.currency = 1 /* FOR NOW, SUPPORT ONLY MEXICAN CURRENCY */
 ENDSQL;
 
         $stmt = $this->em->getConnection()->prepare($dashboardAccounts);
@@ -1793,6 +1797,7 @@ ENDSQL;
         $dashboard['accounts'] = $result;
 
         // Query the Transactions table again to obtain general results of categories and expenditure
+        // TODO: Support multiple currencies
         $dashboardCategories = <<<ENDSQL
 SELECT
 	c.categoryId as `categoryId`,
@@ -1803,13 +1808,14 @@ FROM Categories as c
 LEFT JOIN (
 	SELECT
 		t.categoryId as `categoryId`,
-		SUM(t.amount) as `expense`
+		SUM(t.sourceAmount) as `expense`
 	FROM Transactions as t
 	WHERE t.userId = :userId
         AND t.type = 'E'
         AND t.date >= :firstDayOfMonth
         AND t.date <= :lastDayOfMonth
         AND t.extraordinary = 0
+        AND t.sourceCurrency = 1 /* FOR NOW, SUPPORT ONLY MEXICAN CURRENCY */
 	GROUP BY t.categoryId
 ) as tr ON c.categoryId = tr.categoryId
 WHERE c.userId = :userId
@@ -1820,7 +1826,7 @@ SELECT
 	null as `categoryId`,
 	'-- No Category --' as `name`,
 	0.0 as `budget`,
-	SUM(t.amount) as `expense`
+	SUM(t.sourceAmount) as `expense`
 FROM Transactions as t
 WHERE t.userId = :userId
     AND t.categoryId IS NULL
@@ -1828,6 +1834,7 @@ WHERE t.userId = :userId
     AND t.date >= :firstDayOfMonth
     AND t.date <= :lastDayOfMonth
     AND t.extraordinary = 0
+    AND t.sourceCurrency = 1 /* FOR NOW, SUPPORT ONLY MEXICAN CURRENCY */
 
 ORDER BY expense DESC, name ASC
 ENDSQL;

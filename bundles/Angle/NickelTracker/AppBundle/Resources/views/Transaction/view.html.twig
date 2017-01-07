@@ -88,7 +88,7 @@
                                     <th>Exchange Rate</th>
                                     <td>
                                         ${{ (transaction.sourceAmount/transaction.destinationAmount)|number_format(2, '.', '') }} {{ transaction.sourceCurrencyCode }}/{{ transaction.destinationCurrencyCode }}
-                                        //
+                                        or
                                         ${{ (transaction.destinationAmount/transaction.sourceAmount)|number_format(2, '.', '') }} {{ transaction.destinationCurrencyCode }}/{{ transaction.sourceCurrencyCode }}
                                     </td>
                                 </tr>
