@@ -89,7 +89,7 @@
                                     <td>
                                         ${{ (transaction.sourceAmount/transaction.destinationAmount)|number_format(2, '.', '') }} {{ transaction.sourceCurrencyCode }}/{{ transaction.destinationCurrencyCode }}
                                         //
-                                        ${{ (transaction.destinationAmount/transaction.sourceAmount)number_format(2, '.', '') }} {{ transaction.destinationCurrencyCode }}/{{ transaction.sourceCurrencyCode }}
+                                        ${{ (transaction.destinationAmount/transaction.sourceAmount)|number_format(2, '.', '') }} {{ transaction.destinationCurrencyCode }}/{{ transaction.sourceCurrencyCode }}
                                     </td>
                                 </tr>
                             {% else %}
