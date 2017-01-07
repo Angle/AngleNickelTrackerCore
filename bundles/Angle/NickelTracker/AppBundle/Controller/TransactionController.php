@@ -322,10 +322,16 @@ class TransactionController extends Controller
 
         // Load the user's information to passdown
         $accounts = $nt->loadAccounts();
+        $currenciesByAccounts = array();
+        foreach ($accounts as $a) {
+            /** @var Account $a */
+            $currenciesByAccounts[$a->getAccountId()] = $a->getCurrencyCode();
+        }
 
         return $this->render('AngleNickelTrackerAppBundle:Transaction:new-transfer.html.twig', array(
             'transaction'   => $transaction,
             'accounts' => $accounts,
+            'currenciesByAccounts' => $currenciesByAccounts,
         ));
     }
 
