@@ -1299,13 +1299,18 @@ ENDSQL;
             return false;
         }
 
-        if (!$destinationAmount || $destinationAmount < 0) {
-            $this->errorType = 'NickelTracker';
-            $this->errorCode = 1;
-            $this->errorMessage = 'Destination Amount cannot be less than or equal to zero';
-            return false;
+        if ($sourceAccount->getCurrency() != $destinationAccount->getCurrency()) {
+            // Different currencies, therefore we need a different destination amount
+            if (!$destinationAmount || $destinationAmount < 0) {
+                $this->errorType = 'NickelTracker';
+                $this->errorCode = 1;
+                $this->errorMessage = 'Destination Amount cannot be less than or equal to zero';
+                return false;
+            }
+        } else {
+            // The same currency, therefore the destination amount is the same as the source amount
+            $destinationAmount = $sourceAmount;
         }
-
 
         // Process the transaction
         $transaction->setType(Transaction::TYPE_TRANSFER);

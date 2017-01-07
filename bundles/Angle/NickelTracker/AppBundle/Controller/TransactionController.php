@@ -283,7 +283,8 @@ class TransactionController extends Controller
             $destinationAccountId = $request->request->get('transactionDestinationAccount');
             $description        = trim($request->request->get('transactionDescription'));
             $details            = trim($request->request->get('transactionDetails'));
-            $amount             = $request->request->get('transactionAmount');
+            $sourceAmount       = $request->request->get('transactionSourceAmount');
+            $destinationAmount  = $request->request->get('transactionDestinationAmount');
 
             $date               = $request->request->get('transactionDate');
             $date = \DateTime::createFromFormat('Y-m-d', $date);
@@ -297,9 +298,9 @@ class TransactionController extends Controller
             }
 
             // Check the request parameters
-            if ($sourceAccountId && $destinationAccountId && $description && $amount && $date) {
+            if ($sourceAccountId && $destinationAccountId && $description && $sourceAmount && $date) {
                 // Attempt to create a new transfer transaction
-                $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $amount, $date, $flags);
+                $r = $nt->processTransferTransaction($id, $sourceAccountId, $destinationAccountId, $description, $details, $sourceAmount, $destinationAmount, $date, $flags);
 
                 if ($r) {
                     // Everything went ok, redirect to the account list with a FlashBag
