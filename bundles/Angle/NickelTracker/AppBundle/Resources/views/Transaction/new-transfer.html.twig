@@ -210,6 +210,7 @@
             } else {
                 $s.text('--');
             }
+            checkAccountCurrencies();
         });
 
         $('#transactionDestinationAccount').change(function(){
@@ -219,6 +220,11 @@
             } else {
                 $s.text('--');
             }
+            checkAccountCurrencies();
+        });
+
+        $( document ).ready(function() {
+            checkAccountCurrencies();
         });
     </script>
 {% endblock %}
