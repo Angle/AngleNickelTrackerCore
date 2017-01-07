@@ -193,7 +193,7 @@
             var $d = $('#transactionDestinationAccount');
 
             if ($s.val() > 0 && $d.val() > 0) {
-                if (currenciesByAccounts[$s.val()] != currenciesByAccounts[$s.val()]) {
+                if (currenciesByAccounts[$s.val()] != currenciesByAccounts[$d.val()]) {
                     showDestinationAmount();
                 } else {
                     hideDestinationAmount();
