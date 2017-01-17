@@ -73,7 +73,7 @@
                             </tr>
                             <tr>
                                 <th>Details</th>
-                                <td>{{ transaction.details }}</td>
+                                <td>{{ transaction.details|nl2br }}</td>
                             </tr>
                             {% if transaction.type == 'T' and transaction.sourceCurrency != transaction.destinationCurrency %}
                                 <tr>
