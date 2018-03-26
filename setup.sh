@@ -104,7 +104,7 @@ parameters:
     secret: #SECRET#
     locale: en
     # Nickel Tracker
-    nickel_tracker_base_url: #NICKELURL#
+    nickel_tracker_base_domain: #BASEDOMAIN#
 EOM
 
 needleDBHost="#DBHOST#"
@@ -112,7 +112,7 @@ needleDBName="#DBNAME#"
 needleDBUser="#DBUSER#"
 needleDBPass="#DBPASSWORD#"
 needleSecret="#SECRET#"
-needleNickelUrl="#NICKELURL#"
+needleBaseDomain="#BASEDOMAIN#"
 
 APPS=( "admin" "api" "app" )
 appsLength=${#APPS[@]}
@@ -133,10 +133,6 @@ read dbUser
 echo "Please input the password for the database: "
 read dbPassword
 
-## Ask for Nickel Tracker URL
-echo "Please input the complete base URL for the service: "
-read nickelUrl
-
 destDir="symfony/#APP#/app/config/parameters.yml"
 
 ## Generate parameters.yml for all
@@ -152,7 +148,7 @@ do
     yaml=${yaml//${needleDBPass}/${dbPassword}}
     yaml=${yaml//${needleDBPass}/${dbPassword}}
     yaml=${yaml//${needleSecret}/${secret}}
-    yaml=${yaml//${needleNickelUrl}/${nickelUrl}}
+    yaml=${yaml//${needleBaseDomain}/${baseDomain}}
     # Strings to replace with
     replaceApp=${APPS[$i-1]}
     # Replace strings
