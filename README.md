@@ -68,6 +68,8 @@ sudo chmod +x update.sh
 ## Let's Encrypt instructions
 For Apache < 2.4.8
 
+The first time you run it, it'll ask for an email and it'll ask you to sign-up for the EFF newsletter (optional)
+
 ## Created by
 - [Edmundo Fuentes](https://github.com/edmundofuentes)
 - [Alejandro Hernández G](https://github.com/alexhg11)

@@ -1,0 +1,2 @@
+# Update the SSL certificates once a month
+0 0 1 * * /bin/bash /var/www/certbot.sh

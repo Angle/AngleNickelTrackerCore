@@ -11,11 +11,9 @@ else
     for i in "admin" "api" "app"
     do
         domain=${i}"."${baseDomain}
-        sudo certbot certonly --standalone -d ${domain}
+        sudo certbot certonly --standalone --force-renewal --non-interactive -d ${domain}
     done
 
     sudo chmod 755 -R /etc/letsencrypt
 
 fi
-
-
