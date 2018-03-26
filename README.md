@@ -64,9 +64,13 @@ sudo chmod +x update.sh
     * security: firewalled, having `ROLE_USER`
 
 
+
+## Let's Encrypt instructions
+For Apache < 2.4.8
+
 ## Created by
-- [Alejandro Hernández G](https://github.com/alexhg11)
 - [Edmundo Fuentes](https://github.com/edmundofuentes)
+- [Alejandro Hernández G](https://github.com/alexhg11)
 
 
 

@@ -18,26 +18,40 @@ destDir="config/vhost/#APP#.conf"
 read -r -d '' VHOST_BOILERPLATE << EOM
 <VirtualHost *:80>
     ServerName      #URL#
+    Redirect permanent / https://#URL/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName      #URL#
     DocumentRoot    /var/www/symfony/#APP#/web
     RewriteEngine   On
     <Directory /var/www/symfony/#APP#/web>
         AllowOverride   All
     </Directory>
+
+    SSLEngine On
+    #SSLCertificateFile /etc/letsencrypt/live/#URL#/fullchain.pem # Apache >= 2.4.8
+    SSLCertificateKeyFile /etc/letsencrypt/live/#URL#/privkey.pem
+    SSLCertificateFile /etc/letsencrypt/live/#URL#/cert.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/#URL#/chain.pem
 </VirtualHost>
 EOM
 
 read -r -d '' VHOST_CATCH_ALL << EOM
-<VirtualHost *:80>
+<VirtualHost *:*>
     ServerName      #DOMAIN#
     ServerAlias     *.#DOMAIN#
     ServerAlias     *
-    Redirect permanent / http://app.#DOMAIN#/
+    Redirect permanent / https://app.#DOMAIN#/
 </VirtualHost>
 EOM
 
 ## Ask for base domain
 echo "Please input the domain that will be used for this installation (e.g. 'domain.com'): "
 read baseDomain
+
+## write out the base domain
+echo "${baseDomain}" > "config/domain"
 
 ## Generate VHOST for all except App
 for (( i=1; i < ${appsLength}+1; i++ ));

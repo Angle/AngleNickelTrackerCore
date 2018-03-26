@@ -5,8 +5,13 @@ echo Starting installation procedure..
 
 echo -e "\e[1m--- Installing LAMP Stack ---\e[0m"
 echo - Update Repositories -
-sudo add-apt-repository -y ppa:ondrej/php5-oldstable > /dev/null
-sudo apt-get update > /dev/null
+sudo apt-get update
+
+echo -e "\e[1m--- Install NTP ---\e[0m"
+sudo apt-get install -y ntp ntpdate
+sudo service ntp stop
+sudo ntpdate 3.ubuntu.pool.ntp.org
+sudo service ntp start
 
 echo -e "\e[1m--- Install Apache2 ---\e[0m"
 sudo apt-get install -y apache2
@@ -32,6 +37,16 @@ sudo mv -i /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
 sudo php5enmod mcrypt
 sudo service apache2 restart
 
+echo - Enable Apache2 SSL -
+sudo a2enmod ssl
+sudo service apache2 restart
+
+echo -e "\e[1m--- Install CertBot (Let's Encrypt) ---\e[0m"
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot -y
+sudo apt-get update
+sudo apt-get install certbot
+
 echo -e "\e[1m--- User permisssions ---\e[0m"
 sudo adduser ubuntu www-data
 sudo chown -R www-data:www-data /var/www
@@ -52,6 +67,8 @@ do
     sudo a2ensite ${i}
 done
 
+## Generate certificates with CertBot (Let's Encrypt)
+bash certbot.sh
 
 echo - Install Composer -
 cd symfony
