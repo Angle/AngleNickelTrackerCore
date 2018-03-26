@@ -51,5 +51,5 @@ else
     php symfony/admin/app/console doctrine:schema:update --force
 
     echo - Update crontab -
-    crontab crontab
+    crontab config/crontab
 fi
