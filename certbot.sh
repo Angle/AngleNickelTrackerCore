@@ -16,4 +16,6 @@ else
 
     sudo chmod 755 -R /etc/letsencrypt
 
+    sudo service apache2 start
+
 fi

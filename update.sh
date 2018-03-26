@@ -49,4 +49,7 @@ else
 
     echo - Update database -
     php symfony/admin/app/console doctrine:schema:update --force
+
+    echo - Update crontab -
+    crontab crontab
 fi
