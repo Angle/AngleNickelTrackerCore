@@ -18,7 +18,7 @@ destDir="config/vhost/#APP#.conf"
 read -r -d '' VHOST_BOILERPLATE << EOM
 <VirtualHost *:80>
     ServerName      #URL#
-    Redirect permanent / https://#URL/
+    Redirect permanent / https://#URL#/
 </VirtualHost>
 
 <VirtualHost *:443>
