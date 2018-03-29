@@ -45,7 +45,7 @@ echo -e "\e[1m--- Install CertBot (Let's Encrypt) ---\e[0m"
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:certbot/certbot -y
 sudo apt-get update
-sudo apt-get install certbot
+sudo apt-get install -y certbot
 
 echo -e "\e[1m--- User permisssions ---\e[0m"
 sudo adduser ubuntu www-data
