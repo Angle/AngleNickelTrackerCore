@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 
 if [ ! -f config/domain ]; then
     echo "ERROR: Must run the setup.sh before installing."
